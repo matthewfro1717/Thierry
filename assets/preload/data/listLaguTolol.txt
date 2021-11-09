@@ -1,0 +1,7 @@
+Tutorial:gf:1
+Ram:dad:3
+Glitcher:dad:3
+Flatzone:monster:3
+Final-showdown:matt:3
+Termination:senpai:3
+Ghost:senpai:3
