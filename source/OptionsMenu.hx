@@ -27,6 +27,9 @@ class OptionsMenu extends MusicBeatState
 			new JokeSettings("Coba liat option pasti ada yang aneh -Thierry"),
 			new InputSystem("Switch between Kade's input or my input"),
 			new AccuracyOption("Display the score text below the health bar"),
+			#if debug
+			new Invincibility("No death"),
+			#end
 			new BigShot("Play BIG SHOT for no fucking reason"),
 			new Ilang("Reset all mod variables to its default value")
 			#end

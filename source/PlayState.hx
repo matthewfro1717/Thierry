@@ -2351,7 +2351,11 @@ class PlayState extends MusicBeatState
 				healthBar.visible = false;
 				iconP1.visible = false;
 				iconP2.visible = false;
-				scoreTxt.visible = false;
+				if (SONG.song == 'cheat-blitar' || SONG.song == 'ghost')
+				{
+					scoreTxt.visible = false;
+				}
+				
 			}
 			else
 			{
@@ -2430,7 +2434,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				scoreTxt.text = ("Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Acc: " + truncateFloat(accuracy, 2) + "% " + generateRanking());
+				scoreTxt.text = ("Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Rating: " + truncateFloat(accuracy, 2) + "% " + generateRanking());
 			}
 		}
 		else
@@ -2779,36 +2783,43 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		#if !debug
-		if (health <= 0) //DEAD STATE
+		if (health <= 0) //DEAD STATE death state
 		{
-			boyfriend.stunned = true;
-
-			persistentUpdate = false;
-			persistentDraw = false;
-			paused = true;
-
-			vocals.stop();
-			FlxG.sound.music.stop();
-
-			if (SONG.song != 'cheat-blitar')
+			if (!FlxG.save.data.kebal)
 			{
-				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				boyfriend.stunned = true;
+
+				persistentUpdate = false;
+				persistentDraw = false;
+				paused = true;
+
+				vocals.stop();
+				FlxG.sound.music.stop();
+
+				if (SONG.song != 'cheat-blitar')
+				{
+					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				}
+				else
+				{
+					FlxG.switchState(new MainMenuState());
+				}
+				
+
+				#if windows
+				// Game Over doesn't get his own variable because it's only used here
+				DiscordClient.changePresence("GAME OVER -- " + SONG.song + " (" + storyDifficultyText + ") " + generateRanking(),"\nAcc: " + truncateFloat(accuracy, 2) + "% | Score: " + songScore + " | Misses: " + misses  , iconRPC);
+				#end
+
+				// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 			}
 			else
 			{
-				FlxG.switchState(new MainMenuState());
+				health = 0;
+				//does absolutely nothing!
 			}
 			
-
-			#if windows
-			// Game Over doesn't get his own variable because it's only used here
-			DiscordClient.changePresence("GAME OVER -- " + SONG.song + " (" + storyDifficultyText + ") " + generateRanking(),"\nAcc: " + truncateFloat(accuracy, 2) + "% | Score: " + songScore + " | Misses: " + misses  , iconRPC);
-			#end
-
-			// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
-		#end
 
 		if (unspawnNotes[0] != null)
 		{
@@ -2868,6 +2879,30 @@ class PlayState extends MusicBeatState
 							FlxG.camera.shake(0.020, 0.1);
 							camHUD.shake(0.017, 0.1);
 						}
+
+						dadStrums.forEach(function(sprite:FlxSprite)
+						{
+							if (Math.abs(Math.round(Math.abs(daNote.noteData)) % 4) == sprite.ID)
+							{
+								sprite.animation.play('confirm', true);
+								if (sprite.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
+								{
+									sprite.centerOffsets();
+									sprite.offset.x -= 13;
+									sprite.offset.y -= 13;
+								}
+								else
+								{
+									sprite.centerOffsets();
+								}
+								sprite.animation.finishCallback = function(name:String)
+								{
+									sprite.animation.play('static',true);
+									sprite.centerOffsets();
+								}
+		
+							}
+						});
 	
 						switch (Math.abs(daNote.noteData))
 						{
@@ -3118,10 +3153,18 @@ class PlayState extends MusicBeatState
 			var placement:String = Std.string(combo);
 	
 			var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
-			coolText.screenCenter();
-			coolText.x = FlxG.width * 0.55;
-			coolText.y -= 350;
-			coolText.cameras = [camHUD];
+			if (SONG.song.toLowerCase() == 'termination' || SONG.song.toLowerCase() == 'ghost')
+			{
+				//no
+			}
+			else
+			{
+				coolText.screenCenter();
+				coolText.x = FlxG.width * 0.55;
+				coolText.y -= 350;
+				coolText.cameras = [camHUD];
+			}
+
 			//
 	
 			var rating:FlxSprite = new FlxSprite();
@@ -4157,7 +4200,7 @@ class PlayState extends MusicBeatState
 			camHUD.zoom += 0.03;
 		}
 
-		var funny:Float = (healthBar.percent * 0.01) + 0.01;
+		var funny:Float = (healthBar.percent * 0.02) + 0.02;
 
 		//health icon bounce but epic
 		//i agree it is epic

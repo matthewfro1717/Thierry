@@ -78,6 +78,10 @@ class KadeEngineData
 		if (FlxG.save.data.merg == null)
 			FlxG.save.data.merg = true; //TODO : DO SOME BACKGROUND CHEKCING FORL IKE THE DEFAULT VAUES AND SHOT
 
+				
+		if (FlxG.save.data.kebal == null)
+			FlxG.save.data.kebal = false; //TODO : DO SOME BACKGROUND CHEKCING FORL IKE THE DEFAULT VAUES AND SHOT
+
 		if (FlxG.save.data.willSeeCrashEnding == null)
 			FlxG.save.data.willSeeCrashEnding = false;
 		if (FlxG.save.data.hasSeenCrashEnding == null)

@@ -159,6 +159,28 @@ class MailCatmode extends Option
 	}
 }
 
+#if debug
+class Invincibility extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	public override function press():Bool
+	{
+		FlxG.save.data.kebal = !FlxG.save.data.kebal;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Debug play " + (!FlxG.save.data.kebal ? "OFF" : "ON");
+	}
+}
+#end
+
 class InsaneDifficulty extends Option
 {
 	public function new(desc:String)
