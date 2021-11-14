@@ -2943,6 +2943,11 @@ class PlayState extends MusicBeatState
 						{
 
 							case 2:
+								if(SONG.song == 'segitiga')
+								{
+									FlxG.camera.shake(0.0050, 0.1);
+									camHUD.shake(0.0057, 0.1);
+								}
 								dad.playAnim('singUP' + altAnim, true);
 							case 3:
 								dad.playAnim('singRIGHT' + altAnim, true);
@@ -4252,8 +4257,10 @@ class PlayState extends MusicBeatState
 				case 96:
 					healthDrainBool = true;
 					iconP2.animation.play("gw-3d-mad", true);
-				case 607://607
+				case 544:
 					healthDrainBool = false;
+					iconP2.animation.play("gw-3d", true);
+				case 607://607
 					FlxG.camera.flash(FlxColor.WHITE, 1);
 					iconP2.animation.play("bob", true);
 					remove(dad);

@@ -29,6 +29,7 @@ class FreeplayState extends MusicBeatState
 	var diffText:FlxText;
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
+	public var preloadSongs:Bool = true;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -158,6 +159,8 @@ class FreeplayState extends MusicBeatState
 	public function addSong(songName:String, weekNum:Int, songCharacter:String)
 	{
 		songs.push(new SongMetadata(songName, weekNum, songCharacter));
+
+
 	}
 
 	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)
@@ -179,6 +182,35 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		if (preloadSongs)
+		{
+			trace("PRELOAD STARTED!");
+			FlxG.sound.playMusic(Paths.inst(songs[1].songName), 0);
+			trace("SONG 1 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[2].songName), 0);
+			trace("SONG 2 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[3].songName), 0);
+			trace("SONG 3 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[4].songName), 0);
+			trace("SONG 4 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[5].songName), 0);
+			trace("SONG 5 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[6].songName), 0);
+			trace("SONG 6 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[7].songName), 0);
+			trace("SONG 7 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[8].songName), 0);
+			trace("SONG 8 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[9].songName), 0);
+			trace("SONG 9 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[10].songName), 0);
+			trace("SONG 10 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[0].songName), 0);
+			trace("SONG 11 PRELOADED");
+			preloadSongs = false;
+			trace("PRELOADING FINISHED!");
+		}
+		
 		if (FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;

@@ -29,6 +29,7 @@ class FreeplayExtrasState extends MusicBeatState
 	var diffText:FlxText;
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
+	public var preloadSongs:Bool = true;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -179,6 +180,22 @@ class FreeplayExtrasState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+
+		if (preloadSongs)
+		{
+			trace("PRELOADING STARTED...");
+			FlxG.sound.playMusic(Paths.inst(songs[1].songName), 0);
+			trace("SONG 1 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[2].songName), 0);
+			trace("SONG 2 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[3].songName), 0);
+			trace("SONG 3 PRELOADED");
+			FlxG.sound.playMusic(Paths.inst(songs[0].songName), 0);
+			trace("SONG 4 PRELOADED");
+			preloadSongs = false;
+			trace("PRELOADING FINISHED!");
+		}
+
 		super.update(elapsed);
 
 		if (FlxG.sound.music.volume < 0.7)
