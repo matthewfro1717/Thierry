@@ -82,8 +82,12 @@ class KadeEngineData
 		if (FlxG.save.data.kebal == null)
 			FlxG.save.data.kebal = false; //TODO : DO SOME BACKGROUND CHEKCING FORL IKE THE DEFAULT VAUES AND SHOT
 
+		if (FlxG.save.data.achievementsMap == null)
+			FlxG.save.data.achievementsMap = Achievements.achievementsMap;
+
 		if (FlxG.save.data.willSeeCrashEnding == null)
 			FlxG.save.data.willSeeCrashEnding = false;
+
 		if (FlxG.save.data.hasSeenCrashEnding == null)
 			FlxG.save.data.hasSeenCrashEnding = false;
 		

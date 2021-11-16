@@ -18,6 +18,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import io.newgrounds.NG;
 import lime.app.Application;
+import Achievements;
 
 
 #if windows
@@ -107,6 +108,8 @@ class MainMenuState extends MusicBeatState
 			menuItem.scrollFactor.set(0, 1);
 			menuItem.antialiasing = true;
 		}
+
+		Achievements.loadAchievements();
 
 		FlxG.camera.follow(camFollow, null, 0.60 * (60 / FlxG.save.data.fpsCap));
 
@@ -203,6 +206,19 @@ class MainMenuState extends MusicBeatState
 
 									case 'options':
 										FlxG.switchState(new OptionsMenu());
+										trace("Options selected");
+									case 'credits':
+										FlxG.switchState(new AchievementsState());
+										trace("Achieve");
+										#if debug
+										//Achievements.unlockAchievement("week1_nomiss");
+										//Achievements.unlockAchievement("week2_nomiss");
+										//Achievements.unlockAchievement("week3_nomiss");
+										//Achievements.unlockAchievement("week4_nomiss");
+										Achievements.unlockAchievement("debugger");
+										#end
+										
+										
 								}
 							});
 						}

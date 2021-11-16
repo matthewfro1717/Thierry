@@ -50,7 +50,32 @@ class CrasherStateEnding extends FlxState
 		var bad = FlxG.save.data.willSeeCrashEnding;
 		trace("FLIXEL SAVED TRUE BUT I DONT TRUST IT");
 		trace("HERES AN ACTUAL INFO" + bad);
+		checkForAchievement(['week1_nomiss', 'week2_nomiss', 'week3_nomiss', 'week4_nomiss',
+		'week5_nomiss', 'week6_nomiss', 'week7_nomiss']);
 		System.exit(0);
 	}
 	
+	private function checkForAchievement(achievesToCheck:Array<String>):String {
+		for (i in 0...achievesToCheck.length) {
+			var achievementName:String = achievesToCheck[i];
+			if(!Achievements.isAchievementUnlocked(achievementName)) {
+				var unlock:Bool = false;
+				switch(achievementName)
+				{
+					case 'week3_nomiss':
+						if (FlxG.save.data.hasSeenCrashEnding)
+						{
+							unlock = true;
+						}
+				}
+
+				if(unlock) {
+					Achievements.unlockAchievement(achievementName);
+					return achievementName;
+				}
+			}
+		}
+		return null;
+	}
+
 }

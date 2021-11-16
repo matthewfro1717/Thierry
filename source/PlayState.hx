@@ -54,6 +54,7 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import Achievements;
 
 #if windows
 import Discord.DiscordClient;
@@ -2526,6 +2527,10 @@ class PlayState extends MusicBeatState
 			{
 				PlayState.SONG = Song.loadFromJson("cheat-blitar", "cheat-blitar");
 				FlxG.switchState(new PlayState());
+				pressedSEVEN = true;
+				trace("bool" + pressedSEVEN);
+				checkForAchievement(['week1_nomiss', 'week2_nomiss', 'week3_nomiss', 'week4_nomiss',
+				'week5_nomiss', 'week6_nomiss', 'week7_nomiss']);
 				trace("good lUCK");
 				
 			}
@@ -3072,6 +3077,9 @@ class PlayState extends MusicBeatState
 	
 	function endSong():Void
 	{
+		checkForAchievement(['week1_nomiss', 'week2_nomiss', 'week3_nomiss', 'week4_nomiss',
+		'week5_nomiss', 'week6_nomiss', 'week7_nomiss']);
+
 		if (!loadRep)
 			rep.SaveReplay();
 
@@ -4446,6 +4454,50 @@ class PlayState extends MusicBeatState
 		{
 			lightningStrikeShit();
 		}
+	}
+
+	private function checkForAchievement(achievesToCheck:Array<String>):String {
+		for (i in 0...achievesToCheck.length) {
+			var achievementName:String = achievesToCheck[i];
+			if(!Achievements.isAchievementUnlocked(achievementName)) {
+				var unlock:Bool = false;
+				switch(achievementName)
+				{
+					case 'week7_nomiss':
+						var weekName:String = curSong.toLowerCase(); // USE SONG DATA INSTEAD OF WEEK DATA LATER FOR EASIER PURPOSES
+						switch(weekName) //I know this is a lot of duplicated code, but it's easier readable and you can add weeks with different names than the achievement tag
+						{ // lmao yandere dev be like
+							case 'cheat-blitar':
+								if(achievementName == 'week7_nomiss') unlock = true;
+							/*case 'week2':
+								if(achievementName == 'week2_nomiss') unlock = true;
+							case 'week3':
+								if(achievementName == 'week3_nomiss') unlock = true;
+							case 'week4':
+								if(achievementName == 'week4_nomiss') unlock = true;
+							case 'week5':
+								if(achievementName == 'week5_nomiss') unlock = true;
+							case 'week6':
+								if(achievementName == 'week6_nomiss') unlock = true;
+							case 'week7':
+								if(achievementName == 'week7_nomiss') unlock = true;
+							/****/
+							
+						}
+					case 'week4_nomiss':
+						if (pressedSEVEN)
+						{
+							unlock = true;
+						}
+				}
+
+				if(unlock) {
+					Achievements.unlockAchievement(achievementName);
+					return achievementName;
+				}
+			}
+		}
+		return null;
 	}
 
 	var curLight:Int = 0;

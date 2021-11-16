@@ -184,6 +184,7 @@ class FreeplayState extends MusicBeatState
 
 		if (preloadSongs)
 		{
+			//grandma was here while i wrote this code
 			trace("PRELOAD STARTED!");
 			FlxG.sound.playMusic(Paths.inst(songs[1].songName), 0);
 			trace("SONG 1 PRELOADED");
