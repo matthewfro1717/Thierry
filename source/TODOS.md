@@ -9,6 +9,7 @@
 - [x] RECREATE MAIN MENU FROM VSDAVE THINGY
 - [x] FIX MENGINGGAL AUDIO
 - [ ] add ending dialogue, will replace cutscenes songs
+- [x] implement ghost tapping
 - [x] REDO THE ENTIRE SEGITGA SONG CODES FUUUUUUUUUUUUUUU
 - [ ] ACCURACCY CALCULATIONS
 - [x] FIX ACHIEVEMENTS TEXT OFFSET (fixed in a cool way)

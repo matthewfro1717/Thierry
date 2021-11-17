@@ -81,6 +81,7 @@ class PlayState extends MusicBeatState
 	public static var goods:Int = 0;
 	public static var sicks:Int = 0;
 	var healthDrainBool:Bool;
+	public var susussamongus:Bool;
 
 	public static var songPosBG:FlxSprite;
 	public static var songPosBar:FlxBar;
@@ -3727,6 +3728,17 @@ class PlayState extends MusicBeatState
 						daNote.destroy();
 					}
 				}
+				else if (!susussamongus)
+				{
+					if (FlxG.save.data.epico)
+					{
+						health -= 0.04; //miss bruh
+						misses++;
+						songScore -= 10;
+						FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
+					}
+
+				}
 			}
 	
 			if ((up || right || down || left) && generatedMusic || (upHold || downHold || leftHold || rightHold) && loadRep && generatedMusic)
@@ -3765,9 +3777,11 @@ class PlayState extends MusicBeatState
 	
 				playerStrums.forEach(function(spr:FlxSprite)
 				{
+					
 					switch (spr.ID)
 					{
 						case 2:
+							
 							if (loadRep)
 							{
 								/*if (upP)
@@ -3789,8 +3803,10 @@ class PlayState extends MusicBeatState
 								}
 								if (upR)
 								{
-									spr.animation.play('static');
+									spr.animation.play('static'); //input handler stuff veru coal
 									repReleases++;
+									
+									
 								}
 							}
 						case 3:
@@ -3968,6 +3984,7 @@ class PlayState extends MusicBeatState
 	function noteCheck(controlArray:Array<Bool>, note:Note):Void // sorry lol
 		{
 			var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition);
+			susussamongus = true;
 
 			if (noteDiff > Conductor.safeZoneOffset * 0.70 || noteDiff < Conductor.safeZoneOffset * -0.70)
 				note.rating = "shit";
@@ -4228,6 +4245,7 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+		susussamongus = false;
 
 		if (generatedMusic)
 		{

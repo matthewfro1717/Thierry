@@ -23,8 +23,8 @@ class OptionsMenu extends MusicBeatState
 		new OptionCatagory("VSThierry", [
 			#if desktop
 			new MailCatmode("Do you want ThierryEngine to be dumb or smort (does absolutely nothing)"),
-			new InsaneDifficulty("9 keys, expurgation arrows, and distractions (just kidding)"),
 			new JokeSettings("Coba liat option pasti ada yang aneh -Thierry"),
+			new InsaneDifficulty("ghost tapping lol"),
 			new InputSystem("Switch between Kade's input or my input"),
 			new AccuracyOption("Display the score text below the health bar"),
 			#if debug
@@ -53,7 +53,6 @@ class OptionsMenu extends MusicBeatState
 			#if desktop
 			new RainbowFPSOption("Make the FPS Counter Rainbow (Only works with the FPS Counter toggeled on)"),
 			#end
-			new NPSDisplayOption("Shows your current Notes Per Second.")
 		]),
 		
 		new OptionCatagory("Misc", [

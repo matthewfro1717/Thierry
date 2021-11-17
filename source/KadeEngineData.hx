@@ -49,7 +49,7 @@ class KadeEngineData
 			FlxG.save.data.scrollSpeed = 1;
 
 		if (FlxG.save.data.npsDisplay == null)
-			FlxG.save.data.npsDisplay = false;
+			FlxG.save.data.npsDisplay = true;
 
 		if (FlxG.save.data.frames == null)
 			FlxG.save.data.frames = 10;
@@ -61,7 +61,7 @@ class KadeEngineData
 			FlxG.save.data.watermark = true;
 
 		if (FlxG.save.data.epico == null)
-			FlxG.save.data.epico = true;
+			FlxG.save.data.epico = false;
 		
 		if (FlxG.save.data.among == null)
 			FlxG.save.data.among = false;
