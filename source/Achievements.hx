@@ -14,12 +14,12 @@ class Achievements {
 		["Freaky on a Friday Night",	"Play on a Friday... Night.",						'friday_night_play',	 true],
 		["The Good Ending",		"Get the Good Ending.",				'week1_nomiss',			false],
 		["The Bad Ending",				"Get the Bad Ending.",				'week2_nomiss',			false],
-		["That's very spooky not gonna lie",			"Get the Crasher Ending.",				'week3_nomiss',			false],
-		["You dun get fucked up",					"Cheat in any way possible",				'week4_nomiss',			false],
+		["That was very spooky not gonna lie",			"Get the Crasher Ending.",				'week3_nomiss',			false],//done
+		["You dun get fucked up",					"Cheat in any way possible",				'week4_nomiss',			false],//done
 		["Meninggal",			"Beat the 21 minutes long-song in Story Mode.",				'week5_nomiss',			false],
 		["Where It Happened",			"Play the mod at School of Human, When youre there, ill tell you what to do to unlock this achievement",				'week6_nomiss',			false],
-		["How did we get here",		"Get the Cheater Ending.",				'week7_nomiss',			 false],
-		["The Cool Guy",					"Compile the game from its source code",	'debugger',				 true]
+		["How did we get here",		"Get the Cheater Ending.",				'week7_nomiss',			 false],//done
+		["The Cool Guy",					"Compile the game from its source code",	'debugger',				 true]//done
 	];
 
     //LMAO STOLEN FROM PSYCH ENGINE IM SORRY
