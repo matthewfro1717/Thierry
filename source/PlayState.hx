@@ -88,6 +88,7 @@ class PlayState extends MusicBeatState
 
 	public static var rep:Replay;
 	public static var loadRep:Bool = false;
+	public var shouldMuter:Bool = false;
 
 	public static var noteBools:Array<Bool> = [false, false, false, false];
 
@@ -106,6 +107,7 @@ class PlayState extends MusicBeatState
 	#end
 
 	private var vocals:FlxSound;
+	public var bego:FlxSprite;
 
 	private var dad:Character;
 	private var gf:Character;
@@ -128,6 +130,7 @@ class PlayState extends MusicBeatState
 	private var camZooming:Bool = false;
 	public var pressedSEVEN:Bool;
 	private var curSong:String = "";
+	public var testshader:Shaders.GlitchEffect;
 
 	private var gfSpeed:Int = 1;
 	private var health:Float = 1;
@@ -636,12 +639,43 @@ class PlayState extends MusicBeatState
 				add(bg);
 
 				//LMAO LITTERALLY STOLEN CODE FROM VSDAVE
-				var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
+				testshader = new Shaders.GlitchEffect();
 				testshader.waveAmplitude = 0.1;
 				testshader.waveFrequency = 4;
 				testshader.waveSpeed = 2;
 				bg.shader = testshader.shader;
 				curbg = bg;
+			}
+
+			case 'applecore': 
+			{
+				curStage = 'sekolahMaxzi'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
+			
+				defaultCamZoom = 0.9;
+				bego = new FlxSprite(-700, -200).loadGraphic(Paths.image('greenstage'));
+				bego.antialiasing = true;
+				bego.scrollFactor.set(0.9, 0.9);
+				bego.active = true;
+				add(bego);
+	
+				//LMAO LITTERALLY STOLEN CODE FROM VSDAVE
+				testshader = new Shaders.GlitchEffect();
+				testshader.waveAmplitude = 0.1;
+				testshader.waveFrequency = 4;
+				testshader.waveSpeed = 2;
+				bego.shader = testshader.shader;
+				curbg = bego;
+
+				thierry = new FlxSprite(-100, 0).loadGraphic(Paths.image('Thieri'));
+				thierry.antialiasing = true;
+				thierry.scrollFactor.set(1, 1);
+				thierry.visible = false;
+				if (SONG.song == "meninggal")
+				{
+					thierry.visible = true;
+				}
+				
+				add(thierry);
 			}
 
 			case 'roasting' | 'gerselo' | 'cut2': 
@@ -1165,7 +1199,7 @@ class PlayState extends MusicBeatState
 		kadeEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		kadeEngineWatermark.scrollFactor.set();
 
-		if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar')
+		if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar' || SONG.song == 'AppleCore')
 		{
 			add(aeroEngineWatermark);
 		}
@@ -1214,7 +1248,7 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
-		if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar')
+		if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar' || SONG.song == 'AppleCore')
 		{
 			// Aeroshide engine watermark for segitiga
 			aeroEngineWatermark.cameras = [camHUD];
@@ -2300,6 +2334,8 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		susussamongus = false; //LMAO UPDATING VARIABLE EVERY FRAME IS IS OVERKILL
+
 		elapsedtime += elapsed; //THIS SHIT IS KINDA LIKE A TEST CODE, THIS WILL BE REPLACED WITH MODCHART SOON
 		if (curbg != null) //NVM LMAO I STILL NEED IT FOR THE SHADER TO WORK (yes its stolen from vsdave)
 		{
@@ -2310,9 +2346,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (SONG.song.toLowerCase() == 'cheat-blitar') // fuck you
+		if (SONG.song.toLowerCase() == 'applecore') // fuck you
 		{
-			if (pressedSEVEN)
+			if (shouldMuter)
 			{
 				playerStrums.forEach(function(spr:FlxSprite)
 				{
@@ -2361,7 +2397,7 @@ class PlayState extends MusicBeatState
 			if (getVar("showOnlyStrums",'bool'))
 			{
 				healthBarBG.visible = false;
-				if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar')
+				if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar' || SONG.song == 'AppleCore')
 				{
 					aeroEngineWatermark.visible = false;
 				}
@@ -2381,7 +2417,7 @@ class PlayState extends MusicBeatState
 			else
 			{
 				healthBarBG.visible = true;
-				if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar')
+				if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar' || SONG.song == 'AppleCore')
 				{
 					aeroEngineWatermark.visible = true;
 				}
@@ -2935,6 +2971,11 @@ class PlayState extends MusicBeatState
 						if (SONG.song == 'revenge' && health > 0.015 || SONG.song == 'meninggal' && health > 0.015|| SONG.song == 'cheat-blitar' && health > 0.015 || SONG.song == 'latihan' && health > 0.025) //LOW DAMAGE NOT KILLING
 						{
 							health -= 0.014;
+						}
+
+						if (SONG.song == 'AppleCore' && healthDrainBool && health > 0.015)
+						{
+							health -= 0.0028;
 						}
 
 						if(SONG.song == 'cheat-blitar')
@@ -3732,6 +3773,7 @@ class PlayState extends MusicBeatState
 				{
 					if (FlxG.save.data.epico)
 					{
+						trace("miss eh");
 						health -= 0.04; //miss bruh
 						misses++;
 						songScore -= 10;
@@ -4245,7 +4287,7 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
-		susussamongus = false;
+		
 
 		if (generatedMusic)
 		{
@@ -4297,6 +4339,33 @@ class PlayState extends MusicBeatState
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
+
+		if (curSong == 'AppleCore')
+		{
+			switch(curBeat)
+			{
+				case 223:
+					FlxG.camera.flash(FlxColor.WHITE, 1);
+					thierry.visible = true;
+					trace('THIERRY ADDED');
+					healthDrainBool = true;
+				case 636:
+					FlxG.camera.flash(FlxColor.BLACK, 1);
+					remove(bego);
+					bego = new FlxSprite(-700, -200).loadGraphic(Paths.image('hellstage'));
+					add(bego);
+					bego.shader = testshader.shader;
+					thierry.visible = false;
+					remove(dad);
+					dad = new Character(200, 400, 'pico');
+					add(dad);
+					trace('CHARACTER CHANGED!');
+					shouldMuter = true;
+
+
+				
+			}
+		}
 
 		if (curSong == 'segitiga')
 		{
@@ -4508,6 +4577,7 @@ class PlayState extends MusicBeatState
 						switch(weekName) //I know this is a lot of duplicated code, but it's easier readable and you can add weeks with different names than the achievement tag
 						{ // lmao yandere dev be like
 							case 'cheat-blitar':
+								FlxG.save.data.cheaterSongUnlocked = true;
 								if(achievementName == 'week7_nomiss') unlock = true;
 							/*case 'week2':
 								if(achievementName == 'week2_nomiss') unlock = true;

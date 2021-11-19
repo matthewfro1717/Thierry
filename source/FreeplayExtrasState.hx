@@ -43,7 +43,7 @@ class FreeplayExtrasState extends MusicBeatState
 		for (i in 0...initSonglist.length)
 		{
 			var data:Array<String> = initSonglist[i].split(':');
-			if(!(data[0]=='Bonus-song') && !(data[0]=='Final-showdown') && !(data[0]=='Ram') && !(data[0]=='Glitcher') && !(data[0]=='Run') && !(data[0]=='Ghost'))
+			if(!(data[0]=='Bonus-song') && !(data[0]=='Final-showdown') && !(data[0]=='Ram') && !(data[0]=='Glitcher') && !(data[0]=='Run') && !(data[0]=='Applecore') && !(data[0]=='Ghost'))
 			{
 				songs.push(new SongMetadataa(data[0], Std.parseInt(data[2]), data[1]));
 			}
@@ -56,6 +56,8 @@ class FreeplayExtrasState extends MusicBeatState
 			else if(FlxG.save.data.hexSongUnlocked && data[0]=='Ram')
 				songs.push(new SongMetadataa(data[0], Std.parseInt(data[2]), data[1]));
 			else if(FlxG.save.data.hexSongUnlocked && data[0]=='Glitcher')
+				songs.push(new SongMetadataa(data[0], Std.parseInt(data[2]), data[1]));
+			else if(FlxG.save.data.cheaterSongUnlocked && data[0]=='Applecore')
 				songs.push(new SongMetadataa(data[0], Std.parseInt(data[2]), data[1]));
 			else if(FlxG.save.data.setanSongUnlocked && data[0]=='Ghost')
 				songs.push(new SongMetadataa(data[0], Std.parseInt(data[2]), data[1]));
