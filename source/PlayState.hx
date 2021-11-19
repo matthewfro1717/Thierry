@@ -4350,7 +4350,7 @@ class PlayState extends MusicBeatState
 					trace('THIERRY ADDED');
 					healthDrainBool = true;
 				case 636:
-					FlxG.camera.flash(FlxColor.BLACK, 1);
+					FlxG.camera.flash(FlxColor.BLACK, 3);
 					remove(bego);
 					bego = new FlxSprite(-700, -200).loadGraphic(Paths.image('hellstage'));
 					add(bego);
@@ -4577,8 +4577,12 @@ class PlayState extends MusicBeatState
 						switch(weekName) //I know this is a lot of duplicated code, but it's easier readable and you can add weeks with different names than the achievement tag
 						{ // lmao yandere dev be like
 							case 'cheat-blitar':
-								FlxG.save.data.cheaterSongUnlocked = true;
-								if(achievementName == 'week7_nomiss') unlock = true;
+								if(achievementName == 'week7_nomiss')
+								{
+									unlock = true;
+									trace("dahlah");
+									FlxG.save.data.cheaterSongUnlocked = true;
+								}
 							/*case 'week2':
 								if(achievementName == 'week2_nomiss') unlock = true;
 							case 'week3':

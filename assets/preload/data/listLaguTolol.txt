@@ -1,9 +1,12 @@
 Tutorial:gf:1
+Flatzone:monster:3
+Termination:senpai:3
+Meninggal-beta:bob-bersama:3
 Ram:dad:3
 Glitcher:dad:3
-Flatzone:monster:3
 Final-showdown:matt:3
-Termination:senpai:3
+Run:pico:3
+Screw-you:pico:3
+Latihan:spooky:3
 Ghost:senpai:3
-Meninggal-beta:bob-bersama:3
 Applecore:parents-christmas:3

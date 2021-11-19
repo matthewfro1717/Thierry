@@ -217,6 +217,7 @@ class Ilang extends Option
 		FlxG.save.data.willSeeCrashEnding = false;
 		FlxG.save.data.hasSeenCrashEnding = false;
 		FlxG.save.data.setanSongUnlocked = false;
+		FlxG.save.data.cheaterSongUnlocked = false;
 		FlxG.save.data.achievementsMap = null;
 		display = updateDisplay();
 		return true;

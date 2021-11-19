@@ -210,6 +210,11 @@ class MainMenuState extends MusicBeatState
 									case 'credits':
 										FlxG.switchState(new AchievementsState());
 										trace("Achieve");
+										trace(FlxG.save.data.hasSeenCrashEnding + " heres info cuz im very kind");
+										if (FlxG.save.data.hasSeenCrashEnding)
+										{
+											Achievements.unlockAchievement("week3_nomiss");
+										}
 										#if debug
 										//Achievements.unlockAchievement("week1_nomiss");
 										//Achievements.unlockAchievement("week2_nomiss");
