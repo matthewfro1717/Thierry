@@ -1,7 +1,7 @@
 hey uhhh if you have negative feelings about this mod, im sorry
 
 ill address it right here that im sorry to use any musics, art and other assets with no permissions
-if any of you are the creator of specified assets, please open issue in the issues tab
+if any of you are the creator of the specified assets, please open issue in the issues tab
 this fnf mod is just a programming training for me, im still new with programming and this 
 project will help me continue with programming as a hobby
 
