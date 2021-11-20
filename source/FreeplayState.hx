@@ -202,9 +202,9 @@ class FreeplayState extends MusicBeatState
 			trace("SONG 7 PRELOADED");
 			FlxG.sound.playMusic(Paths.inst(songs[8].songName), 0);
 			trace("SONG 8 PRELOADED");
-			/*FlxG.sound.playMusic(Paths.inst(songs[9].songName), 0);
+			FlxG.sound.playMusic(Paths.inst(songs[0].songName), 0);
 			trace("SONG 9 PRELOADED");
-			FlxG.sound.playMusic(Paths.inst(songs[10].songName), 0);
+			/*FlxG.sound.playMusic(Paths.inst(songs[10].songName), 0);
 			trace("SONG 10 PRELOADED");
 			FlxG.sound.playMusic(Paths.inst(songs[0].songName), 0);
 			trace("SONG 11 PRELOADED");

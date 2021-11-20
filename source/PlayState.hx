@@ -3192,9 +3192,6 @@ class PlayState extends MusicBeatState
 						}
 					}
 
-					transIn = FlxTransitionableState.defaultTransIn;
-					transOut = FlxTransitionableState.defaultTransOut;
-
 					FlxG.switchState(new StoryMenuState());
 
 					if (lua != null)
@@ -3208,7 +3205,6 @@ class PlayState extends MusicBeatState
 
 					if (SONG.validScore)
 					{
-						NGio.unlockMedal(60961);
 						Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 					}
 
@@ -3217,26 +3213,23 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
-					var difficulty:String = "";
 
-					if (storyDifficulty == 0)
-						difficulty = '-easy';
-
-					if (storyDifficulty == 2)
-						difficulty = '-hard';
-
-					trace('LOADING NEXT SONG OMG');
-					trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
-
-					FlxTransitionableState.skipNextTransIn = true;
-					FlxTransitionableState.skipNextTransOut = true;
-					prevCamFollow = camFollow;
-
-					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
-					FlxG.sound.music.stop();
-
-					LoadingState.loadAndSwitchState(new PlayState());
-				}
+					switch (SONG.song.toLowerCase())
+					{
+						case 'anjing':
+							canPause = false;
+							FlxG.sound.music.volume = 0;
+							vocals.volume = 0;
+							generatedMusic = false; // stop the game from trying to generate anymore music and to just cease attempting to play the music in general
+							boyfriend.stunned = true;
+							var doof:DialogueBox = new DialogueBox(false, CoolUtil.coolTextFile(Paths.txt('anjing/endDialogue')));
+							doof.scrollFactor.set();
+							doof.finishThing = nextSong;
+							doof.cameras = [camHUD];
+							schoolIntro(doof);
+						default:
+							nextSong();
+				}   }
 			}
 			else
 			{
@@ -3254,6 +3247,30 @@ class PlayState extends MusicBeatState
 
 	var timeShown = 0;
 	var currentTimingShown:FlxText = null;
+
+	function nextSong()
+	{
+		var difficulty:String = "";
+
+		if (storyDifficulty == 0)
+			difficulty = '-easy';
+
+		if (storyDifficulty == 2)
+			difficulty = '-hard';
+
+		trace('LOADING NEXT SONG OMG');
+		trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
+
+		FlxTransitionableState.skipNextTransIn = true;
+		FlxTransitionableState.skipNextTransOut = true;
+		prevCamFollow = camFollow;
+
+		PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
+		FlxG.sound.music.stop();
+
+		LoadingState.loadAndSwitchState(new PlayState());
+	}
+
 
 	private function popUpScore(daNote:Note):Void
 		{

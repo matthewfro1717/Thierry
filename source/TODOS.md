@@ -1,7 +1,7 @@
 - [ ] RECHART LATIHAN, ANJING, MENINGGAL, REVENGE, DED AND FINAL SHOWDOWN
 - [ ] REWORK SCREW YOU AND GET OUT
 - [ ] add maxi (just add icon)
-- [ ] make btter preloaders please
+- [x] make btter preloaders please
 - [x] FIX CRASH ON STORY MENU
 
 - [x] CHANGE FURIOSITY WITH BAMBI COVER ONE
@@ -9,7 +9,7 @@
 - [x] FIX NORMAL DED CHART!!!!!
 - [x] RECREATE MAIN MENU FROM VSDAVE THINGY
 - [x] FIX MENGINGGAL AUDIO
-- [ ] add ending dialogue, will replace cutscenes songs
+- [ ] add ending dialogue, will replace cutscenes songs (code done, just need to copy paste to songs)
 - [x] implement ghost tapping
 - [x] REDO THE ENTIRE SEGITGA SONG CODES FUUUUUUUUUUUUUUU
 - [ ] ACCURACCY CALCULATIONS
