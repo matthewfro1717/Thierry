@@ -4380,6 +4380,7 @@ class PlayState extends MusicBeatState
 					healthDrainBool = true;
 				case 636:
 					FlxG.camera.flash(FlxColor.BLACK, 3);
+					iconP2.animation.play("pico", true);
 					remove(bego);
 					bego = new FlxSprite(-700, -200).loadGraphic(Paths.image('hellstage'));
 					add(bego);
