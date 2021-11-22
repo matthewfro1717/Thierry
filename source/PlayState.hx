@@ -2547,26 +2547,38 @@ class PlayState extends MusicBeatState
 				Conductor.songPosition += 100000;
 				notes.forEachAlive(function(daNote:Note)
 				{
-					if(daNote.strumTime - 500 < Conductor.songPosition) {
+					if(daNote.strumTime + 800 < Conductor.songPosition) {
 						daNote.active = false;
 						daNote.visible = false;
-
-					
+	
 						daNote.kill();
 						notes.remove(daNote, true);
 						daNote.destroy();
 					}
 				});
-
+				for (i in 0...unspawnNotes.length) {
+					var daNote:Note = unspawnNotes[0];
+					if(daNote.strumTime + 800 >= Conductor.songPosition) {
+						break;
+					}
+	
+					daNote.active = false;
+					daNote.visible = false;
+	
+					daNote.kill();
+					unspawnNotes.splice(unspawnNotes.indexOf(daNote), 1);
+					daNote.destroy();
+				}
+	
 				FlxG.sound.music.time = Conductor.songPosition;
 				FlxG.sound.music.play();
-
+	
 				vocals.time = Conductor.songPosition;
 				vocals.play();
 				new FlxTimer().start(0.5, function(tmr:FlxTimer)
-					{
-						usedTimeTravel = false;
-					});
+				{
+					usedTimeTravel = false;
+				});
 			}
 		}
 
