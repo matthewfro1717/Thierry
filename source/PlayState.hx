@@ -89,6 +89,7 @@ class PlayState extends MusicBeatState
 	public static var rep:Replay;
 	public static var loadRep:Bool = false;
 	public var shouldMuter:Bool = false;
+	public var shouldMuterKeras:Bool = false;
 
 	public static var noteBools:Array<Bool> = [false, false, false, false];
 
@@ -2361,6 +2362,19 @@ class PlayState extends MusicBeatState
 					spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos((elapsedtime + (spr.ID)) * 2) * 300);
 				});
 			}
+			if (shouldMuterKeras)
+			{
+				playerStrums.forEach(function(spr:FlxSprite)
+				{
+					spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin((elapsedtime + (spr.ID )) * 4) * 300);
+					spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos((elapsedtime + (spr.ID)) * 4) * 300);
+				});
+				dadStrums.forEach(function(spr:FlxSprite)
+				{
+					spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin((elapsedtime + (spr.ID )) * 6) * 300);
+					spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos((elapsedtime + (spr.ID)) * 6) * 300);
+				});
+			}
 
 		}
 			
@@ -2538,6 +2552,7 @@ class PlayState extends MusicBeatState
 		}
 
 
+		#if debug
 		if(FlxG.keys.justPressed.TWO && songStarted) { //Go 100 seconds into the future, credit: Shadow Mario#9396
 			if (!usedTimeTravel && Conductor.songPosition + 100000 < FlxG.sound.music.length) 
 			{
@@ -2582,6 +2597,50 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if(FlxG.keys.justPressed.THREE && songStarted) { //Go 10 seconds into the future, credit: Shadow Mario#9396
+			if (!usedTimeTravel && Conductor.songPosition + 10000 < FlxG.sound.music.length) 
+			{
+				usedTimeTravel = true;
+				FlxG.sound.music.pause();
+				vocals.pause();
+				Conductor.songPosition += 10000;
+				notes.forEachAlive(function(daNote:Note)
+				{
+					if(daNote.strumTime + 800 < Conductor.songPosition) {
+						daNote.active = false;
+						daNote.visible = false;
+	
+						daNote.kill();
+						notes.remove(daNote, true);
+						daNote.destroy();
+					}
+				});
+				for (i in 0...unspawnNotes.length) {
+					var daNote:Note = unspawnNotes[0];
+					if(daNote.strumTime + 800 >= Conductor.songPosition) {
+						break;
+					}
+	
+					daNote.active = false;
+					daNote.visible = false;
+	
+					daNote.kill();
+					unspawnNotes.splice(unspawnNotes.indexOf(daNote), 1);
+					daNote.destroy();
+				}
+	
+				FlxG.sound.music.time = Conductor.songPosition;
+				FlxG.sound.music.play();
+	
+				vocals.time = Conductor.songPosition;
+				vocals.play();
+				new FlxTimer().start(0.5, function(tmr:FlxTimer)
+				{
+					usedTimeTravel = false;
+				});
+			}
+		}
+		#end
 
 		if (FlxG.keys.justPressed.SEVEN)
 		{
@@ -4391,6 +4450,10 @@ class PlayState extends MusicBeatState
 					add(dad);
 					trace('CHARACTER CHANGED!');
 					shouldMuter = true;
+				case 1068:
+					shouldMuter = false;
+					shouldMuterKeras = true;
+
 
 
 				

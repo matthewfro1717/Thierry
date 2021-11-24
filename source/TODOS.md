@@ -1,6 +1,6 @@
 - [ ] RECHART LATIHAN, ANJING, MENINGGAL, REVENGE, DED AND FINAL SHOWDOWN
 - [ ] REWORK SCREW YOU AND GET OUT
-- [ ] add maxi (just add icon)
+- [x] add maxi (just add icon)
 - [x] make btter preloaders please
 - [x] FIX CRASH ON STORY MENU
 
