@@ -90,6 +90,9 @@ class KadeEngineData
 
 		if (FlxG.save.data.hasSeenCrashEnding == null)
 			FlxG.save.data.hasSeenCrashEnding = false;
+
+		if (FlxG.save.data.shouldHearAmbience == null)
+			FlxG.save.data.shouldHearAmbience = true;
 		
 
 		Conductor.recalculateTimings();

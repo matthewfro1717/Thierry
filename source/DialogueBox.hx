@@ -21,6 +21,7 @@ class DialogueBox extends FlxSpriteGroup
 
 	var dialogue:Alphabet;
 	var dialogueList:Array<String> = [];
+	var text:String = "NO WAY THE RED BOB APPEARED";
 
 	// SECOND DIALOGUE FOR THE PIXEL SHIT INSTEAD???
 	var swagDialogue:FlxTypeText;
@@ -51,10 +52,14 @@ class DialogueBox extends FlxSpriteGroup
 				FlxG.sound.list.add(sound);
 				sound.fadeIn(1, 0, 0.8);
 			case 'anjing':
-				sound = new FlxSound().loadEmbedded(Paths.music('SekolahSore'),true);
-				sound.volume = 0;
-				FlxG.sound.list.add(sound);
-				sound.fadeIn(1, 0, 0.8);
+				if (FlxG.save.data.shouldHearAmbience)
+				{
+					sound = new FlxSound().loadEmbedded(Paths.music('SekolahSore'),true);
+					sound.volume = 0;
+					FlxG.sound.list.add(sound);
+					sound.fadeIn(1, 0, 0.8);
+				}
+
 			case 'meninggal':
 				sound = new FlxSound().loadEmbedded(Paths.music('Lunchbox'),true);
 				sound.volume = 0;
@@ -215,19 +220,19 @@ class DialogueBox extends FlxSpriteGroup
 		add(portraitRight);
 		portraitRight.visible = false;
 
-		gwRight = new FlxSprite(0, 40);
-		gwRight.frames = Paths.getSparrowAtlas('dialogstuff/bfPortrait', 'shared');
-		gwRight.animation.addByPrefix('enter', 'Boyfriend portrait enter', 24, false);
-		gwRight.setGraphicSize(Std.int(gwRight.width * PlayState.daPixelZoom * 0.9));
+		gwRight = new FlxSprite(-80, 120);
+		gwRight.frames = Paths.getSparrowAtlas('dialogstuff/gwPortrait', 'shared');
+		gwRight.animation.addByPrefix('enter', 'Bob Portrait Enter', 24, false);
+		gwRight.setGraphicSize(Std.int(gwRight.width * PlayState.daPixelZoom * 0.15));
 		gwRight.updateHitbox();
 		gwRight.scrollFactor.set();
 		add(gwRight);
 		gwRight.visible = false;
 
-		raditRight = new FlxSprite(0, 40);
-		raditRight.frames = Paths.getSparrowAtlas('dialogstuff/bfPortrait', 'shared');
-		raditRight.animation.addByPrefix('enter', 'Boyfriend portrait enter', 24, false);
-		raditRight.setGraphicSize(Std.int(raditRight.width * PlayState.daPixelZoom * 0.9));
+		raditRight = new FlxSprite(-80, 0);
+		raditRight.frames = Paths.getSparrowAtlas('dialogstuff/raditPortrait', 'shared');
+		raditRight.animation.addByPrefix('enter', 'Portrait Enter instance', 24, false);
+		raditRight.setGraphicSize(Std.int(raditRight.width * PlayState.daPixelZoom * 0.15));
 		raditRight.updateHitbox();
 		raditRight.scrollFactor.set();
 		add(raditRight);
@@ -324,13 +329,15 @@ class DialogueBox extends FlxSpriteGroup
 				{
 					isEnding = true;
 
-					if (PlayState.SONG.song.toLowerCase() == 'anjing' || PlayState.SONG.song.toLowerCase() == 'ded' || PlayState.SONG.song.toLowerCase() == 'meninggal')
+					if (PlayState.SONG.song.toLowerCase() == 'anjing' && FlxG.save.data.shouldHearAmbience || PlayState.SONG.song.toLowerCase() == 'ded' || PlayState.SONG.song.toLowerCase() == 'meninggal')
 						sound.fadeOut(2.2, 0);
 					new FlxTimer().start(0.2, function(tmr:FlxTimer)
 					{
 						box.alpha -= 1 / 5;
 						bgFade.alpha -= 1 / 5 * 0.7;
 						portraitLeft.visible = false;
+						gwRight.visible = false;
+						raditRight.visible = false;
 						portraitRight.visible = false;
 						swagDialogue.alpha -= 1 / 5;
 						dropText.alpha = swagDialogue.alpha;
@@ -370,18 +377,47 @@ class DialogueBox extends FlxSpriteGroup
 		{
 			case 'dad':
 				portraitRight.visible = false;
+				gwRight.visible = false;
+				raditRight.visible = false;
 				if (!portraitLeft.visible)
 				{
 					portraitLeft.visible = true;
 					portraitLeft.animation.play('enter');
 				}
+			case 'gw':
+				raditRight.visible = false;
+				portraitRight.visible = false;
+				portraitLeft.visible = false;
+				if (!portraitLeft.visible)
+				{
+					gwRight.visible = true;
+					gwRight.animation.play('enter');
+				}
+			case 'radit':
+				gwRight.visible = false;
+				portraitRight.visible = false;
+				portraitLeft.visible = false;
+				if (!portraitLeft.visible)
+				{
+					raditRight.visible = true;
+					raditRight.animation.play('enter');
+				}
 			case 'bf':
 				portraitLeft.visible = false;
+				gwRight.visible = false;
+				raditRight.visible = false;
 				if (!portraitRight.visible)
 				{
 					portraitRight.visible = true;
 					portraitRight.animation.play('enter');
 				}
+		}
+
+		if (dialogueList[0] == 'yo need some help?') //DIALOGUE EVENTS CHANGEABLES
+		{
+			trace(text);
+			FlxG.sound.play(Paths.sound('BOOM'), 0.8);
+	
 		}
 	}
 

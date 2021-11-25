@@ -621,11 +621,13 @@ class PlayState extends MusicBeatState
 				curStage = 'sekolahSore'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 	
 				defaultCamZoom = 0.9;
-				var bg:FlxSprite = new FlxSprite(-700, -200).loadGraphic(Paths.image('stagesore'));
-				bg.antialiasing = true;
-				bg.scrollFactor.set(0.9, 0.9);
-				bg.active = false;
-				add(bg);
+				bego = new FlxSprite(-700, -200).loadGraphic(Paths.image('stagesore'));
+				bego.antialiasing = true;
+				bego.scrollFactor.set(0.9, 0.9);
+				bego.active = false;
+				add(bego);
+
+
 			}
 
 			case 'cheat-blitar' | 'segitiga': 
@@ -2686,12 +2688,11 @@ class PlayState extends MusicBeatState
 		if (health > 2)
 			health = 2;
 
-		if (healthBar.percent < 20)
+		else if (healthBar.percent < 20)
+		{
 			iconP1.animation.curAnim.curFrame = 1;
-		else
-			iconP1.animation.curAnim.curFrame = 0;
-
-		if (healthBar.percent > 80)
+		}
+		else if (healthBar.percent > 80)
 		{
 			iconP2.animation.curAnim.curFrame = 1;
 			iconP1.animation.curAnim.curFrame = 2;
@@ -2699,6 +2700,7 @@ class PlayState extends MusicBeatState
 		else
 		{
 			iconP2.animation.curAnim.curFrame = 0;
+			iconP1.animation.curAnim.curFrame = 0;
 
 		}
 			
@@ -3214,6 +3216,15 @@ class PlayState extends MusicBeatState
 	{
 		checkForAchievement(['week1_nomiss', 'week2_nomiss', 'week3_nomiss', 'week4_nomiss',
 		'week5_nomiss', 'week6_nomiss', 'week7_nomiss']);
+
+		if (SONG.song == 'anjing')
+		{
+			FlxG.save.data.shouldHearAmbience = false;
+		}
+		else
+		{
+			FlxG.save.data.shouldHearAmbience = true;
+		}
 
 		if (!loadRep)
 			rep.SaveReplay();
@@ -4482,6 +4493,21 @@ class PlayState extends MusicBeatState
 
 
 		}
+
+		if (curSong == 'anjing')
+			{
+				switch(curBeat)
+				{
+					case 328://607
+					remove(bego);
+					bego = new FlxSprite(-700, -200).loadGraphic(Paths.image('stagemalem'));
+					add(bego);
+						//REST OF THE CODES ARE WRITTEN IN MODCHART
+						
+				}
+	
+	
+			}
 
 		if (curSong == 'meninggal') //BEAT = 4 STEP
 			{

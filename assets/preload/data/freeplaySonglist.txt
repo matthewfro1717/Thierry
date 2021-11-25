@@ -4,7 +4,7 @@ Anjing:pico:3
 Meninggal:bob-bersama:3
 revenge:pico:3
 Get-Out:pico:3
-Segitiga:bob:3
+Segitiga:gw-3d:3
 Roasting:mom:3
 Gerselo:mom:3
 Bonus-song:bob:3

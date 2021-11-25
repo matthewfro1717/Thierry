@@ -42,7 +42,7 @@ class HealthIcon extends FlxSprite
 		animation.add('matt', [24, 25], 0, false, isPlayer);
 		animation.add('bob', [26, 27], 0, false, isPlayer);
 		animation.add('bob-bersama', [28, 29], 0, false, isPlayer);
-		animation.add('gw-3d', [30, 31], 0, false, isPlayer);
+		animation.add('gw-3d', [30, 31, 35], 0, false, isPlayer);
 		animation.add('gw-3d-mad', [32, 33], 0, false, isPlayer);
 		animation.play(char);
 		switch(char){
