@@ -119,6 +119,9 @@ class PlayState extends MusicBeatState
 
 	private var strumLine:FlxSprite;
 	private var curSection:Int = 0;
+	public var UsingNewCam:Bool = false;
+	var focusOnDadGlobal:Bool = true;
+	private var camZooming:Bool = false;
 
 	private var camFollow:FlxObject;
 
@@ -128,7 +131,6 @@ class PlayState extends MusicBeatState
 	private var playerStrums:FlxTypedGroup<FlxSprite>;
 	var segitigaBG:FlxTypedGroup<FlxSprite> = new FlxTypedGroup<FlxSprite>();
 
-	private var camZooming:Bool = false;
 	public var pressedSEVEN:Bool;
 	private var curSong:String = "";
 	public var testshader:Shaders.GlitchEffect;
@@ -207,6 +209,8 @@ class PlayState extends MusicBeatState
 	var funneEffect:FlxSprite;
 	var inCutscene:Bool = false;
 	var usedTimeTravel:Bool;
+	public var jancok:Bool;
+	public var jancokKalian:Bool;
 	public static var repPresses:Int = 0;
 	public static var repReleases:Int = 0;
 
@@ -640,6 +644,7 @@ class PlayState extends MusicBeatState
 				bg.scrollFactor.set(0.9, 0.9);
 				bg.active = true;
 				add(bg);
+				UsingNewCam = true;
 
 				//LMAO LITTERALLY STOLEN CODE FROM VSDAVE
 				testshader = new Shaders.GlitchEffect();
@@ -1079,6 +1084,8 @@ class PlayState extends MusicBeatState
 				dad.x -= 150;
 				dad.y += 100;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+			case 'gw-3d':
+				camPos.set(dad.getGraphicMidpoint().y);
 		}
 
 
@@ -2339,6 +2346,21 @@ class PlayState extends MusicBeatState
 	{
 		susussamongus = false; //LMAO UPDATING VARIABLE EVERY FRAME IS IS OVERKILL
 
+		if(SONG.song == 'segitiga' && jancok)
+		{
+			dad.y += (Math.sin(elapsedtime) * 0.72);
+			camFollow.y = boyfriend.getMidpoint().y - 100;
+		}
+		if(SONG.song == 'segitiga' && jancokKalian)
+		{
+			boyfriend.y += (Math.sin(elapsedtime) * 0.4);
+		}
+		if(SONG.song == 'segitiga' && jancokKalian)
+		{
+			gf.y += (Math.sin(elapsedtime) * 0.4);
+		}
+
+
 		elapsedtime += elapsed; //THIS SHIT IS KINDA LIKE A TEST CODE, THIS WILL BE REPLACED WITH MODCHART SOON
 		if (curbg != null) //NVM LMAO I STILL NEED IT FOR THE SHADER TO WORK (yes its stolen from vsdave)
 		{
@@ -2685,9 +2707,8 @@ class PlayState extends MusicBeatState
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
-		if (health > 2)
+		if (health > 2 && !healthDrainBool)
 			health = 2;
-
 		else if (healthBar.percent < 20)
 		{
 			iconP1.animation.curAnim.curFrame = 1;
@@ -3179,6 +3200,62 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.ONE)
 			endSong();
 		#end
+	}
+
+	function ZoomCam(focusondad:Bool):Void
+	{
+		var bfplaying:Bool = false;
+		if (focusondad)
+		{
+			notes.forEachAlive(function(daNote:Note)
+			{
+				if (!bfplaying)
+				{
+					if (daNote.mustPress)
+					{
+						bfplaying = true;
+					}
+				}
+			});
+			if (UsingNewCam && bfplaying)
+			{
+				return;
+			}
+		}
+		if (focusondad)
+		{
+			camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+			// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
+
+			switch (dad.curCharacter)
+			{
+				case 'gw-3d': //CLEAN THIS LATER IM LAZY AF
+					camFollow.y = dad.getMidpoint().y;
+			}
+
+			if (SONG.song.toLowerCase() == 'tutorial')
+			{
+				tweenCamIn();
+			}
+		}
+
+		if (!focusondad)
+		{
+			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+
+			switch(boyfriend.curCharacter)
+			{
+				case 'gw-3d':
+					camFollow.y = boyfriend.getMidpoint().y;
+				case 'bambi-3d' | 'bambi-unfair':
+					camFollow.y = boyfriend.getMidpoint().y - 350;
+			}
+
+			if (SONG.song.toLowerCase() == 'tutorial')
+			{
+				FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
+			}
+		}
 	}
 
 	function afterGameplay():Void {
@@ -4196,6 +4273,13 @@ class PlayState extends MusicBeatState
 
 				note.rating = Ratings.CalculateRating(noteDiff);
 
+				if (UsingNewCam)
+				{
+					focusOnDadGlobal = false;
+					ZoomCam(false);
+				}
+
+
 				if (!note.isSustainNote)
 					notesHitArray.push(Date.now());
 
@@ -4475,13 +4559,21 @@ class PlayState extends MusicBeatState
 		{
 			switch(curBeat)
 			{
+				case 1:
+					jancok = true;
+				case 64:
+					jancokKalian = true;
 				case 96:
 					healthDrainBool = true;
 					iconP2.animation.play("gw-3d-mad", true);
 				case 544:
+					jancok = false;
+					jancokKalian = true;
 					healthDrainBool = false;
 					iconP2.animation.play("gw-3d", true);
 				case 607://607
+					jancok = false;
+					jancokKalian = false;
 					FlxG.camera.flash(FlxColor.WHITE, 1);
 					iconP2.animation.play("bob", true);
 					remove(dad);

@@ -14,7 +14,13 @@ class Character extends FlxSprite
 
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
+
 	public var furiosityScale:Float = 1.02;
+	public var canDance:Bool = true;
+
+	public var nativelyPlayable:Bool = false;
+
+	public var globaloffset:Array<Float> = [0,0];
 
 	public var holdTimer:Float = 0;
 
@@ -46,6 +52,8 @@ class Character extends FlxSprite
 				addOffset("singRIGHT", 13, 23);
 				addOffset("singLEFT", 49, -9);
 				addOffset("singDOWN", 0, -10);
+				globaloffset[0] = 150;
+				globaloffset[1] = 450;
 				setGraphicSize(Std.int(width * furiosityScale),Std.int(height * furiosityScale));
 				updateHitbox();
 				antialiasing = false;
@@ -693,6 +701,39 @@ class Character extends FlxSprite
 		animation.play(AnimName, Force, Reversed, Frame);
 
 		var daOffset = animOffsets.get(AnimName);
+
+		if (animOffsets.exists(AnimName))
+		{
+			if (isPlayer)
+			{
+				if(!nativelyPlayable)
+				{
+					offset.set((daOffset[0] * -1) + globaloffset[0], daOffset[1] + globaloffset[1]);
+				}
+				else
+				{
+					offset.set(daOffset[0] + globaloffset[0], daOffset[1] + globaloffset[1]);
+				}
+			}
+			else
+			{
+				if(nativelyPlayable)
+				{
+					offset.set((daOffset[0] * -1), daOffset[1]);
+				}
+				else
+				{
+					offset.set(daOffset[0], daOffset[1]);
+				}
+			}
+		}
+		else
+		{
+			offset.set(0, 0);
+		}
+			
+			
+
 		if (animOffsets.exists(AnimName))
 		{
 			offset.set(daOffset[0], daOffset[1]);

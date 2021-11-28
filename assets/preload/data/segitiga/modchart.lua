@@ -2,7 +2,7 @@ function start (song) -- statr of the song
     print("Modchart loaded!")
     bg = makeSprite('bg','sekolahBelakang', true)
     setActorX(69,'sekolahBelakang') -- RIGHT = X LOWER | -- LEFT = Y UPPER
-	setActorY(220,'sekolahBelakang') -- UP = Y LOWER | -- DOWN = y UPPER
+	setActorY(240,'sekolahBelakang') -- UP = Y LOWER | -- DOWN = y UPPER
     setActorAlpha(0,'sekolahBelakang')
 	setActorScale(2,'sekolahBelakang')
 end
