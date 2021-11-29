@@ -3296,7 +3296,7 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song == 'cheat-blitar')
 		{
-			FlxG.switchState(new EndingState('cheatEnding', 'goodEnding'));
+			FlxG.switchState(new EndingState('cheatEnding', 'cheatEnding'));
 			trace("MS OBAMA GET DOWN");
 		}
 
