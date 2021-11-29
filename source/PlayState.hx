@@ -3294,6 +3294,12 @@ class PlayState extends MusicBeatState
 		checkForAchievement(['week1_nomiss', 'week2_nomiss', 'week3_nomiss', 'week4_nomiss',
 		'week5_nomiss', 'week6_nomiss', 'week7_nomiss']);
 
+		if (SONG.song == 'cheat-blitar')
+		{
+			FlxG.switchState(new EndingState('cheatEnding', 'goodEnding'));
+			trace("MS OBAMA GET DOWN");
+		}
+
 		if (SONG.song == 'anjing')
 		{
 			FlxG.save.data.shouldHearAmbience = false;
@@ -4790,7 +4796,7 @@ class PlayState extends MusicBeatState
 							case 'cheat-blitar':
 								if(achievementName == 'week7_nomiss')
 								{
-									unlock = true;
+									unlock = true;//ending stuff
 									trace("dahlah");
 									FlxG.save.data.cheaterSongUnlocked = true;
 								}
