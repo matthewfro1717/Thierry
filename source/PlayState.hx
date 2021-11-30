@@ -3494,7 +3494,7 @@ class PlayState extends MusicBeatState
 					ss = false;
 					goods++;
 					if (health < 2)
-						health += 0.02;
+						health += 0.035;
 					if (FlxG.save.data.accuracyMod == 0)
 						totalNotesHit += 0.75;
 				case 'sick':
@@ -4258,7 +4258,7 @@ class PlayState extends MusicBeatState
 							playerStrums.members[1].animation.play('static');
 							playerStrums.members[2].animation.play('static');
 							playerStrums.members[3].animation.play('static');
-							health -= 0.4;
+							health -= 0.1;
 						}
 						// this is bad but fuck you
 						

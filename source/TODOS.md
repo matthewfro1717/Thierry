@@ -12,7 +12,7 @@
 - [ ] add ending dialogue, will replace cutscenes songs (code done, just need to copy paste to songs)
 - [x] implement ghost tapping
 - [x] REDO THE ENTIRE SEGITGA SONG CODES FUUUUUUUUUUUUUUU
-- [ ] ACCURACCY CALCULATIONS
+- [x] ACCURACCY CALCULATIONS
 - [x] FIX ACHIEVEMENTS TEXT OFFSET (fixed in a cool way)
 - [x] CHEATER ENDING BULLSHITS
 - [x] ADD PROGRESS BAR LIKE PSYCH ENGINE OR THE NEW KADE ENGINE
