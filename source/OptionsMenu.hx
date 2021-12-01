@@ -27,6 +27,7 @@ class OptionsMenu extends MusicBeatState
 			new InsaneDifficulty("ghost tapping lol"),
 			new InputSystem("Switch between Kade's input or my input"),
 			new AccuracyOption("Display the score text below the health bar"),
+			new Spong("Display a note splash whenever you hit SICK note"),
 			#if debug
 			new Invincibility("No death"),
 			#end

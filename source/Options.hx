@@ -201,6 +201,26 @@ class InsaneDifficulty extends Option
 	}
 }
 
+class Spong extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	public override function press():Bool
+	{
+		FlxG.save.data.spong = !FlxG.save.data.spong;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "" + (!FlxG.save.data.spong ? "No note splash" : "Note splash enabled");
+	}
+}
+
 class Ilang extends Option
 {
 	public function new(desc:String)

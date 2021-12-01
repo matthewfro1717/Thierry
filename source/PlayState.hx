@@ -1829,6 +1829,20 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 
+		var splash:FlxSprite = new FlxSprite(0, 0);
+		splash.frames = Paths.getSparrowAtlas('notesplash');
+		splash.animation.addByPrefix('4', 'purple splash', 24, false);
+		splash.animation.addByPrefix('5', 'blue splash', 24, false);
+		splash.animation.addByPrefix('6', 'green splash', 24, false);
+		splash.animation.addByPrefix('7', 'red splash', 24, false);
+		splash.animation.finishCallback = function(lol:String)
+		{
+			remove(splash);
+		}
+		add(splash);
+		splash.visible = false;
+		splash.animation.play('4');
+
 		if (SONG.song == 'cheat-blitar')
 		{
 			health = 2;
@@ -3447,6 +3461,7 @@ class PlayState extends MusicBeatState
 			var placement:String = Std.string(combo);
 	
 			var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
+			coolText.setGraphicSize(50, 50);
 			if (SONG.song.toLowerCase() == 'termination' || SONG.song.toLowerCase() == 'ghost')
 			{
 				//no
@@ -3454,7 +3469,7 @@ class PlayState extends MusicBeatState
 			else
 			{
 				coolText.screenCenter();
-				coolText.x = FlxG.width * 0.55;
+				coolText.x = 500;
 				coolText.y -= 350;
 				coolText.cameras = [camHUD];
 			}
@@ -3468,6 +3483,34 @@ class PlayState extends MusicBeatState
 				totalNotesHit += wife;
 
 			var daRating = daNote.rating;
+
+			if (daRating == 'sick' && FlxG.save.data.spong)
+			{
+				var angles:Array<Int> = [25, 60, 180, 260, 0];
+
+				var splash:FlxSprite = new FlxSprite(daNote.x, playerStrums.members[daNote.noteData].y);
+				splash.x -= 135;
+				splash.y -= 150;
+				splash.angle = angles[FlxG.random.int(1, 5)];
+				splash.setGraphicSize(Std.int(splash.width / 3));
+				splash.frames = Paths.getSparrowAtlas('notesplash');
+				splash.antialiasing = true;
+				splash.animation.addByPrefix('splash 0', 'purple splash', 24, false);
+				splash.animation.addByPrefix('splash 1', 'blue splash', 24, false);
+				splash.animation.addByPrefix('splash 2', 'green splash', 24, false);
+				splash.animation.addByPrefix('splash 3', 'red splash', 24, false);
+				splash.scrollFactor.set();
+				splash.cameras = [camHUD];
+				add(splash);
+				splash.animation.play('splash ' + daNote.noteData);
+				FlxTween.tween(splash, {alpha: 0}, 0.3, {
+					ease: FlxEase.elasticInOut,
+						onComplete: function(twn:FlxTween)
+						{
+						remove(splash);
+					}
+				});
+			}
 
 			switch(daRating)
 			{
@@ -4523,11 +4566,28 @@ class PlayState extends MusicBeatState
 
 		//health icon bounce but epic
 		//i agree it is epic
-		iconP1.setGraphicSize(Std.int(iconP1.width + (50 * funny)),Std.int(iconP2.height - (25 * funny)));
-		iconP2.setGraphicSize(Std.int(iconP2.width + 69));
+		if (SONG.song == 'meninggal' || SONG.song == 'meninggal-beta')
+		{
+			if (curBeat % 2 == 1)
+			{
+				iconP1.setGraphicSize(Std.int(iconP1.width + (69 * funny)),Std.int(iconP2.height - (25 * funny)));
+				iconP2.setGraphicSize(Std.int(iconP2.width + 69));
+		
+				iconP1.updateHitbox();
+				iconP2.updateHitbox();
+			}
 
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
+	
+		}
+		else
+		{
+			iconP1.setGraphicSize(Std.int(iconP1.width + (69 * funny)),Std.int(iconP2.height - (25 * funny)));
+			iconP2.setGraphicSize(Std.int(iconP2.width + 69));
+	
+			iconP1.updateHitbox();
+			iconP2.updateHitbox();
+		}
+
 
 		if (curSong == 'AppleCore')
 		{

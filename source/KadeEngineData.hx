@@ -93,6 +93,9 @@ class KadeEngineData
 
 		if (FlxG.save.data.shouldHearAmbience == null)
 			FlxG.save.data.shouldHearAmbience = true;
+
+		if (FlxG.save.data.spong == null)
+			FlxG.save.data.spong = true;
 		
 
 		Conductor.recalculateTimings();
