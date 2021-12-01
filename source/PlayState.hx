@@ -1048,6 +1048,11 @@ class PlayState extends MusicBeatState
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
+		if (SONG.song == 'gerlad')
+		{
+			camPos = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
+		}
+
 		switch (SONG.player2)
 		{
 			case 'gf':
@@ -1086,6 +1091,8 @@ class PlayState extends MusicBeatState
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'gw-3d':
 				camPos.set(dad.getGraphicMidpoint().y);
+			case 'gerlad':
+				camPos.set(dad.getGraphicMidpoint().y - 500);
 		}
 
 
@@ -2359,6 +2366,7 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		susussamongus = false; //LMAO UPDATING VARIABLE EVERY FRAME IS IS OVERKILL
+
 
 		if(SONG.song == 'segitiga' && jancok)
 		{

@@ -37,6 +37,26 @@ class Character extends FlxSprite
 
 		switch (curCharacter)
 		{
+			case 'gerlad':
+				tex = Paths.getSparrowAtlas('gerlad');
+				frames = tex;
+				animation.addByPrefix('idle', "Idle", 24, false);
+				animation.addByPrefix('singUP', 'realup', 24, false);
+				animation.addByPrefix('singDOWN', 'realdown', 24, false);
+				animation.addByPrefix('singLEFT', 'realleft', 24, false);
+				animation.addByPrefix('singRIGHT', 'realright', 24, false);
+
+				animation.addByPrefix('singUP-alt', 'up', 24, false);
+				animation.addByPrefix('singDOWN-alt', 'down', 24, false);
+				animation.addByPrefix('singLEFT-alt', 'left', 24, false);
+				animation.addByPrefix('singRIGHT-alt', 'right', 24, false);
+
+				addOffset('idle', 0, -350);
+				addOffset("singUP", 0, -350);
+				addOffset("singRIGHT", 0, -350);
+				addOffset("singLEFT", 0, -350);
+				addOffset("singDOWN", 0, -350);
+
 			case 'gw-3d':
 				// DAVE SHITE ANIMATION LOADING CODE
 				tex = Paths.getSparrowAtlas('gw_3d');

@@ -44,6 +44,7 @@ class HealthIcon extends FlxSprite
 		animation.add('bob-bersama', [28, 29], 0, false, isPlayer);
 		animation.add('gw-3d', [30, 31, 35], 0, false, isPlayer);
 		animation.add('gw-3d-mad', [32, 33], 0, false, isPlayer);
+		animation.add('gerlad', [35, 36], 0, false, isPlayer);
 		animation.play(char);
 		switch(char){
 			case 'bf-pixel' | 'senpai' | 'senpai-angry' | 'spirit' | 'gf-pixel':
