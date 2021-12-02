@@ -2729,8 +2729,18 @@ class PlayState extends MusicBeatState
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
-		if (health > 2 && !healthDrainBool)
-			health = 2;
+		if (health > 2)
+		{
+			if (SONG.song == 'segitiga' && healthDrainBool)
+			{
+				//no
+			}
+			else
+			{
+				health = 2;
+			}
+		}
+			
 		else if (healthBar.percent < 20)
 		{
 			iconP1.animation.curAnim.curFrame = 1;
@@ -3544,13 +3554,11 @@ class PlayState extends MusicBeatState
 					score = 200;
 					ss = false;
 					goods++;
-					if (health < 2)
-						health += 0.035;
+					health += 0.035;
 					if (FlxG.save.data.accuracyMod == 0)
 						totalNotesHit += 0.75;
 				case 'sick':
-					if (health < 2)
-						health += 0.05;
+					health += 0.05;
 					if (FlxG.save.data.accuracyMod == 0)
 						totalNotesHit += 1;
 					sicks++;
@@ -4492,6 +4500,10 @@ class PlayState extends MusicBeatState
 		{
 			if (healthDrainBool && health >= 0.016)
 			{
+				if (health > 2)
+				{
+					health -=0.005;
+				}
 				health -= 0.015;
 			}
 		}
