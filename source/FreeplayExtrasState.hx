@@ -184,36 +184,15 @@ class FreeplayExtrasState extends MusicBeatState
 	{
 		if (preloadSongs)
 		{
-			trace("PRELOADING STARTED...");
-			FlxG.sound.playMusic(Paths.inst(songs[1].songName), 0);
-			trace("SONG 1 PRELOADED");
-			FlxG.sound.playMusic(Paths.inst(songs[2].songName), 0);
-			trace("SONG 2 PRELOADED");
-			FlxG.sound.playMusic(Paths.inst(songs[3].songName), 0);
-			trace("SONG 3 PRELOADED");
-			if (FlxG.save.data.hexSongUnlocked)
+
+			for (i in 0...songs.length)
 			{
-				trace("WEEK 1 BEATEN, PRELOADING BONUS SONGS...");
-				FlxG.sound.playMusic(Paths.inst(songs[4].songName), 0);
-				FlxG.sound.playMusic(Paths.inst(songs[5].songName), 0);
-			}
-			if (FlxG.save.data.mattSongUnlocked && FlxG.save.data.hexSongUnlocked)
-			{
-				trace("WEEK 2 BEATEN, PRELOADING BONUS SONGS...");
-				FlxG.sound.playMusic(Paths.inst(songs[6].songName), 0);
-				FlxG.sound.playMusic(Paths.inst(songs[7].songName), 0);
-				FlxG.sound.playMusic(Paths.inst(songs[8].songName), 0);
-				FlxG.sound.playMusic(Paths.inst(songs[9].songName), 0);
-			}
-			if (FlxG.save.data.mattSongUnlocked && FlxG.save.data.hexSongUnlocked && FlxG.save.data.setanSongUnlocked)
-			{
-				trace("CRASHER ENDING UNLOCKED, PRELOADING BONUS SONGS...");
-				FlxG.sound.playMusic(Paths.inst(songs[10].songName), 0);
+				FlxG.sound.playMusic(Paths.inst(songs[i].songName), 0);
+				trace("Preloading " + (i + 1) + " / "+ songs.length);
 			}
 			FlxG.sound.playMusic(Paths.inst(songs[0].songName), 0);
-			trace("SONG 6 PRELOADED");
 			preloadSongs = false;
-			trace("PRELOADING FINISHED!");
+			trace("PRELOAD COMPLETE");
 		}
 
 		super.update(elapsed);

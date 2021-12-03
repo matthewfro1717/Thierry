@@ -697,7 +697,7 @@ class PlayState extends MusicBeatState
 				bg.active = false;
 				add(bg);
 			}
-			case 'get-out' | 'revenge' | 'revenge' | 'latihan' | 'bonus-song' |'cut0': 
+			case 'get-out' | 'revenge' | 'latihan' | 'bonus-song' | 'gerlad': 
 			{
 				curStage = 'sekolahTapiDepan';
 			
@@ -2735,6 +2735,10 @@ class PlayState extends MusicBeatState
 			{
 				//no
 			}
+			else if (SONG.song == 'cheat-blitar')
+			{
+				//no
+			}
 			else
 			{
 				health = 2;
@@ -4491,6 +4495,20 @@ class PlayState extends MusicBeatState
 			resyncVocals();
 		}
 
+		if (curSong == 'gerlad')
+		{
+			switch(curStep)
+			{
+				case 1721://fuck you
+					dad.playAnim('FUCKIDLE', true);
+					trace('animaton played ok');
+					//REST OF THE CODES ARE WRITTEN IN MODCHART
+					
+			}
+
+
+		}
+
 		if (curSong == 'cheat-blitar')
 		{
 			if (health >= 0.016)
@@ -4641,6 +4659,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+
+
 		if (curSong == 'segitiga')
 		{
 			switch(curBeat)
@@ -4653,6 +4673,7 @@ class PlayState extends MusicBeatState
 					healthDrainBool = true;
 					iconP2.animation.play("gw-3d-mad", true);
 				case 544:
+					FlxG.camera.flash(FlxColor.WHITE, 1);
 					jancok = false;
 					jancokKalian = true;
 					healthDrainBool = false;

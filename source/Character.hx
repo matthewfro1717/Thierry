@@ -51,11 +51,14 @@ class Character extends FlxSprite
 				animation.addByPrefix('singLEFT-alt', 'left', 24, false);
 				animation.addByPrefix('singRIGHT-alt', 'right', 24, false);
 
+				animation.addByPrefix('FUCKIDLE', 'FUCKIDLE', 24, false);
+
 				addOffset('idle', 0, -350);
 				addOffset("singUP", 0, -350);
 				addOffset("singRIGHT", 0, -350);
 				addOffset("singLEFT", 0, -350);
 				addOffset("singDOWN", 0, -350);
+				addOffset("FUCKIDLE", 0, -350);
 
 			case 'gw-3d':
 				// DAVE SHITE ANIMATION LOADING CODE

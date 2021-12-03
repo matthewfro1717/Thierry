@@ -19,16 +19,16 @@ using StringTools;
 
 class FreeplayState extends MusicBeatState
 {
-	var songs:Array<SongMetadata> = [];
+	public var songs:Array<SongMetadata> = [];
 
-	var selector:FlxText;
-	var curSelected:Int = 0;
+	public var selector:FlxText;
+	public var curSelected:Int = 0;
 	var curDifficulty:Int = 1;
 
-	var scoreText:FlxText;
-	var diffText:FlxText;
-	var lerpScore:Int = 0;
-	var intendedScore:Int = 0;
+	public var scoreText:FlxText;
+	public var diffText:FlxText;
+	public var lerpScore:Int = 0;
+	public var intendedScore:Int = 0;
 	public var preloadSongs:Bool = true;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
@@ -182,6 +182,7 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		/* This code is no longer needed, im not going to delete this masterpiece
 		if (preloadSongs)
 		{
 			//grandma was here while i wrote this code
@@ -204,14 +205,23 @@ class FreeplayState extends MusicBeatState
 			trace("SONG 8 PRELOADED");
 			FlxG.sound.playMusic(Paths.inst(songs[0].songName), 0);
 			trace("SONG 9 PRELOADED");
-			/*FlxG.sound.playMusic(Paths.inst(songs[10].songName), 0);
-			trace("SONG 10 PRELOADED");
-			FlxG.sound.playMusic(Paths.inst(songs[0].songName), 0);
-			trace("SONG 11 PRELOADED");
-			/****/
 			preloadSongs = false;
 			trace("PRELOADING FINISHED!");
 		}
+		/****/
+
+		if (preloadSongs)
+			{
+	
+				for (i in 0...songs.length)
+				{
+					FlxG.sound.playMusic(Paths.inst(songs[i].songName), 0);
+					trace("Preloading " + (i + 1) + " / "+ songs.length);
+				}
+				FlxG.sound.playMusic(Paths.inst(songs[0].songName), 0);
+				preloadSongs = false;
+				trace("PRELOAD COMPLETE");
+			}
 		
 		if (FlxG.sound.music.volume < 0.7)
 		{

@@ -48,6 +48,7 @@ class TitleState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 	var characters:FlxSprite;
+	public static var firstBoot:Bool = true;
 
 	override public function create():Void
 	{
