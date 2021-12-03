@@ -32,12 +32,14 @@ class FreeplayBuffer extends MusicBeatState
 	var diffText:FlxText;
 	var lerpScore:Int = 0;
 	public var bruhify:Int;
+	public var timing:Int;
 	var intendedScore:Int = 0;
 	public var preloadSongs:Bool = false;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 	public var firstboothere:Bool;
+	public var frame:Int;
 	var logo:FlxSprite;
 	var text:FlxText;
 
@@ -66,7 +68,7 @@ class FreeplayBuffer extends MusicBeatState
 		logo = new FlxSprite().loadGraphic(Paths.image('thierryLogo'));
 		logo.screenCenter();
 		logo.alpha = 1;
-		text = new FlxText("PRELOADING ASSETS TO RAM...");
+		text = new FlxText("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ (songs.length + 1) + ")");
 		text.screenCenter(X);
 		text.screenCenter(Y);
 		text.y += 300;
@@ -85,17 +87,34 @@ class FreeplayBuffer extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		text.text = ("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ songs.length + ")");
+		text.text = ("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ (songs.length + 1) + ")");
+		frame++;
+		if (frame % 60 == 0)
+			beatHit();
+		
+	}
+
+	function loopBuffer() 
+	{
+
+	}
+	override function beatHit() 
+	{
+		timing++;
+		if (timing % 4 == 0)
+			bruhify++;
+		text.text = ("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ (songs.length + 1) + ")");
 		if (preloadSongs && TitleState.firstBoot)
 		{
-			trace("PRELOAD STARTED! (SNAPSHOT-5)");
+			trace("PRELOAD STARTED! (SNAPSHOT-8)");
 
 			for (i in 0...songs.length)
 			{
 				bruhify++;
-				text.text = ("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ songs.length + ")");
+				text.text = ("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ (songs.length + 1) + ")");
 				FlxG.sound.playMusic(Paths.inst(songs[i].songName), 0);
 				trace("Preloading " + (i + 1) + " / "+ songs.length);
+				preloadSongs = false;
 			}
 			preloadSongs = false;
 			TitleState.firstBoot = false;
@@ -116,9 +135,10 @@ class FreeplayBuffer extends MusicBeatState
 		{
 			trace("EITHER PRELOADING FAILED, OR ALL ASSETS HAS BEEN PRELOADED!\n SKIPPING!");
 			FlxG.switchState(new CoolMenuState());
-		}
+		}	
 	}
 }
+
 
 class SongMeta
 {
