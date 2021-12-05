@@ -8,6 +8,7 @@ project will help me continue with programming as a hobby
  Heres the names of the assets creator that i know i used from:
 - MoldyGH and The whole vs dave team - Songs and charts
 - Project Blossom / Vs cheeky - using their opening sogn and title menu assets
+- Aflac and the whole vs aflac team - using their dave asset, and dave song
 - Wildy and The whole vs bob team - their bob assets
 - vs camellia / hex / matt / QT - songs and assets
 
