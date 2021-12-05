@@ -197,6 +197,9 @@ class PlayState extends MusicBeatState
 	var replayTxt:FlxText;
 	var thierry:FlxSprite;
 	var gw:FlxSprite;
+	var achell:FlxSprite;
+	var raditz:FlxSprite;
+	var meksi:FlxSprite;
 	var curbg:FlxSprite;
 
 	public static var campaignScore:Int = 0;
@@ -707,6 +710,49 @@ class PlayState extends MusicBeatState
 				bg.scrollFactor.set(0.9, 0.9);
 				bg.active = false;
 				add(bg);
+
+				thierry = new FlxSprite(250, 250).loadGraphic(Paths.image('Thieri'));
+				thierry.setGraphicSize(200, 300);
+				thierry.antialiasing = true;
+				thierry.scrollFactor.set(1, 1);
+				thierry.visible = true;
+
+				raditz = new FlxSprite(1250, 250).loadGraphic(Paths.image('radit'));
+				raditz.setGraphicSize(300, 400);
+				raditz.antialiasing = true;
+				raditz.scrollFactor.set(1, 1);
+				raditz.visible = true;
+
+				meksi = new FlxSprite(850, 100).loadGraphic(Paths.image('meksi'));
+				meksi.setGraphicSize(300, 400);
+				meksi.antialiasing = true;
+				meksi.scrollFactor.set(1, 1);
+				meksi.visible = true;
+
+				achell = new FlxSprite(-250, 490).loadGraphic(Paths.image('achel'));
+				achell.setGraphicSize(255, 355);
+				achell.antialiasing = true;
+				achell.scrollFactor.set(1, 1);//stage code lmafo
+				achell.visible = true;
+				
+	
+				gw = new FlxSprite(-100, 220).loadGraphic(Paths.image('gw'));
+				gw.setGraphicSize(120, 120);
+				gw.antialiasing = true;
+				gw.scrollFactor.set(1, 1);
+				gw.visible = true;
+				gw.flipX = true;
+				if (SONG.song == 'gerlad')
+				{
+					bg.y -= 100;
+					bg.x += 200;
+					add(thierry);
+					add(achell);
+					add(meksi);
+					add(raditz);
+					add(gw);
+				}
+
 			}
 			case 'pico' | 'blammed' | 'philly': 
 					{
@@ -2717,9 +2763,22 @@ class PlayState extends MusicBeatState
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
+		var funny:Float = (healthBar.percent * 0.02) + 0.02;
 
 		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.8)),Std.int(FlxMath.lerp(150, iconP1.height, 0.8)));
-		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8))); //PLACEW HERE YOU EDIT BEAT OR SOMETHING YES
+		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8)));
+
+		//epic bouncy bouncy thingy
+
+		if (SONG.song == 'gerlad')
+		{
+			thierry.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(1000, iconP2.height, 0.8)));
+			gw.setGraphicSize(Std.int(FlxMath.lerp(900, iconP2.width, 0.8)),Std.int(FlxMath.lerp(300, iconP2.height, 0.1)));
+			achell.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(555, iconP2.height, 0.5)));
+			raditz.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(1500, iconP2.height, 0.8)));
+			meksi.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(1300, iconP2.height, 0.8)));
+		}
+		 //PLACEW HERE YOU EDIT BEAT OR SOMETHING YES
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
@@ -2728,6 +2787,8 @@ class PlayState extends MusicBeatState
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
+
+		
 
 		if (health > 2)
 		{
@@ -2753,9 +2814,17 @@ class PlayState extends MusicBeatState
 		{
 			iconP2.animation.curAnim.curFrame = 1;
 			iconP1.animation.curAnim.curFrame = 2;
+			if (SONG.song == 'gerlad')
+			{
+				iconP2.angle += 2;
+			}
 		}
 		else
 		{
+			if (SONG.song == 'gerlad')
+			{
+				iconP2.angle = 0;
+			}
 			iconP2.animation.curAnim.curFrame = 0;
 			iconP1.animation.curAnim.curFrame = 0;
 
