@@ -29,11 +29,16 @@ class DialogueBox extends FlxSpriteGroup
 	var dropText:FlxText;
 
 	public var finishThing:Void->Void;
+	var hasSkipped:Bool = false;
 
 	var portraitLeft:FlxSprite;
 	var portraitRight:FlxSprite;
 	var gwRight:FlxSprite;
 	var raditRight:FlxSprite;
+	var gw3D:FlxSprite;
+	var geral:FlxSprite;
+	var meksi:FlxSprite;
+	var marsel:FlxSprite;
 
 	var handSelect:FlxSprite;
 	var bgFade:FlxSprite;
@@ -229,6 +234,43 @@ class DialogueBox extends FlxSpriteGroup
 		add(gwRight);
 		gwRight.visible = false;
 
+		meksi = new FlxSprite(-80, 20);
+		meksi.frames = Paths.getSparrowAtlas('dialogstuff/meksi', 'shared');
+		meksi.animation.addByPrefix('enter', 'Portrait Enter instance', 24, false);
+		meksi.setGraphicSize(Std.int(meksi.width * PlayState.daPixelZoom * 0.15));
+		meksi.updateHitbox();
+		meksi.scrollFactor.set();
+		add(meksi);
+		meksi.visible = false;
+
+		marsel = new FlxSprite(-80, 80);
+		marsel.frames = Paths.getSparrowAtlas('dialogstuff/achelPortrait', 'shared');
+		marsel.animation.addByPrefix('enter', 'Portrait Enter instance', 24, false);
+		marsel.setGraphicSize(Std.int(marsel.width * PlayState.daPixelZoom * 0.15));
+		marsel.updateHitbox();
+		marsel.scrollFactor.set();
+		add(marsel);
+		marsel.visible = false;
+
+		geral = new FlxSprite(-80, 80);
+		geral.frames = Paths.getSparrowAtlas('dialogstuff/geraldPortrait', 'shared');
+		geral.animation.addByPrefix('enter', 'Portrait Enter instance', 24, false);
+		geral.setGraphicSize(Std.int(geral.width * PlayState.daPixelZoom * 0.15));
+		geral.updateHitbox();
+		geral.scrollFactor.set();
+		add(geral);
+		geral.visible = false;
+
+		gw3D = new FlxSprite(-130, 120);
+		gw3D.frames = Paths.getSparrowAtlas('dialogstuff/gw3DPort', 'shared');
+		gw3D.animation.addByPrefix('enter', 'dave furiosity portrait', 24, false);
+		gw3D.setGraphicSize(Std.int(gw3D.width * PlayState.daPixelZoom * 0.275));
+		gw3D.updateHitbox();
+		gw3D.antialiasing = true;
+		gw3D.scrollFactor.set();
+		add(gw3D);
+		gw3D.visible = false;
+
 		raditRight = new FlxSprite(-80, 0);
 		raditRight.frames = Paths.getSparrowAtlas('dialogstuff/raditPortrait', 'shared');
 		raditRight.animation.addByPrefix('enter', 'Portrait Enter instance', 24, false);
@@ -319,6 +361,7 @@ class DialogueBox extends FlxSpriteGroup
 
 		if (PlayerSettings.player1.controls.ACCEPT && dialogueStarted == true)
 		{
+			hasSkipped = true;
 			remove(dialogue);
 				
 			FlxG.sound.play(Paths.sound('clickText'), 0.8);
@@ -354,6 +397,8 @@ class DialogueBox extends FlxSpriteGroup
 			{
 				dialogueList.remove(dialogueList[0]);
 				startDialogue();
+				
+				//startDialogue();
 			}
 		}
 		
@@ -364,6 +409,7 @@ class DialogueBox extends FlxSpriteGroup
 
 	function startDialogue():Void
 	{
+		hasSkipped = false;
 		cleanDialog();
 		// var theDialog:Alphabet = new Alphabet(0, 70, dialogueList[0], false, true);
 		// dialogue = theDialog;
@@ -373,29 +419,111 @@ class DialogueBox extends FlxSpriteGroup
 		swagDialogue.resetText(dialogueList[0]);
 		swagDialogue.start(0.04, true);
 
-		switch (curCharacter)
+		/*
+		KEY = DISABLE EVERYTHING EXCEPT [SELF]
+		IF STATEMENT = IF SELF IS VISIBLE
+		IF STATEMENT EXEC = SELF IS VISIBLE
+		portraitRight.visible = false;
+		gwRight.visible = false;
+		raditRight.visible = false;
+		geral.visible = false;
+		meksi.visible = false;
+		marsel.visible = false;
+		gw3D.visible = false;
+		portraitLeft.visible = false;
+		/****/
+
+		switch (curCharacter) // 
 		{
 			case 'dad':
 				portraitRight.visible = false;
 				gwRight.visible = false;
 				raditRight.visible = false;
+				geral.visible = false;
+				meksi.visible = false;
+				marsel.visible = false;
+				gw3D.visible = false;
+				portraitLeft.visible = false;
+
 				if (!portraitLeft.visible)
 				{
 					portraitLeft.visible = true;
 					portraitLeft.animation.play('enter');
 				}
 			case 'gw':
-				raditRight.visible = false;
 				portraitRight.visible = false;
+				gwRight.visible = false;
+				raditRight.visible = false;
+				geral.visible = false;
+				meksi.visible = false;
+				marsel.visible = false;
+				gw3D.visible = false;
 				portraitLeft.visible = false;
 				if (!portraitLeft.visible)
 				{
 					gwRight.visible = true;
 					gwRight.animation.play('enter');
 				}
-			case 'radit':
-				gwRight.visible = false;
+			case 'gerlad':
 				portraitRight.visible = false;
+				gwRight.visible = false;
+				raditRight.visible = false;
+				meksi.visible = false;
+				marsel.visible = false;
+				gw3D.visible = false;
+				portraitLeft.visible = false;
+				if (!portraitLeft.visible)
+				{
+					geral.visible = true;
+					geral.animation.play('enter');
+				}
+			case 'maxzi':
+				portraitRight.visible = false;
+				gwRight.visible = false;
+				raditRight.visible = false;
+				geral.visible = false;
+				marsel.visible = false;
+				gw3D.visible = false;
+				portraitLeft.visible = false;
+				if (!portraitLeft.visible)
+				{
+					meksi.visible = true;
+					meksi.animation.play('enter');
+				}
+			case 'marchel':
+				portraitRight.visible = false;
+				gwRight.visible = false;
+				raditRight.visible = false;
+				geral.visible = false;
+				meksi.visible = false;
+				gw3D.visible = false;
+				portraitLeft.visible = false;
+				if (!portraitLeft.visible)
+				{
+					marsel.visible = true;
+					marsel.animation.play('enter');
+				}
+			case 'gw3d':
+				portraitRight.visible = false;
+				gwRight.visible = false;
+				raditRight.visible = false;
+				geral.visible = false;
+				meksi.visible = false;
+				marsel.visible = false;
+				portraitLeft.visible = false;
+				if (!portraitLeft.visible)
+				{
+					gw3D.visible = true;
+					gw3D.animation.play('enter');
+				}
+			case 'radit':
+				portraitRight.visible = false;
+				gwRight.visible = false;
+				raditRight.visible = false;
+				geral.visible = false;
+				meksi.visible = false;
+				marsel.visible = false;
+				gw3D.visible = false;
 				portraitLeft.visible = false;
 				if (!portraitLeft.visible)
 				{
@@ -403,9 +531,14 @@ class DialogueBox extends FlxSpriteGroup
 					raditRight.animation.play('enter');
 				}
 			case 'bf':
-				portraitLeft.visible = false;
+				portraitRight.visible = false;
 				gwRight.visible = false;
 				raditRight.visible = false;
+				geral.visible = false;
+				meksi.visible = false;
+				marsel.visible = false;
+				gw3D.visible = false;
+				portraitLeft.visible = false;
 				if (!portraitRight.visible)
 				{
 					portraitRight.visible = true;

@@ -87,6 +87,17 @@ class FreeplayBuffer extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		if (controls.BACK)
+		{
+			FlxG.switchState(new MainMenuState());
+		}
+
+		if (FlxG.keys.pressed.SPACE)
+		{
+			trace("[WARNING] PRELOADING SKIPPED!");
+			FlxG.switchState(new CoolMenuState());
+		}
+
 		text.text = ("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ (songs.length + 1) + ")");
 		frame++;
 		if (frame % 60 == 0)

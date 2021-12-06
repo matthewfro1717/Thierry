@@ -2411,7 +2411,7 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		susussamongus = false; //LMAO UPDATING VARIABLE EVERY FRAME IS IS OVERKILL
+		susussamongus = false; //LMAO UPDATING VARIABLE EVERY FRAME THIS IS OVERKILL
 
 
 		if(SONG.song == 'segitiga' && jancok)
@@ -3544,6 +3544,7 @@ class PlayState extends MusicBeatState
 
 	private function popUpScore(daNote:Note):Void
 		{
+
 			var noteDiff:Float = Math.abs(Conductor.songPosition - daNote.strumTime);
 			var wife:Float = EtternaFunctions.wife3(noteDiff, Conductor.timeScale);
 			// boyfriend.playAnim('hey');
@@ -3575,7 +3576,11 @@ class PlayState extends MusicBeatState
 
 			var daRating = daNote.rating;
 
-			if (daRating == 'sick' && FlxG.save.data.spong)
+			scoreTxt.scale.x = 1.075;
+			scoreTxt.scale.y = 1.075;
+			FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {ease: FlxEase.quadOut});
+
+			if (daRating == 'sick' && FlxG.save.data.spong)//note splash
 			{
 				var angles:Array<Int> = [25, 60, 180, 260, 0];
 
@@ -4673,6 +4678,8 @@ class PlayState extends MusicBeatState
 
 		//health icon bounce but epic
 		//i agree it is epic
+		iconP2.scale.x = 1;
+		iconP2.scale.y = 1;
 		if (SONG.song == 'meninggal' || SONG.song == 'meninggal-beta')
 		{
 			if (curBeat % 2 == 1)
