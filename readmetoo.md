@@ -10,6 +10,7 @@ project will help me continue with programming as a hobby
 - Project Blossom / Vs cheeky - using their opening sogn and title menu assets
 - Aflac and the whole vs aflac team - using their dave asset, and dave song
 - Wildy and The whole vs bob team - their bob assets
+- KadeDev and the whole vs hex team - their hex asset and songs
 - vs camellia / hex / matt / QT - songs and assets
 
 im sorry to individuals that i did not mention that i ended up using it
