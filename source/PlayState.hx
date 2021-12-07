@@ -3553,6 +3553,13 @@ class PlayState extends MusicBeatState
 			var placement:String = Std.string(combo);
 	
 			var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
+
+			if (FlxG.save.data.hitSounds)
+			{
+				FlxG.sound.play(Paths.soundRandom('hitSound', 1, 3), FlxG.random.float(0.5, 0.7));
+			}
+			
+
 			coolText.setGraphicSize(50, 50);
 			if (SONG.song.toLowerCase() == 'termination' || SONG.song.toLowerCase() == 'ghost')
 			{

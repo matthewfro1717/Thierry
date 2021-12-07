@@ -25,6 +25,7 @@ class OptionsMenu extends MusicBeatState
 			new MailCatmode("Do you want ThierryEngine to be dumb or smort (does absolutely nothing)"),
 			new JokeSettings("Coba liat option pasti ada yang aneh -Thierry"),
 			new InsaneDifficulty("ghost tapping lol"),
+			new HitSounds("You would hear a TICK, if you hit a note"),
 			new InputSystem("Switch between Kade's input or my input"),
 			new AccuracyOption("Display the score text below the health bar"),
 			new Spong("Display a note splash whenever you hit SICK note"),
