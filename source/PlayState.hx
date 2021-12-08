@@ -3159,9 +3159,13 @@ class PlayState extends MusicBeatState
 								altAnim = '-alt';
 						}
 
-						if (SONG.song == 'ded' || SONG.song == 'anjing'|| SONG.song == 'get-out' || SONG.song == 'run')
+						if (SONG.song == 'ded'|| SONG.song == 'get-out' || SONG.song == 'run')
 						{
 							health -= 0.014;
+						}
+						if (SONG.song == 'anjing')
+						{
+							health -= 0.0074;
 						}
 						/*if (SONG.song == 'latihan' && health > 0.025) //HIGH DAMAGE NOT KILLING
 						{
@@ -4781,6 +4785,7 @@ class PlayState extends MusicBeatState
 				switch(curBeat)
 				{
 					case 328://607
+					FlxG.camera.flash(FlxColor.WHITE, 2);
 					remove(bego);
 					bego = new FlxSprite(-700, -200).loadGraphic(Paths.image('stagemalem'));
 					add(bego);
