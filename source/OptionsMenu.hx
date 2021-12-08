@@ -20,50 +20,54 @@ class OptionsMenu extends MusicBeatState
 	var curSelected:Int = 0;
 
 	var options:Array<OptionCatagory> = [
-		new OptionCatagory("VSThierry", [
-			#if desktop
-			new MailCatmode("Do you want ThierryEngine to be dumb or smort (does absolutely nothing)"),
-			new JokeSettings("Coba liat option pasti ada yang aneh -Thierry"),
-			new InsaneDifficulty("ghost tapping lol"),
-			new HitSounds("You would hear a TICK, if you hit a note"),
-			new InputSystem("Switch between Kade's input or my input"),
-			new AccuracyOption("Display the score text below the health bar"),
-			new Spong("Display a note splash whenever you hit SICK note"),
+
+		#if debug
+		new OptionCatagory("Debug", [
 			#if debug
 			new Invincibility("No death"),
 			#end
-			new BigShot("Play BIG SHOT for no fucking reason"),
-			new Ilang("Reset all mod variables to its default value")
-			#end
-			
 		]),
+		#end
 
 		new OptionCatagory("Gameplay", [
 			new DFJKOption(controls),
+			new InsaneDifficulty("Count as miss if player press a key, and note is not hitting the receptor"),
 			new Judgement("Customize your Hit Timings (LEFT or RIGHT)"),
+			new InputSystem("Kade has very sensitive antimash penalty, Mine just disables antimash completely"),
 			#if desktop
-			new FPSCapOption("Cap your FPS (Left for -10, Right for +10. SHIFT to go faster)"),
+			
 			#end
 			new DownscrollOption("Change the layout of the strumline."),
 			new ScrollSpeedOption("Change your scroll speed (Left for -0.1, right for +0.1. If its at 1, it will be chart dependent)"),
-			new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
+			//new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
 			// new OffsetMenu("Get a note offset based off of your inputs!"),
-			new CustomizeGameplay("Drag'n'Drop Gameplay Modules around to your preference")
+			//new CustomizeGameplay("Drag'n'Drop Gameplay Modules around to your preference")
 		]),
-		new OptionCatagory("Appearence", [
+		new OptionCatagory("Visuals, UI and Sounds", [
 			new SongPositionOption("Show the songs current position (as a bar)"),
-			#if desktop
-			new RainbowFPSOption("Make the FPS Counter Rainbow (Only works with the FPS Counter toggeled on)"),
-			#end
+			new HitSounds("You would hear a TICK, if you hit a note"),
+			new Spong("Display a note splash whenever you hit SICK note (like in FNF week 7 update)"),
+			new AccuracyOption("Simplified is bassically like on psych engine, and competitive is original kade engine score text")
+			
+			
 		]),
 		
 		new OptionCatagory("Misc", [
-			#if desktop
-			new FPSOption("Toggle the FPS Counter"),
-			new ReplayOption("View replays"),
-			#end
-			new WatermarkOption("Turn off all watermarks from the engine.")
+			new MailCatmode("Do you want ThierryEngine to be dumb or smort (does absolutely nothing)"),
+			new JokeSettings("Coba liat option pasti ada yang aneh -Thierry"),		
+			new BigShot("Play BIG SHOT for no fucking reason")
+
 			
+		]),
+
+		new OptionCatagory("Engine", [
+			#if desktop
+			new FPSCapOption("Cap your FPS (Left for -10, Right for +10. SHIFT to go faster)"),
+			new FPSOption("Toggle the FPS Counter"),
+			new RainbowFPSOption("Make the FPS Counter Rainbow (Only works with the FPS Counter toggeled on)"),
+			#end
+			new WatermarkOption("Turn off all watermarks from the engine."),
+			new Ilang("Reset all mod variables to its default value")
 		])
 		
 	];
@@ -71,11 +75,14 @@ class OptionsMenu extends MusicBeatState
 	private var currentDescription:String = "";
 	private var grpControls:FlxTypedGroup<Alphabet>;
 	public static var versionShit:FlxText;
+	public var blackBox:FlxSprite;
 
 	var currentSelectedCat:OptionCatagory;
 
 	override function create()
 	{
+
+		
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
 
 		menuBG.color = 0xFFea71fd;
@@ -85,12 +92,19 @@ class OptionsMenu extends MusicBeatState
 		menuBG.antialiasing = true;
 		add(menuBG);
 
+		blackBox = new FlxSprite().makeGraphic(6969, 34, FlxColor.BLACK, false);
+		blackBox.alpha = 0.7;
+		blackBox.screenCenter(Y);
+		blackBox.y += 350;
+		add(blackBox);
+
 		grpControls = new FlxTypedGroup<Alphabet>();
 		add(grpControls);
 
 		for (i in 0...options.length)
 		{
 			var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false);
+			controlLabel.screenCenter(X);
 			controlLabel.isMenuItem = true;
 			controlLabel.targetY = i;
 			grpControls.add(controlLabel);
@@ -99,9 +113,9 @@ class OptionsMenu extends MusicBeatState
 
 		currentDescription = "none";
 
-		versionShit = new FlxText(5, FlxG.height - 18, 0, "Offset (Left, Right): " + FlxG.save.data.offset + " - Description - " + currentDescription, 12);
+		versionShit = new FlxText(5, FlxG.height - 28, 0, "Offset (Left, Right): " + FlxG.save.data.offset, 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
 		super.create();
@@ -120,8 +134,31 @@ class OptionsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
+			for (item in grpControls.members)
+			{
+				
+				item.screenCenter(X);
+
+				item.alpha = 0.4;
+				// item.setGraphicSize(Std.int(item.width * 0.8));
+
+				if (item.targetY == 0)
+				{
+					item.alpha = 1;
+					// item.setGraphicSize(Std.int(item.width));
+				}
+			}
+
+			if (isCat)
+			{
+				currentDescription = currentSelectedCat.getOptions()[curSelected].getDescription();
+			}
+
+			
 			if (controls.BACK && !isCat)
+			{
 				FlxG.switchState(new MainMenuState());
+			}
 			else if (controls.BACK)
 			{
 				isCat = false;
@@ -131,6 +168,7 @@ class OptionsMenu extends MusicBeatState
 						var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false);
 						controlLabel.isMenuItem = true;
 						controlLabel.targetY = i;
+
 						grpControls.add(controlLabel);
 						// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 					}
@@ -162,20 +200,7 @@ class OptionsMenu extends MusicBeatState
 				}
 				else
 				{
-
-					if (FlxG.keys.pressed.SHIFT)
-					{
-						if (FlxG.keys.justPressed.RIGHT)
-							FlxG.save.data.offset += 0.1;
-						else if (FlxG.keys.justPressed.LEFT)
-							FlxG.save.data.offset -= 0.1;
-					}
-					else if (FlxG.keys.pressed.RIGHT)
-						FlxG.save.data.offset += 0.1;
-					else if (FlxG.keys.pressed.LEFT)
-						FlxG.save.data.offset -= 0.1;
-					
-					versionShit.text = "Offset (Left, Right, Shift for slow): " + truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
+					versionShit.text = currentDescription;
 				}
 			}
 			else
@@ -192,7 +217,7 @@ class OptionsMenu extends MusicBeatState
 					else if (FlxG.keys.pressed.LEFT)
 						FlxG.save.data.offset -= 0.1;
 				
-				versionShit.text = "Offset (Left, Right, Shift for slow): " + truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
+				versionShit.text = "Offset (Left, Right, Shift for slow): " + truncateFloat(FlxG.save.data.offset,2);
 			}
 		
 
@@ -249,8 +274,8 @@ class OptionsMenu extends MusicBeatState
 		if (isCat)
 			currentDescription = currentSelectedCat.getOptions()[curSelected].getDescription();
 		else
-			currentDescription = "Please select a catagory";
-		versionShit.text = "Offset (Left, Right, Shift for slow): " + truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
+			currentDescription = "Please select an Option";
+		versionShit.text = currentDescription;
 
 		// selector.y = (70 * curSelected) + 30;
 
@@ -258,10 +283,12 @@ class OptionsMenu extends MusicBeatState
 
 		for (item in grpControls.members)
 		{
+			
 			item.targetY = bullShit - curSelected;
+			item.screenCenter(X);
 			bullShit++;
 
-			item.alpha = 0.6;
+			item.alpha = 0.4;
 			// item.setGraphicSize(Std.int(item.width * 0.8));
 
 			if (item.targetY == 0)
