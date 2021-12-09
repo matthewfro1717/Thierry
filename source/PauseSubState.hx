@@ -60,7 +60,6 @@ class PauseSubState extends MusicBeatSubstate
 		notesplashText.setFormat(Paths.font('vcr.ttf'), 32);
 		notesplashText.x = FlxG.width - (notesplashText.width + 20);
 		notesplashText.updateHitbox();
-		notesplashText.visible = FlxG.save.data.spong;
 		add(notesplashText);
 
 		hitsoundsText = new FlxText(20, 45 + 101, 0, "HITSOUNDS ON", 32);
@@ -68,7 +67,6 @@ class PauseSubState extends MusicBeatSubstate
 		hitsoundsText.setFormat(Paths.font('vcr.ttf'), 32);
 		hitsoundsText.x = FlxG.width - (hitsoundsText.width + 20);
 		hitsoundsText.updateHitbox();
-		hitsoundsText.visible = FlxG.save.data.hitSounds;
 		add(hitsoundsText);
 
 		ghosttappingText = new FlxText(20, 70 + 101, 0, "GHOST TAPPING ALLOWED", 32);
@@ -76,7 +74,6 @@ class PauseSubState extends MusicBeatSubstate
 		ghosttappingText.setFormat(Paths.font('vcr.ttf'), 32);
 		ghosttappingText.x = FlxG.width - (ghosttappingText.width + 20);
 		ghosttappingText.updateHitbox();
-		ghosttappingText.visible = true;
 		add(ghosttappingText);
 		if (!FlxG.save.data.epico)
 		{
@@ -92,7 +89,6 @@ class PauseSubState extends MusicBeatSubstate
 		inputsystemText.setFormat(Paths.font('vcr.ttf'), 32);
 		inputsystemText.x = FlxG.width - (inputsystemText.width + 20);
 		inputsystemText.updateHitbox();
-		inputsystemText.visible = true;
 		if (FlxG.save.data.tolol)
 		{
 			inputsystemText.text = "INPUT SYSTEM : AEROSHIDE";
@@ -118,6 +114,12 @@ class PauseSubState extends MusicBeatSubstate
 			scoreText.text = "SCORE DISPLAY : COMPETITIVE";
 		}
 		add(scoreText);
+
+		notesplashText.visible = false;
+		hitsoundsText.visible = false;
+		ghosttappingText.visible = false;
+		inputsystemText.visible = false;
+		scoreText.visible = false;
 
 		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
 		levelDifficulty.text += CoolUtil.difficultyString();
@@ -250,6 +252,11 @@ class PauseSubState extends MusicBeatSubstate
 				case "Restart Song":
 					FlxG.resetState();
 				case "Quick Options":
+					notesplashText.visible = FlxG.save.data.spong;
+					hitsoundsText.visible = FlxG.save.data.hitSounds;
+					ghosttappingText.visible = true;
+					inputsystemText.visible = true;
+					scoreText.visible = true;
 					menuItems = quickSettings;
 					regenMenu();
 				case "Exit to menu":
@@ -305,6 +312,11 @@ class PauseSubState extends MusicBeatSubstate
 						scoreText.text = "SCORE DISPLAY : COMPETITIVE";
 					}
 				case "BACK":
+					notesplashText.visible = false;
+					hitsoundsText.visible = false;
+					ghosttappingText.visible = false;
+					inputsystemText.visible = false;
+					scoreText.visible = false;
 					menuItems = menuItemsToo;
 					regenMenu();
 
