@@ -18,11 +18,18 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Quick Options', 'Exit to menu'];
+	var menuItemsToo:Array<String> = ['Resume', 'Restart Song', 'Quick Options', 'Exit to menu'];
+	var quickSettings:Array<String> = ['Note splash', 'Hitsounds', 'Ghost Tapping', 'Input System', 'Score Text', 'BACK'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
 	var perSongOffset:FlxText;
+	var notesplashText:FlxText;
+	var hitsoundsText:FlxText;
+	var ghosttappingText:FlxText;
+	var inputsystemText:FlxText;
+	var scoreText:FlxText;
 	
 	var offsetChanged:Bool = false;
 
@@ -47,6 +54,70 @@ class PauseSubState extends MusicBeatSubstate
 		levelInfo.setFormat(Paths.font("vcr.ttf"), 32);
 		levelInfo.updateHitbox();
 		add(levelInfo);
+
+		notesplashText = new FlxText(20, 15 + 101, 0, "NOTE SPLASH ON", 32);
+		notesplashText.scrollFactor.set();
+		notesplashText.setFormat(Paths.font('vcr.ttf'), 32);
+		notesplashText.x = FlxG.width - (notesplashText.width + 20);
+		notesplashText.updateHitbox();
+		notesplashText.visible = FlxG.save.data.spong;
+		add(notesplashText);
+
+		hitsoundsText = new FlxText(20, 45 + 101, 0, "HITSOUNDS ON", 32);
+		hitsoundsText.scrollFactor.set();
+		hitsoundsText.setFormat(Paths.font('vcr.ttf'), 32);
+		hitsoundsText.x = FlxG.width - (hitsoundsText.width + 20);
+		hitsoundsText.updateHitbox();
+		hitsoundsText.visible = FlxG.save.data.hitSounds;
+		add(hitsoundsText);
+
+		ghosttappingText = new FlxText(20, 70 + 101, 0, "GHOST TAPPING ALLOWED", 32);
+		ghosttappingText.scrollFactor.set();
+		ghosttappingText.setFormat(Paths.font('vcr.ttf'), 32);
+		ghosttappingText.x = FlxG.width - (ghosttappingText.width + 20);
+		ghosttappingText.updateHitbox();
+		ghosttappingText.visible = true;
+		add(ghosttappingText);
+		if (!FlxG.save.data.epico)
+		{
+			ghosttappingText.text = "GHOST TAPPING ALLOWED";
+		}
+		else
+		{
+			ghosttappingText.text = "NO GHOST TAPPING";
+		}
+
+		inputsystemText = new FlxText(20, 100 + 101, 0, "INPUT SYSTEM : AEROSHIDE", 32);
+		inputsystemText.scrollFactor.set();
+		inputsystemText.setFormat(Paths.font('vcr.ttf'), 32);
+		inputsystemText.x = FlxG.width - (inputsystemText.width + 20);
+		inputsystemText.updateHitbox();
+		inputsystemText.visible = true;
+		if (FlxG.save.data.tolol)
+		{
+			inputsystemText.text = "INPUT SYSTEM : AEROSHIDE";
+		}
+		else
+		{
+			inputsystemText.text = "INPUT SYSTEM : KADEDEV";
+		}
+		add(inputsystemText);
+
+		scoreText = new FlxText(20, 130 + 101, 0, "SCORE DISPLAY : SIMPLIFIED", 32);
+		scoreText.scrollFactor.set();
+		scoreText.setFormat(Paths.font('vcr.ttf'), 32);
+		scoreText.x = FlxG.width - (scoreText.width + 20);
+		scoreText.updateHitbox();
+		scoreText.visible = true;
+		if (!FlxG.save.data.accuracyDisplay)
+		{
+			scoreText.text = "SCORE DISPLAY : SIMPLIFIED";
+		}
+		else
+		{
+			scoreText.text = "SCORE DISPLAY : COMPETITIVE";
+		}
+		add(scoreText);
 
 		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
 		levelDifficulty.text += CoolUtil.difficultyString();
@@ -178,6 +249,9 @@ class PauseSubState extends MusicBeatSubstate
 					close();
 				case "Restart Song":
 					FlxG.resetState();
+				case "Quick Options":
+					menuItems = quickSettings;
+					regenMenu();
 				case "Exit to menu":
 					PlayState.loadRep = false;
 					if (PlayState.lua != null)
@@ -192,6 +266,48 @@ class PauseSubState extends MusicBeatSubstate
 					}
 					else
 						FlxG.switchState(new MainMenuState());
+				//QUICK SETTINGS SHIT
+				case "Note splash":
+					FlxG.save.data.spong = !FlxG.save.data.spong;
+					notesplashText.visible = FlxG.save.data.spong;
+				case "Hitsounds":
+					FlxG.save.data.hitSounds = !FlxG.save.data.hitSounds;
+					hitsoundsText.visible = FlxG.save.data.hitSounds;
+				case "Ghost Tapping":
+					FlxG.save.data.epico = !FlxG.save.data.epico;
+					if (FlxG.save.data.epico)
+					{
+						ghosttappingText.text = "NO GHOST TAPPING";
+					}
+					else
+					{
+						ghosttappingText.text = "GHOST TAPPING ALLOWED";
+					}
+				case "Input System":
+					FlxG.save.data.tolol = !FlxG.save.data.tolol;
+					if (FlxG.save.data.tolol)
+					{
+						
+						inputsystemText.text = "INPUT SYSTEM : AEROSHIDE";
+					}
+					else
+					{
+						inputsystemText.text = "INPUT SYSTEM : KADEDEV";
+					}
+				case "Score Text":
+					FlxG.save.data.accuracyDisplay = !FlxG.save.data.accuracyDisplay;
+					if (!FlxG.save.data.accuracyDisplay)
+					{
+						scoreText.text = "SCORE DISPLAY : SIMPLIFIED";
+					}
+					else
+					{
+						scoreText.text = "SCORE DISPLAY : COMPETITIVE";
+					}
+				case "BACK":
+					menuItems = menuItemsToo;
+					regenMenu();
+
 			}
 		}
 
@@ -207,6 +323,20 @@ class PauseSubState extends MusicBeatSubstate
 		pauseMusic.destroy();
 
 		super.destroy();
+	}
+
+	function regenMenu():Void {
+		for (i in 0...grpMenuShit.members.length) {
+			this.grpMenuShit.remove(this.grpMenuShit.members[0], true);
+		}
+		for (i in 0...menuItems.length) {
+			var item = new Alphabet(0, 70 * i + 30, menuItems[i], true, false);
+			item.isMenuItem = true;
+			item.targetY = i;
+			grpMenuShit.add(item);
+		}
+		curSelected = 0;
+		changeSelection();
 	}
 
 	function changeSelection(change:Int = 0):Void
