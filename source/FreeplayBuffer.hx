@@ -66,6 +66,7 @@ class FreeplayBuffer extends MusicBeatState
 		}
 
 		logo = new FlxSprite().loadGraphic(Paths.image('thierryLogo'));
+		logo.setGraphicSize(800, 500);
 		logo.screenCenter();
 		logo.alpha = 1;
 		text = new FlxText("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ (songs.length + 1) + ")");

@@ -27,6 +27,17 @@ class AchievementsState extends MusicBeatState
 	private var achievementIndex:Array<Int> = [];
 	private var descText:FlxText;
 
+	public var ipress:Bool;
+	public var mpress:Bool;
+
+	public var hpress:Bool;
+	public var epress:Bool;
+	public var rpress:Bool;
+
+	public var frame:Int;
+
+	public var firsttime:Bool = FlxG.save.data.hasGoneToSOH;
+
 	override function create() {
 		#if desktop
 		DiscordClient.changePresence("Achievements Menu", null);
@@ -75,6 +86,35 @@ class AchievementsState extends MusicBeatState
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
+
+		frame++;
+		if (ipress && mpress && hpress && epress && rpress && firsttime && frame % 60 == 0)
+		{
+			Achievements.unlockAchievement("week6_nomiss");
+			firsttime = false;
+		}
+
+		if (FlxG.keys.pressed.I)
+		{
+			ipress = true;
+		}
+		if (FlxG.keys.pressed.M)
+		{
+			mpress = true;
+		}
+		if (FlxG.keys.pressed.H)
+		{
+			hpress = true;
+		}
+		if (FlxG.keys.pressed.E)
+		{
+			epress = true;
+			firsttime = true;
+		}
+		if (FlxG.keys.pressed.R)
+		{
+			rpress = true;
+		}
 
 		if (controls.UP_P) {
 			changeSelection(-1);

@@ -18,6 +18,7 @@ class OptionsMenu extends MusicBeatState
 {
 	var selector:FlxText;
 	var curSelected:Int = 0;
+	var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
 
 	var options:Array<OptionCatagory> = [
 
@@ -83,7 +84,6 @@ class OptionsMenu extends MusicBeatState
 	{
 
 		
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
 
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
@@ -175,9 +175,25 @@ class OptionsMenu extends MusicBeatState
 				curSelected = 0;
 			}
 			if (controls.UP_P)
+			{
+				trace(menuBG.y + "y val");
+				if (menuBG.y <= -15)
+				{
+					menuBG.y += 20;
+				}	
 				changeSelection(-1);
+			}
+				
 			if (controls.DOWN_P)
+			{
+				trace(menuBG.y + "y val");
+				if (menuBG.y >= -180)
+				{
+					menuBG.y -= 20;
+				}	
 				changeSelection(1);
+			}
+				
 			
 			if (isCat)
 			{
