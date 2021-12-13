@@ -1091,6 +1091,7 @@ class PlayState extends MusicBeatState
 		gf.scrollFactor.set(0.95, 0.95);
 
 		dad = new Character(100, 100, SONG.player2);
+		boyfriend = new Boyfriend(770, 450, SONG.player1);
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
@@ -1137,13 +1138,16 @@ class PlayState extends MusicBeatState
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'gw-3d':
 				camPos.set(dad.getGraphicMidpoint().y);
+			case 'thierry-mad':
+				camPos.set(dad.getGraphicMidpoint().y);
+				dad.x -= 150;
 			case 'gerlad':
 				camPos.set(dad.getGraphicMidpoint().y - 500);
 		}
 
 
 		
-		boyfriend = new Boyfriend(770, 450, SONG.player1);
+		
 
 		// REPOSITIONING PER STAGE
 		switch (curStage)
@@ -2412,6 +2416,12 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		susussamongus = false; //LMAO UPDATING VARIABLE EVERY FRAME THIS IS OVERKILL
+
+		if (SONG.song == 'cheat-blitar')
+		{
+			camFollow.x = gf.getMidpoint().x - 150;
+			dad.x += (Math.sin(elapsedtime) * 1.72);
+		}
 
 
 		if(SONG.song == 'segitiga' && jancok)
@@ -4642,6 +4652,12 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+
+		if (SONG.song == 'cheat-blitar')
+		{
+			dad.playAnim('idle');
+		}
+		
 		
 
 		if (generatedMusic)

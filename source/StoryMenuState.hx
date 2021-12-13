@@ -26,11 +26,18 @@ class StoryMenuState extends MusicBeatState
 
 	var weekData:Array<Dynamic> = [
 		['Tutorial'],
-		['Ded', 'Anjing', 'Meninggal', 'cut1'],
-		['get-out', 'screw-you', 'latihan', 'cut0'],
-		['roasting', 'gerselo', 'cut2']
+		['Ded', 'Anjing', 'Meninggal'],
+		['revenge', 'gerlad', 'segitiga'],
+		['roasting', 'gerselo']
 	];
 	var curDifficulty:Int = 1;
+	
+	var weekDataSTRING:Array<Dynamic> = [
+		['Tutorial', ''],
+		['Ded', 'Anjing', 'Meninggal', ''],
+		['revenge', 'gerlad', 'segitiga', ''],
+		['roasting', 'gerselo', '']
+	];
 
 	public static var weekUnlocked:Array<Bool> = [true, true, true, true];
 
@@ -44,8 +51,8 @@ class StoryMenuState extends MusicBeatState
 	var weekNames:Array<String> = [
 		"How to Funk",
 		"Thierry",
-		"Thierry is gonna fucking kill yo",
-		"Raditz is gonna roast yo lmao"
+		"VS The other guys from your skool yay",
+		"Raditz is gonna fukin roast yo lmao"
 	];
 
 	var txtWeekTitle:FlxText;
@@ -407,7 +414,7 @@ class StoryMenuState extends MusicBeatState
 		grpWeekCharacters.members[2].setCharacter(weekCharacters[curWeek][2]);
 
 		txtTracklist.text = "Tracks\n";
-		var stringThing:Array<String> = weekData[curWeek];
+		var stringThing:Array<String> = weekDataSTRING[curWeek];
 
 		for (i in stringThing)
 		{

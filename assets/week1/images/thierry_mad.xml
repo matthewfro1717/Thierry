@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="thierry_mad.png">
+	<!-- Created with Adobe Animate version 21.0.7.42652 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="idlee0000" x="0" y="0" width="690" height="716"/>
+	<SubTexture name="idlee0001" x="694" y="0" width="690" height="716"/>
+	<SubTexture name="idlee0002" x="1388" y="0" width="690" height="716"/>
+	<SubTexture name="idlee0003" x="2082" y="0" width="690" height="716"/>
+	<SubTexture name="idlee0004" x="2082" y="0" width="690" height="716"/>
+	<SubTexture name="singDOW0000" x="2776" y="0" width="657" height="700"/>
+	<SubTexture name="singDOW0001" x="3437" y="0" width="657" height="700"/>
+	<SubTexture name="singDOW0002" x="3437" y="0" width="657" height="700"/>
+	<SubTexture name="singDOW0003" x="0" y="720" width="657" height="700"/>
+	<SubTexture name="singDOW0004" x="0" y="720" width="657" height="700"/>
+	<SubTexture name="singLEF0000" x="661" y="720" width="667" height="698"/>
+	<SubTexture name="singLEF0001" x="1332" y="720" width="667" height="698"/>
+	<SubTexture name="singLEF0002" x="1332" y="720" width="667" height="698"/>
+	<SubTexture name="singLEF0003" x="2003" y="720" width="667" height="698"/>
+	<SubTexture name="singLEF0004" x="2003" y="720" width="667" height="698"/>
+	<SubTexture name="singRIGH0000" x="2674" y="720" width="677" height="712"/>
+	<SubTexture name="singRIGH0001" x="3355" y="720" width="677" height="712"/>
+	<SubTexture name="singRIGH0002" x="3355" y="720" width="677" height="712"/>
+	<SubTexture name="singRIGH0003" x="0" y="1436" width="677" height="712"/>
+	<SubTexture name="singRIGH0004" x="0" y="1436" width="677" height="712"/>
+	<SubTexture name="singU0000" x="681" y="1436" width="662" height="722"/>
+	<SubTexture name="singU0001" x="1347" y="1436" width="662" height="722"/>
+	<SubTexture name="singU0002" x="1347" y="1436" width="662" height="722"/>
+	<SubTexture name="singU0003" x="2013" y="1436" width="662" height="722"/>
+	<SubTexture name="singU0004" x="2013" y="1436" width="662" height="722"/>
+</TextureAtlas>

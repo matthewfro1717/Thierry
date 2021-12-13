@@ -37,6 +37,27 @@ class Character extends FlxSprite
 
 		switch (curCharacter)
 		{
+			case 'thierry-mad':
+				trace("THIERRY GLITCHED LOADED!");
+				tex = Paths.getSparrowAtlas('thierry_mad');
+				frames = tex;
+				animation.addByPrefix('idle', 'idlee', 24, false);
+				animation.addByPrefix('singUP', 'singU', 24, false);
+				animation.addByPrefix('singRIGHT', 'singRIGH', 24, false);
+				animation.addByPrefix('singDOWN', 'singDOW', 24, false);
+				animation.addByPrefix('singLEFT', 'singLEF', 24, false);
+		
+				addOffset('idle');
+				addOffset("singUP", 140, -230);
+				addOffset("singRIGHT", -180, -100);
+				addOffset("singLEFT", 250, -140);
+				addOffset("singDOWN", 150, -310);
+				globaloffset[0] = 150 * 1.3;
+				globaloffset[1] = 750 * 1.3; //this is the y
+				setGraphicSize(Std.int((width * 1) / furiosityScale));
+				updateHitbox();
+				antialiasing = false;
+				playAnim('idle');
 			case 'gerlad':
 				tex = Paths.getSparrowAtlas('gerlad');
 				frames = tex;
