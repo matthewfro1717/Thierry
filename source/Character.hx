@@ -37,6 +37,35 @@ class Character extends FlxSprite
 
 		switch (curCharacter)
 		{
+			case '3d-bf':
+				frames = Paths.getSparrowAtlas('3D_BF');
+				animation.addByPrefix('idle', 'BF idle dance', 24, false);
+				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
+				animation.addByPrefix('singLEFT', 'BF NOTE RIGHT0', 24, false);
+				animation.addByPrefix('singRIGHT', 'BF NOTE LEFT0', 24, false);
+				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
+
+				animation.addByPrefix('singUPmiss', 'BF NOTE UP0', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT0', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT0', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN0', 24, false);
+				
+
+				addOffset('idle');
+				addOffset("singUP", 6, 10);
+				addOffset("singRIGHT", -3);
+				addOffset("singLEFT", 17);
+				addOffset("singDOWN");
+				addOffset("singUPmiss", 6, 10);
+				addOffset("singRIGHTmiss", -3);
+				addOffset("singLEFTmiss", 17);
+				addOffset("singDOWNmiss");
+
+				nativelyPlayable = flipX = true;
+
+				antialiasing = false;
+
+				playAnim('idle');
 			case 'thierry-mad':
 				trace("THIERRY GLITCHED LOADED!");
 				tex = Paths.getSparrowAtlas('thierry_mad');

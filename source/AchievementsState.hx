@@ -142,14 +142,14 @@ class AchievementsState extends MusicBeatState
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
-			item.alpha = 0.19;
+			item.alpha = 0.4;
 			if (item.targetY == 0) {
 				item.alpha = 1;
 			}
 		}
 
 		for (i in 0...achievementArray.length) {
-			achievementArray[i].alpha = 0.19;
+			achievementArray[i].alpha = 0.4;
 			if(i == curSelected) {
 				achievementArray[i].alpha = 1;
 			}

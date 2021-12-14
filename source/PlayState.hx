@@ -1099,6 +1099,10 @@ class PlayState extends MusicBeatState
 		{
 			camPos = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
 		}
+		if (SONG.song == 'segitiga')
+		{
+			gf.visible = false;
+		}
 
 		switch (SONG.player2)
 		{
@@ -1886,6 +1890,8 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 
+
+
 		var splash:FlxSprite = new FlxSprite(0, 0);
 		splash.frames = Paths.getSparrowAtlas('notesplash');
 		splash.animation.addByPrefix('4', 'purple splash', 24, false);
@@ -2423,6 +2429,35 @@ class PlayState extends MusicBeatState
 			dad.x += (Math.sin(elapsedtime) * 1.72);
 		}
 
+		if(SONG.song.toLowerCase() == 'segitiga')
+		{
+			if (shouldMuter)
+			{
+				playerStrums.forEach(function(spr:FlxSprite)
+					{
+						spr.angle += (Math.sin(elapsedtime * 2.5) + 1) * 6;
+					});
+					dadStrums.forEach(function(spr:FlxSprite)
+					{
+						spr.angle += (Math.sin(elapsedtime * 2.5) + 1) * 6;
+					});
+					for(note in notes)
+					{
+						if(note.mustPress)
+						{
+							if (!note.isSustainNote)
+								note.angle = playerStrums.members[note.noteData].angle;
+						}
+						else
+						{
+							if (!note.isSustainNote)
+								note.angle = dadStrums.members[note.noteData].angle;
+						}
+					}
+			}
+			
+		}
+
 
 		if(SONG.song == 'segitiga' && jancok)
 		{
@@ -2775,13 +2810,14 @@ class PlayState extends MusicBeatState
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
 		var funny:Float = (healthBar.percent * 0.02) + 0.02;
 
-		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.8)),Std.int(FlxMath.lerp(150, iconP1.height, 0.8)));
-		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8)));
-
-		//epic bouncy bouncy thingy
+		if (SONG.song == 'gerlad')
+		{
+			iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8)));	
+		}
 
 		if (SONG.song == 'gerlad')
 		{
+			trace("jumped with eval " + iconP2.height + ' ' + iconP2.width);
 			thierry.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(1000, iconP2.height, 0.8)));
 			gw.setGraphicSize(Std.int(FlxMath.lerp(900, iconP2.width, 0.8)),Std.int(FlxMath.lerp(300, iconP2.height, 0.1)));
 			achell.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(555, iconP2.height, 0.5)));
@@ -3229,6 +3265,27 @@ class PlayState extends MusicBeatState
 								{
 									FlxG.camera.shake(0.0050, 0.1);
 									camHUD.shake(0.0057, 0.1);
+									if (health >= 1.8)
+									{
+										health -= 0.02;
+									}
+									if (health >= 1.5)
+									{
+										health -= 0.02;
+									}
+									if (health >= 1)
+									{
+										health -= 0.02;
+									}
+									if (health >= 0.5)
+									{
+										health -= 0.02;
+									}
+									if (health >= 0.03)
+									{
+										health -= 0.02;
+									}
+									
 								}
 								dad.playAnim('singUP' + altAnim, true);
 							case 3:
@@ -3410,11 +3467,11 @@ class PlayState extends MusicBeatState
 	
 	function endSong():Void
 	{
-		checkForAchievement(['week1_nomiss', 'week2_nomiss', 'week3_nomiss', 'week4_nomiss',
-		'week5_nomiss', 'week6_nomiss', 'week7_nomiss']);
 
 		if (SONG.song == 'cheat-blitar')
 		{
+			checkForAchievement(['week1_nomiss', 'week2_nomiss', 'week3_nomiss', 'week4_nomiss',
+			'week5_nomiss', 'week6_nomiss', 'week7_nomiss']);
 			FlxG.switchState(new EndingState('cheatEnding', 'cheatEnding'));
 			trace("MS OBAMA GET DOWN");
 		}
@@ -3458,15 +3515,22 @@ class PlayState extends MusicBeatState
 		{
 			if (isStoryMode)
 			{
+				checkForAchievement(['week1_nomiss', 'week2_nomiss', 'week3_nomiss', 'week4_nomiss',
+				'week5_nomiss', 'week6_nomiss', 'week7_nomiss']);
+
 				campaignScore += Math.round(songScore);
 
 				storyPlaylist.remove(storyPlaylist[0]);
+				if (curSong.toLowerCase() == 'roasting')
+				{
+					FlxG.switchState(new EndingState('goodEnding', 'goodEnding'));
+				}
 
 				if (storyPlaylist.length <= 0)
 				{
-					if (curSong.toLowerCase() == 'cut1' || curSong.toLowerCase() == 'cut2' || curSong.toLowerCase() == 'cut0')
+					if (curSong.toLowerCase() == 'meninggal')
 					{
-						if (health < 0.1)
+						if (health < 1)
 						{
 							FlxG.switchState(new EndingState('badEnding', 'badEnding'));
 						}
@@ -3475,6 +3539,15 @@ class PlayState extends MusicBeatState
 							FlxG.switchState(new EndingState('goodEnding', 'goodEnding'));
 						}
 					}
+					else if (curSong.toLowerCase() == 'segitiga')
+					{
+						FlxG.switchState(new EndingState('goodEnding', 'goodEnding')); //savior ending, will count as good ending
+					}
+					else if (curSong.toLowerCase() == 'gerselo')
+					{
+						FlxG.switchState(new EndingState('goodEnding', 'goodEnding')); //will not count to ending (will be me talking saying thank you f or playing the mod)
+					}
+					
 
 					FlxG.switchState(new StoryMenuState());
 
@@ -3969,7 +4042,17 @@ class PlayState extends MusicBeatState
 		if ((upP || rightP || downP || leftP) && !boyfriend.stunned && generatedMusic)
 			{
 				repPresses++;
-				boyfriend.holdTimer = 0;
+				//the 3d magic thing
+
+				if (SONG.song == 'segitiga')
+				{
+					boyfriend.holdTimer = -1;
+				}
+				else
+				{
+					boyfriend.holdTimer = 0;
+				}
+				
 	
 				var possibleNotes:Array<Note> = [];
 	
@@ -4705,29 +4788,58 @@ class PlayState extends MusicBeatState
 
 		//health icon bounce but epic
 		//i agree it is epic
-		iconP2.scale.x = 1;
-		iconP2.scale.y = 1;
-		if (SONG.song == 'meninggal' || SONG.song == 'meninggal-beta')
+		//I MADE IT EVEN EPICER!!!
+		if (SONG.song == 'gerlad')
 		{
-			if (curBeat % 2 == 1)
-			{
-				iconP1.setGraphicSize(Std.int(iconP1.width + (69 * funny)),Std.int(iconP2.height - (25 * funny)));
-				iconP2.setGraphicSize(Std.int(iconP2.width + 69));
-		
-				iconP1.updateHitbox();
-				iconP2.updateHitbox();
-			}
 
+			if (curBeat % gfSpeed == 0) {
+				curBeat % (gfSpeed * 2) == 0 ? {
+					iconP1.scale.set(1.1, 0.8);
 	
+					FlxTween.angle(iconP1, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+				} : {
+					iconP1.scale.set(1.1, 1.3);
+	
+					FlxTween.angle(iconP1, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+				}
+	
+				FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
+	
+				iconP1.updateHitbox();
+			}
+			
+			iconP2.scale.set(1.1, 1);
+
+			iconP2.setGraphicSize(Std.int(iconP2.width + 69));
+
+			iconP2.updateHitbox();
+
 		}
 		else
 		{
-			iconP1.setGraphicSize(Std.int(iconP1.width + (69 * funny)),Std.int(iconP2.height - (25 * funny)));
-			iconP2.setGraphicSize(Std.int(iconP2.width + 69));
+			if (curBeat % gfSpeed == 0) {
+				curBeat % (gfSpeed * 2) == 0 ? {
+					iconP1.scale.set(1.1, 0.8);
+					iconP2.scale.set(1.1, 1.3);
 	
-			iconP1.updateHitbox();
-			iconP2.updateHitbox();
+					FlxTween.angle(iconP1, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+					FlxTween.angle(iconP2, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+				} : {
+					iconP1.scale.set(1.1, 1.3);
+					iconP2.scale.set(1.1, 0.8);
+	
+					FlxTween.angle(iconP2, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+					FlxTween.angle(iconP1, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+				}
+	
+				FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
+				FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
+	
+				iconP1.updateHitbox();
+				iconP2.updateHitbox();
+			}
 		}
+
 
 
 		if (curSong == 'AppleCore')
@@ -4770,22 +4882,16 @@ class PlayState extends MusicBeatState
 			{
 				case 1:
 					jancok = true;
-				case 64:
-					jancokKalian = true;
-				case 96:
-					healthDrainBool = true;
-					iconP2.animation.play("gw-3d-mad", true);
-				case 544:
-					FlxG.camera.flash(FlxColor.WHITE, 1);
+					shouldMuter = true;
+				case 647://647
 					jancok = false;
-					jancokKalian = true;
-					healthDrainBool = false;
-					iconP2.animation.play("gw-3d", true);
-				case 607://607
-					jancok = false;
-					jancokKalian = false;
+					shouldMuter = false;
 					FlxG.camera.flash(FlxColor.WHITE, 1);
 					iconP2.animation.play("bob", true);
+					remove(boyfriend);
+					boyfriend = new Boyfriend(770, 450, 'bf');
+					iconP1.animation.play("bf", true);
+					add(boyfriend);
 					remove(dad);
 					dad = new Character(200, 150, 'bob');
 					add(dad);
@@ -4923,7 +5029,7 @@ class PlayState extends MusicBeatState
 			gf.dance();
 		}
 
-		if (!boyfriend.animation.curAnim.name.startsWith("sing"))
+		if (!boyfriend.animation.curAnim.name.startsWith("sing") || SONG.song == 'segitiga' && curBeat % 4 == 0)
 		{
 			boyfriend.playAnim('idle');
 		}
@@ -4992,9 +5098,10 @@ class PlayState extends MusicBeatState
 			var achievementName:String = achievesToCheck[i];
 			if(!Achievements.isAchievementUnlocked(achievementName)) {
 				var unlock:Bool = false;
+				var trueunlock:Bool = false;
 				switch(achievementName)
 				{
-					case 'week7_nomiss':
+					case 'week7_nomiss' | 'week6_nomiss' | 'week5_nomiss' | 'week3_nomiss' | 'week2_nomiss' | 'week1_nomiss':
 						var weekName:String = curSong.toLowerCase(); // USE SONG DATA INSTEAD OF WEEK DATA LATER FOR EASIER PURPOSES
 						switch(weekName) //I know this is a lot of duplicated code, but it's easier readable and you can add weeks with different names than the achievement tag
 						{ // lmao yandere dev be like
@@ -5004,6 +5111,22 @@ class PlayState extends MusicBeatState
 									unlock = true;//ending stuff
 									trace("dahlah");
 									FlxG.save.data.cheaterSongUnlocked = true;
+								}
+							case 'meninggal':
+								if(achievementName == 'week5_nomiss' || achievementName == 'week1_nomiss' || achievementName == 'week2_nomiss')
+								{
+									trueunlock = true;//ending stuff
+									if (health > 1)
+									{
+										unlock = true;
+										trace("halo");
+									}
+									else if (health < 1)
+									{
+										unlock = true;
+										trace("cecep");
+									}
+									trace("cocot");
 								}
 							/*case 'week2':
 								if(achievementName == 'week2_nomiss') unlock = true;
@@ -5028,6 +5151,11 @@ class PlayState extends MusicBeatState
 				}
 
 				if(unlock) {
+					Achievements.unlockAchievement(achievementName);
+					return achievementName;
+				}
+				else if (trueunlock)
+				{
 					Achievements.unlockAchievement(achievementName);
 					return achievementName;
 				}

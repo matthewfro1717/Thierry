@@ -166,10 +166,10 @@ class TitleState extends MusicBeatState
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
 
-		Conductor.changeBPM(102);
+		Conductor.changeBPM(150);
 		persistentUpdate = true;
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuStuff/beg'));
 		// bg.antialiasing = true;
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
 		// bg.updateHitbox();
@@ -364,6 +364,10 @@ class TitleState extends MusicBeatState
 
 			titleText.animation.play('press');
 
+			FlxTween.tween(logoBl, {x: -1500}, 3.5, {ease: FlxEase.expoInOut});
+			FlxTween.tween(characters, {y: -1500}, 3.7, {ease: FlxEase.expoInOut});
+			FlxTween.tween(titleText, {y: 1500}, 3.7, {ease: FlxEase.expoInOut});
+
 			FlxG.camera.flash(FlxColor.WHITE, 1);
 			if (FlxG.save.data.willSeeCrashEnding)
 			{
@@ -472,7 +476,11 @@ class TitleState extends MusicBeatState
 		}
 		else
 		{
-			FlxTween.tween(FlxG.camera, {zoom: 1.05}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+			if (curBeat % 2 == 0)
+			{
+				FlxTween.tween(FlxG.camera, {zoom: 1.05}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+			}
+			
 		}
 
 		

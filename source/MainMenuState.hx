@@ -1,6 +1,7 @@
 package;
 
 
+import flixel.math.FlxMath;
 import flash.system.System;
 import flixel.*;
 import flixel.FlxState;
@@ -47,6 +48,8 @@ class MainMenuState extends MusicBeatState
 
 	public static var kadeEngineVer:String = " " + nightly;
 	public static var gameVer:String = "0.2.7.1";
+	public var frame:Int;
+	public var whichonetobouncelol:Bool = true; //TRUE IS LEFT
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -97,7 +100,7 @@ class MainMenuState extends MusicBeatState
 
 		for (i in 0...optionShit.length)
 		{
-			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
+			var menuItem:FlxSprite = new FlxSprite(0, 120 + (i * 190));
 			menuItem.frames = tex;
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
@@ -135,6 +138,36 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		frame++;
+
+		if (frame % 60 == 0)
+		{
+			menuItems.forEach(function(spr:FlxSprite)
+				{
+					spr.animation.play('idle');
+		
+					if (spr.ID == curSelected)
+					{
+						spr.animation.play('selected');
+						if (whichonetobouncelol)
+						{
+							FlxTween.angle(spr, -10, 0, Conductor.crochet / 1300 * 1, {ease: FlxEase.quadOut});
+							whichonetobouncelol = false;
+						}
+						else
+						{
+							FlxTween.angle(spr, 10, 0, Conductor.crochet / 1300 * 1, {ease: FlxEase.quadOut});
+							whichonetobouncelol = true;
+						}
+						
+						camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
+					}
+		
+					spr.updateHitbox();
+				});
+		}
+
+
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
@@ -266,6 +299,7 @@ class MainMenuState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+		
 		FlxTween.tween(FlxG.camera, {zoom: 1.05}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
 	} 
 }
