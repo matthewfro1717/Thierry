@@ -2777,6 +2777,8 @@ class PlayState extends MusicBeatState
 				usedTimeTravel = true;
 				FlxG.sound.music.pause();
 				vocals.pause();
+				curBeat = curBeat + Std.int(Conductor.bpm / 6);
+				curStep = curBeat * 4;
 				Conductor.songPosition += 10000;
 				notes.forEachAlive(function(daNote:Note)
 				{
