@@ -210,18 +210,6 @@ class FreeplayState extends MusicBeatState
 		}
 		/****/
 
-		if (preloadSongs)
-			{
-	
-				for (i in 0...songs.length)
-				{
-					FlxG.sound.playMusic(Paths.inst(songs[i].songName), 0);
-					trace("Preloading " + (i + 1) + " / "+ songs.length);
-				}
-				FlxG.sound.playMusic(Paths.inst(songs[0].songName), 0);
-				preloadSongs = false;
-				trace("PRELOAD COMPLETE");
-			}
 		
 		if (FlxG.sound.music.volume < 0.7)
 		{

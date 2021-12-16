@@ -54,7 +54,9 @@ class CoolMenuState extends MusicBeatState
 		DiscordClient.changePresence("Selecting Freeplay category", null);
 		#end
 
-		if (FlxG.sound.music.playing)
+		trace(TitleState.firstBoot);
+
+		if (TitleState.firstBoot)
 		{
 			FlxG.sound.playMusic(Paths.music('songSelect'));
 		}
@@ -117,6 +119,7 @@ class CoolMenuState extends MusicBeatState
 		}
 
 		firstStart = false;
+		TitleState.firstBoot = false;
 
 		FlxG.camera.follow(camFollow, null, 0.60 * (60 / FlxG.save.data.fpsCap));
 

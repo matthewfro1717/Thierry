@@ -129,7 +129,6 @@ class FreeplayBuffer extends MusicBeatState
 				preloadSongs = false;
 			}
 			preloadSongs = false;
-			TitleState.firstBoot = false;
 			trace("PRELOAD COMPLETE");
 			FlxG.switchState(new CoolMenuState());
 			

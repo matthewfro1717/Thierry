@@ -216,6 +216,7 @@ class PlayState extends MusicBeatState
 	public var jancokKalian:Bool;
 	public static var repPresses:Int = 0;
 	public static var repReleases:Int = 0;
+	public var mati:Bool;
 
 	public static var timeCurrently:Float = 0;
 	public static var timeCurrentlyR:Float = 0;
@@ -658,6 +659,18 @@ class PlayState extends MusicBeatState
 				curbg = bg;
 			}
 
+			case 'chaos':
+				curStage = 'worldeater'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
+		
+				defaultCamZoom = 0.9;
+				bego = new FlxSprite(-300, -200).loadGraphic(Paths.image('anjay'));
+				bego.setGraphicSize(2720, 2720);
+				bego.antialiasing = true;
+				bego.scrollFactor.set(0.9, 0.9);
+				bego.active = true;
+				add(bego);
+				UsingNewCam = true;
+
 			case 'applecore': 
 			{
 				curStage = 'sekolahMaxzi'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
@@ -1099,7 +1112,7 @@ class PlayState extends MusicBeatState
 		{
 			camPos = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
 		}
-		if (SONG.song == 'segitiga')
+		if (SONG.song == 'segitiga' || SONG.song == 'chaos')
 		{
 			gf.visible = false;
 		}
@@ -1272,6 +1285,11 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar' || SONG.song == 'AppleCore')
 		{
+			add(aeroEngineWatermark);
+		}
+		else if (SONG.song == 'chaos')
+		{
+			aeroEngineWatermark.text = SONG.song + " " + "16K" + (Main.watermarks ? " - Aeroshide Engine (3D THREADED ENGINE)" + MainMenuState.kadeEngineVer : "");
 			add(aeroEngineWatermark);
 		}
 		else
@@ -2423,6 +2441,20 @@ class PlayState extends MusicBeatState
 	{
 		susussamongus = false; //LMAO UPDATING VARIABLE EVERY FRAME THIS IS OVERKILL
 
+		if (SONG.song == 'chaos')
+		{
+			if (mati)
+			{
+				FlxG.camera.shake(0.010, 0.1);
+			}
+			
+			bego.angle += 0.1;
+			if (jancokKalian)
+			{
+				dad.x += (Math.sin(elapsedtime) * 1.72);
+			}
+		}
+
 		if (SONG.song == 'cheat-blitar')
 		{
 			camFollow.x = gf.getMidpoint().x - 150;
@@ -2459,7 +2491,7 @@ class PlayState extends MusicBeatState
 		}
 
 
-		if(SONG.song == 'segitiga' && jancok)
+		if(SONG.song == 'segitiga' && jancok || SONG.song == 'chaos' && jancok)
 		{
 			dad.y += (Math.sin(elapsedtime) * 0.72);
 			camFollow.y = boyfriend.getMidpoint().y - 100;
@@ -2689,14 +2721,19 @@ class PlayState extends MusicBeatState
 		}
 
 
+
+
+
 		#if debug
-		if(FlxG.keys.justPressed.TWO && songStarted) { //Go 100 seconds into the future, credit: Shadow Mario#9396
-			if (!usedTimeTravel && Conductor.songPosition + 100000 < FlxG.sound.music.length) 
+		if(FlxG.keys.justPressed.TWO && songStarted) { //Go 60 seconds into the future, credit: Shadow Mario#9396
+			if (!usedTimeTravel && Conductor.songPosition + 60000 < FlxG.sound.music.length) 
 			{
 				usedTimeTravel = true;
 				FlxG.sound.music.pause();
 				vocals.pause();
-				Conductor.songPosition += 100000;
+				curBeat = curBeat + Conductor.bpm;
+				curStep = curBeat * 4;
+				Conductor.songPosition += 60000;
 				notes.forEachAlive(function(daNote:Note)
 				{
 					if(daNote.strumTime + 800 < Conductor.songPosition) {
@@ -3231,6 +3268,11 @@ class PlayState extends MusicBeatState
 						{
 							FlxG.camera.shake(0.020, 0.1);
 							camHUD.shake(0.017, 0.1);
+						}
+
+						if (SONG.song == 'chaos')
+						{
+							camHUD.shake(0.0057, 0.1);
 						}
 
 						dadStrums.forEach(function(sprite:FlxSprite)
@@ -4044,9 +4086,9 @@ class PlayState extends MusicBeatState
 				repPresses++;
 				//the 3d magic thing
 
-				if (SONG.song == 'segitiga')
+				if (SONG.song == 'segitiga' || SONG.song == 'chaos')
 				{
-					boyfriend.holdTimer = -1;
+					boyfriend.holdTimer = -1.18;
 				}
 				else
 				{
@@ -4740,6 +4782,13 @@ class PlayState extends MusicBeatState
 		{
 			dad.playAnim('idle');
 		}
+
+		if (FlxG.save.data.memoryTrace)
+		{
+			trace("curBeat " + curBeat);
+			trace("curStep " + curStep);
+			trace("currentBPM" + Conductor.bpm);
+		}
 		
 		
 
@@ -4901,6 +4950,27 @@ class PlayState extends MusicBeatState
 
 
 		}
+
+		if (curSong == 'chaos')
+			{
+				switch(curBeat)
+				{
+					case 1:
+						mati = true;
+						jancok = true;
+					case 255://647
+						mati = false;
+						jancok = false;
+						jancokKalian = true;
+						FlxG.camera.flash(FlxColor.WHITE, 1);
+						iconP2.animation.play("parents-christmas", true);
+						remove(dad);
+						dad = new Character(0, 150, 'parents-christmas');
+						add(dad);
+						//REST OF THE CODES ARE WRITTEN IN MODCHART
+						
+				}
+			}
 
 		if (curSong == 'anjing')
 			{

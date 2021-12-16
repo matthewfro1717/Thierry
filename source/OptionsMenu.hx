@@ -26,6 +26,7 @@ class OptionsMenu extends MusicBeatState
 		new OptionCatagory("Debug", [
 			#if debug
 			new Invincibility("No death"),
+			new MemTrace("Enables memory tracing hehe")
 			#end
 		]),
 		#end

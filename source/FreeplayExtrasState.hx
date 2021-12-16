@@ -182,18 +182,7 @@ class FreeplayExtrasState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (preloadSongs)
-		{
 
-			for (i in 0...songs.length)
-			{
-				FlxG.sound.playMusic(Paths.inst(songs[i].songName), 0);
-				trace("Preloading " + (i + 1) + " / "+ songs.length);
-			}
-			FlxG.sound.playMusic(Paths.inst(songs[0].songName), 0);
-			preloadSongs = false;
-			trace("PRELOAD COMPLETE");
-		}
 
 		super.update(elapsed);
 
@@ -360,6 +349,11 @@ class FreeplayExtrasState extends MusicBeatState
 		{
 			item.targetY = bullShit - curSelected;
 			bullShit++;
+
+			if (item.text == "chaos")
+			{
+				FlxG.camera.shake(0.010, 0.1);
+			}
 
 			item.alpha = 0.6;
 			// item.setGraphicSize(Std.int(item.width * 0.8));

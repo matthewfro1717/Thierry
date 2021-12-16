@@ -179,6 +179,26 @@ class Invincibility extends Option
 		return "Debug play " + (!FlxG.save.data.kebal ? "OFF" : "ON");
 	}
 }
+
+class MemTrace extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	public override function press():Bool
+	{
+		FlxG.save.data.memoryTrace = !FlxG.save.data.memoryTrace;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Memory Trace " + (!FlxG.save.data.memoryTrace ? "OFF" : "ON");
+	}
+}
 #end
 
 class InsaneDifficulty extends Option
