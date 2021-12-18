@@ -27,7 +27,7 @@ class KadeEngineData
 			FlxG.save.data.songPosition = false;
 
 		if (FlxG.save.data.fps == null)
-			FlxG.save.data.fps = false;
+			FlxG.save.data.fps = true;
 
 		if (FlxG.save.data.changedHit == null)
 		{
@@ -99,6 +99,9 @@ class KadeEngineData
 		
 		if (FlxG.save.data.hitSounds == null)
 			FlxG.save.data.hitSounds = false;
+		
+		if (FlxG.save.data.memUsage == null)
+			FlxG.save.data.memUsage = true;
 		
 
 		Conductor.recalculateTimings();

@@ -51,7 +51,7 @@ class StoryMenuState extends MusicBeatState
 	var weekNames:Array<String> = [
 		"How to Funk",
 		"Thierry",
-		"VS The other guys from your skool yay",
+		"VS The other guys from the skool yay",
 		"Raditz is gonna fukin roast yo lmao"
 	];
 

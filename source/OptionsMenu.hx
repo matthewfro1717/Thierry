@@ -66,6 +66,7 @@ class OptionsMenu extends MusicBeatState
 			#if desktop
 			new FPSCapOption("Cap your FPS (Left for -10, Right for +10. SHIFT to go faster)"),
 			new FPSOption("Toggle the FPS Counter"),
+			new MemCounter("Toggle the Memory Counter"),
 			new RainbowFPSOption("Make the FPS Counter Rainbow (Only works with the FPS Counter toggeled on)"),
 			#end
 			new WatermarkOption("Turn off all watermarks from the engine."),

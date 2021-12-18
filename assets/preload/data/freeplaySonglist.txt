@@ -1,11 +1,11 @@
-Tutorial:gf:1
-Ded:pico:3
-Anjing:pico:3
-Meninggal:bob-bersama:3
-revenge:pico:3
-Gerlad:gerlad:3
-Segitiga:gw-3d:3
-Roasting:mom:3
-Gerselo:mom:3
-Bonus-song:bob:3
+Tutorial:gf:1:0
+Ded:pico:3:1
+Anjing:pico:3:1
+Meninggal:bob-bersama:2:3
+revenge:pico:3:1
+Gerlad:gerlad:3:4
+Segitiga:gw-3d:3:2
+Roasting:mom:3:6
+Gerselo:mom:3:6
+Bonus-song:bob:3:5
 

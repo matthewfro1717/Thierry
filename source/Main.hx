@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.MemoryCounter;
 import openfl.display.BlendMode;
 import openfl.text.TextFormat;
 import openfl.display.Application;
@@ -83,6 +84,10 @@ class Main extends Sprite
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
+		
+		memoryCounter = new MemoryCounter(10, 3, 0xffffff);
+		addChild(memoryCounter);
+		toggleRamUsage(FlxG.save.data.memUsage);
 
 		#end
 	}
@@ -90,6 +95,7 @@ class Main extends Sprite
 	var game:FlxGame;
 
 	var fpsCounter:FPS;
+	var memoryCounter:MemoryCounter;
 
 
 		// taken from forever engine, cuz optimization very pog.
@@ -114,6 +120,11 @@ class Main extends Sprite
 		
 	public function toggleFPS(fpsEnabled:Bool):Void {
 		fpsCounter.visible = fpsEnabled;
+	}
+
+	public function toggleRamUsage(ramEnabled:Bool):Void
+	{
+		memoryCounter.visible = ramEnabled;
 	}
 
 	public function changeFPSColor(color:FlxColor)

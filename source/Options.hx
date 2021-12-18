@@ -455,6 +455,28 @@ class FPSOption extends Option
 	}
 }
 
+class MemCounter extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.memUsage = !FlxG.save.data.memUsage;
+		(cast (Lib.current.getChildAt(0), Main)).toggleRamUsage(FlxG.save.data.memUsage);
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Memory Counter " + (!FlxG.save.data.memUsage ? "off" : "on");
+	}
+}
+
 class FPSCapOption extends Option
 {
 	public function new(desc:String)
@@ -580,7 +602,6 @@ class ReplayOption extends Option
 	public override function press():Bool
 	{
 		trace("switch");
-		FlxG.switchState(new LoadReplayState());
 		return false;
 	}
 

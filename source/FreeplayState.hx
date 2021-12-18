@@ -1,5 +1,6 @@
 package;
 
+import flixel.tweens.FlxTween;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -23,7 +24,7 @@ class FreeplayState extends MusicBeatState
 
 	public var selector:FlxText;
 	public var curSelected:Int = 0;
-	var curDifficulty:Int = 1;
+	var curDifficulty:Int = 2;
 
 	public var scoreText:FlxText;
 	public var diffText:FlxText;
@@ -33,6 +34,23 @@ class FreeplayState extends MusicBeatState
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
+	var bg:FlxSprite;
+
+	var songColors:Array<FlxColor> = [
+    	0xFFff0044, // GF 0
+		0xFFffff52, // THIERRY 1
+		0xFFfc6938, // GW3D 2
+		0xFF750606, // Meninggal 3
+		0xFF0066ba, // Gerlad 4
+		0xFF990000, // BONUS SONG 5
+		0xFF00943b, // RADIT 6
+		0xFF008594, // HEX 7
+		0xFF945b00, // MATT 8
+		0xFFb8ff61, // Applecore 9
+		0xFF008594, // HEX 10
+		0xFF008594, // HEX 11
+
+    ];
 
 	private var iconArray:Array<HealthIcon> = [];
 
@@ -45,19 +63,23 @@ class FreeplayState extends MusicBeatState
 			var data:Array<String> = initSonglist[i].split(':');
 			if(!(data[0]=='Bonus-song') && !(data[0]=='Final-showdown') && !(data[0]=='Ram') && !(data[0]=='Glitcher') && !(data[0]=='Run'))
 			{
-				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
+				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1], Std.parseInt(data[3])));
 			}
 			else if(FlxG.save.data.aeroSongUnlocked && data[0]=='Bonus-song')
-				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
+				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1], Std.parseInt(data[3])));
 			else if(FlxG.save.data.mattSongUnlocked && data[0]=='Run')
-				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
+				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1], Std.parseInt(data[3])));
 			else if(FlxG.save.data.mattSongUnlocked && data[0]=='Final-showdown')
-				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
+				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1], Std.parseInt(data[3])));
 			else if(FlxG.save.data.hexSongUnlocked && data[0]=='Ram')
-				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
+				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1], Std.parseInt(data[3])));
 			else if(FlxG.save.data.hexSongUnlocked && data[0]=='Glitcher')
-				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
+				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1], Std.parseInt(data[3])));
 			
+			if (FlxG.save.data.memoryTrace)
+				{
+					trace(data[0], Std.parseInt(data[2]), data[1], data[3]);
+				}
 		}
 
 		/* 
@@ -83,7 +105,7 @@ class FreeplayState extends MusicBeatState
 
 		// LOAD CHARACTERS
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -156,14 +178,14 @@ class FreeplayState extends MusicBeatState
 		super.create();
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String)
+	public function addSong(songName:String, weekNum:Int, songCharacter:String, colorTypeInt:Int)
 	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter));
+		songs.push(new SongMetadata(songName, weekNum, songCharacter, colorTypeInt));
 
 
 	}
 
-	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)
+	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>, colorTypeInt:Int)
 	{
 		if (songCharacters == null)
 			songCharacters = ['bf'];
@@ -171,7 +193,7 @@ class FreeplayState extends MusicBeatState
 		var num:Int = 0;
 		for (song in songs)
 		{
-			addSong(song, weekNum, songCharacters[num]);
+			addSong(song, weekNum, songCharacters[num], colorTypeInt);
 
 			if (songCharacters.length != 1)
 				num++;
@@ -180,6 +202,7 @@ class FreeplayState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+
 		super.update(elapsed);
 
 		/* This code is no longer needed, im not going to delete this masterpiece
@@ -273,26 +296,7 @@ class FreeplayState extends MusicBeatState
 
 	function changeDiff(change:Int = 0)
 	{
-		curDifficulty += change;
-
-		if (curDifficulty < 0)
-			curDifficulty = 2;
-		if (curDifficulty > 2)
-			curDifficulty = 0;
-
-		#if !switch
-		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-		#end
-
-		switch (curDifficulty)
-		{
-			case 0:
-				diffText.text = "EASY";
-			case 1:
-				diffText.text = 'NORMAL';
-			case 2:
-				diffText.text = "HARD";
-		}
+		trace("dude look this guy is trying to chnage diff LOL");
 	}
 
 	function changeSelection(change:Int = 0)
@@ -300,6 +304,7 @@ class FreeplayState extends MusicBeatState
 		#if !switch
 		// NGio.logEvent('Fresh');
 		#end
+		
 
 		// NGio.logEvent('Fresh');
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
@@ -345,6 +350,7 @@ class FreeplayState extends MusicBeatState
 				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
+		FlxTween.color(bg, 0.25, bg.color, songColors[songs[curSelected].colorType]);
 	}
 }
 
@@ -353,11 +359,13 @@ class SongMetadata
 	public var songName:String = "";
 	public var week:Int = 0;
 	public var songCharacter:String = "";
+	public var colorType:Int = 0;
 
-	public function new(song:String, week:Int, songCharacter:String)
+	public function new(song:String, week:Int, songCharacter:String, colorType:Int)
 	{
 		this.songName = song;
 		this.week = week;
 		this.songCharacter = songCharacter;
+		this.colorType = colorType;
 	}
 }

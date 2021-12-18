@@ -145,6 +145,9 @@ class PlayState extends MusicBeatState
 	private var totalNotesHitDefault:Float = 0;
 	private var totalPlayed:Int = 0;
 	public var elapsedtime:Float = 0;
+	public var gwwhatWidth:Int = 364;
+	public var gwwhatHeight:Int = 357;
+
 	private var ss:Bool = false;
 
 
@@ -184,6 +187,7 @@ class PlayState extends MusicBeatState
 	var upperBoppers:FlxSprite;
 	var bottomBoppers:FlxSprite;
 	var santa:FlxSprite;
+	var gwwhat:FlxSprite;
 
 	var fc:Bool = true;
 
@@ -201,6 +205,7 @@ class PlayState extends MusicBeatState
 	var raditz:FlxSprite;
 	var meksi:FlxSprite;
 	var curbg:FlxSprite;
+	public var forceDownscroll:Bool;
 
 	public static var campaignScore:Int = 0;
 
@@ -214,6 +219,7 @@ class PlayState extends MusicBeatState
 	var usedTimeTravel:Bool;
 	public var jancok:Bool;
 	public var jancokKalian:Bool;
+	public var gwHasBeenAdded:Bool = false;
 	public static var repPresses:Int = 0;
 	public static var repReleases:Int = 0;
 	public var mati:Bool;
@@ -514,7 +520,12 @@ class PlayState extends MusicBeatState
 
 		trace('INFORMATION ABOUT WHAT U PLAYIN WIT:\nFRAMES: ' + Conductor.safeFrames + '\nZONE: ' + Conductor.safeZoneOffset + '\nTS: ' + Conductor.timeScale);
 		
-
+		switch (SONG.song)
+		{
+			case 'chaos':
+				preload('gw-3d', 'FlxSprite');
+				preload('parents-christmas', 'Character');
+		}
 
 
 		switch (SONG.song.toLowerCase())
@@ -663,12 +674,16 @@ class PlayState extends MusicBeatState
 				curStage = 'worldeater'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 		
 				defaultCamZoom = 0.9;
+				var stupidFuckingRedBg = new FlxSprite().makeGraphic(9999, 9999, FlxColor.fromRGB(42, 0, 0)).screenCenter();
 				bego = new FlxSprite(-300, -200).loadGraphic(Paths.image('anjay'));
-				bego.setGraphicSize(2720, 2720);
+				bego.setGraphicSize(2048, 2048);
+				
 				bego.antialiasing = true;
 				bego.scrollFactor.set(0.9, 0.9);
 				bego.active = true;
+				add(stupidFuckingRedBg);
 				add(bego);
+				
 				UsingNewCam = true;
 
 			case 'applecore': 
@@ -1289,7 +1304,7 @@ class PlayState extends MusicBeatState
 		}
 		else if (SONG.song == 'chaos')
 		{
-			aeroEngineWatermark.text = SONG.song + " " + "16K" + (Main.watermarks ? " - Aeroshide Engine (3D THREADED ENGINE)" + MainMenuState.kadeEngineVer : "");
+			aeroEngineWatermark.text = SONG.song + " " + "3 DIMENSION" + (Main.watermarks ? " - Aeroshide Engine (3D THREADED ENGINE)" + MainMenuState.kadeEngineVer : "");
 			add(aeroEngineWatermark);
 		}
 		else
@@ -1337,7 +1352,7 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
-		if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar' || SONG.song == 'AppleCore')
+		if (SONG.song == 'segitiga' || SONG.song == 'cheat-blitar' || SONG.song == 'AppleCore' || SONG.song == 'chaos')
 		{
 			// Aeroshide engine watermark for segitiga
 			aeroEngineWatermark.cameras = [camHUD];
@@ -2890,6 +2905,28 @@ class PlayState extends MusicBeatState
 				health = 2;
 			}
 		}
+
+		if (gwHasBeenAdded) //this code is intimidating to see lmfao
+			{ //i dont care, what im aiming is that is works lol
+				gwwhat.angle += 0.9;
+
+				gwwhatWidth -= 1;
+				gwwhatHeight -= 1;
+
+				gwwhat.setGraphicSize(gwwhatWidth, gwwhatHeight);
+
+				if (gwwhat.x <= 2000)
+				{
+					gwwhat.x += 1;
+				}
+
+				if (gwwhat.y <= 2000)
+				{
+					gwwhat.y += 1;
+				}
+				
+				
+			}
 			
 		else if (healthBar.percent < 20)
 		{
@@ -3274,7 +3311,7 @@ class PlayState extends MusicBeatState
 
 						if (SONG.song == 'chaos')
 						{
-							camHUD.shake(0.0057, 0.1);
+							camHUD.shake(0.0037, 0.1);
 						}
 
 						dadStrums.forEach(function(sprite:FlxSprite)
@@ -4789,7 +4826,12 @@ class PlayState extends MusicBeatState
 		{
 			trace("curBeat " + curBeat);
 			trace("curStep " + curStep);
-			trace("currentBPM" + Conductor.bpm);
+			trace("currentBPM " + Conductor.bpm);
+			if (gwHasBeenAdded)
+			{
+				trace("gw.position X / Y / A " + gwwhat.x + '|' + gwwhat.y + '|' + gwwhat.angle);
+			}
+
 		}
 		
 		
@@ -4955,6 +4997,7 @@ class PlayState extends MusicBeatState
 
 		if (curSong == 'chaos')
 			{
+
 				switch(curBeat)
 				{
 					case 1:
@@ -4966,9 +5009,15 @@ class PlayState extends MusicBeatState
 						jancokKalian = true;
 						FlxG.camera.flash(FlxColor.WHITE, 1);
 						iconP2.animation.play("parents-christmas", true);
+
+						gwHasBeenAdded = true;
+						gwwhat = new FlxSprite(dad.x, dad.y).loadGraphic(Paths.image('gw-3d'));
+
 						remove(dad);
-						dad = new Character(0, 150, 'parents-christmas');
+						dad = new Character(-200, 150, 'parents-christmas');
+						add(gwwhat);
 						add(dad);
+						
 						//REST OF THE CODES ARE WRITTEN IN MODCHART
 						
 				}
@@ -5234,6 +5283,40 @@ class PlayState extends MusicBeatState
 			}
 		}
 		return null;
+	}
+
+	public function preload(graphic:String,datatype:String) //preload assets
+	{
+		if (boyfriend != null)
+		{
+			boyfriend.stunned = true;
+		}
+		
+
+
+		if (datatype == 'Character')
+		{
+			var newthingy:Character = new Character(-200, 150, graphic);
+			remove(newthingy);
+			add(newthingy);
+		}
+		else if (datatype == 'FlxSprite')
+		{
+			var newthing:FlxSprite = new FlxSprite(9000,-9000).loadGraphic(Paths.image(graphic));
+			add(newthing);
+			remove(newthing);
+		}
+		else
+		{
+			trace("The datatype is not supported!, theres only two datatypes ; Character and FlxSprite, please fed me with the correct datatype!"); 
+		}
+
+
+
+		if (boyfriend != null)
+		{
+			boyfriend.stunned = false;
+		}
 	}
 
 	var curLight:Int = 0;

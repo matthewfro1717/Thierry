@@ -50,6 +50,7 @@ class MainMenuState extends MusicBeatState
 	public static var gameVer:String = "0.2.7.1";
 	public var frame:Int;
 	public var whichonetobouncelol:Bool = true; //TRUE IS LEFT
+	var bg:FlxSprite;
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -69,7 +70,7 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
+		bg = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.15;
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
@@ -142,6 +143,8 @@ class MainMenuState extends MusicBeatState
 
 		if (frame % 60 == 0)
 		{
+			FlxTween.tween(bg.scale, {x: 1.15, y: 1.15}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+
 			menuItems.forEach(function(spr:FlxSprite)
 				{
 					spr.animation.play('idle');
