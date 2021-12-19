@@ -80,6 +80,8 @@ class PlayState extends MusicBeatState
 	public static var bads:Int = 0;
 	public static var goods:Int = 0;
 	public static var sicks:Int = 0;
+	public var dadHealthBar:FlxColor = 0xFFFF0000;
+	public var bfHealthBar:FlxColor = 0xFF00b3ff;
 	var healthDrainBool:Bool;
 	public var susussamongus:Bool;
 
@@ -1285,7 +1287,26 @@ class PlayState extends MusicBeatState
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(0xFFFF0000, 0xFF00b3ff);
+		switch (SONG.song)
+		{
+			case "ded" | "anjing" | "revenge" | "run" | "screw-you" | "get-out":
+				dadHealthBar = 0xFFffff52;
+			case "meninggal" | "bonus-song":
+				dadHealthBar = 0xFFe30227;
+			case "chaos" | "segitiga":
+				dadHealthBar = 0xFFda8282;
+			case "roasting" | "gerselo":
+				dadHealthBar = 0xFF4b6448;
+			case "gerlad":
+				dadHealthBar = 0xFFdbc9b7;
+			case "AppleCore":
+				dadHealthBar = 0xFF653537;
+			case "ram" | "glitcher":
+				dadHealthBar = 0xFF4ef4e9;
+			case "final-showdown" | "latihan":
+				dadHealthBar = 0xFFff8b00;
+		}
+		healthBar.createFilledBar(dadHealthBar, bfHealthBar); //the magic shit
 		// healthBar
 		add(healthBar);
 			
@@ -2871,7 +2892,10 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song == 'gerlad')
 		{
-			trace("jumped with eval " + iconP2.height + ' ' + iconP2.width);
+			if (FlxG.save.data.memoryTrace)
+			{
+				trace("jumped with eval " + iconP2.height + ' ' + iconP2.width);
+			}
 			thierry.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(1000, iconP2.height, 0.8)));
 			gw.setGraphicSize(Std.int(FlxMath.lerp(900, iconP2.width, 0.8)),Std.int(FlxMath.lerp(300, iconP2.height, 0.1)));
 			achell.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(555, iconP2.height, 0.5)));
@@ -5009,6 +5033,7 @@ class PlayState extends MusicBeatState
 						jancokKalian = true;
 						FlxG.camera.flash(FlxColor.WHITE, 1);
 						iconP2.animation.play("parents-christmas", true);
+						updateHealthColor(0xFF6d3c3d, bfHealthBar);
 
 						gwHasBeenAdded = true;
 						gwwhat = new FlxSprite(dad.x, dad.y).loadGraphic(Paths.image('gw-3d'));
@@ -5283,6 +5308,14 @@ class PlayState extends MusicBeatState
 			}
 		}
 		return null;
+	}
+
+	public function updateHealthColor(dadColor:FlxColor, bfColor:FlxColor)
+	{
+
+		remove(healthBar);
+		healthBar.createFilledBar(dadColor, bfColor);
+		add(healthBar);
 	}
 
 	public function preload(graphic:String,datatype:String) //preload assets
