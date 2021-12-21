@@ -66,7 +66,7 @@ class DialogueBox extends FlxSpriteGroup
 				}
 
 			case 'meninggal':
-				sound = new FlxSound().loadEmbedded(Paths.music('Lunchbox'),true);
+				sound = new FlxSound().loadEmbedded(Paths.music('gw'),true);
 				sound.volume = 0;
 				FlxG.sound.list.add(sound);
 				sound.fadeIn(1, 0, 0.8);
@@ -89,7 +89,7 @@ class DialogueBox extends FlxSpriteGroup
 		var hasDialog = false;
 		switch (PlayState.SONG.song.toLowerCase())
 		{
-			case 'ded':
+			case 'ded' | 'revenge' | 'gerlad' | 'segitiga':
 				hasDialog = true;
 				box.frames = Paths.getSparrowAtlas('dialogstuff/pixelUI/speech_bubble_talking', 'shared');
 				box.animation.addByPrefix('normalOpen', 'Speech Bubble Normal Open', 24, false);

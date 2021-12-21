@@ -37,7 +37,7 @@ class DiscordClient
 	static function onReady()
 	{
 		DiscordRpc.presence({
-			details: "Playing VS Thierry",
+			details: "Engine Starting...",
 			state: null,
 			largeImageKey: 'omegalul',
 			largeImageText: "VS Thierry"

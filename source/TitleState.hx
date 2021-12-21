@@ -45,6 +45,7 @@ class TitleState extends MusicBeatState
 	var ngSpr:FlxSprite;
 
 	var curWacky:Array<String> = [];
+	var iconRPC:String;
 
 	var wackyImage:FlxSprite;
 	var characters:FlxSprite;
@@ -296,6 +297,7 @@ class TitleState extends MusicBeatState
 			initialized = true;
 
 		// credGroup.add(credTextShit);
+		DiscordClient.changePresence("In the Title Screen", iconRPC);
 	}
 
 	function getIntroTextShit():Array<Array<String>>
@@ -364,9 +366,18 @@ class TitleState extends MusicBeatState
 
 			titleText.animation.play('press');
 
-			FlxTween.tween(logoBl, {x: -1500}, 3.5, {ease: FlxEase.expoInOut});
-			FlxTween.tween(characters, {y: -1500}, 3.7, {ease: FlxEase.expoInOut});
-			FlxTween.tween(titleText, {y: 1500}, 3.7, {ease: FlxEase.expoInOut});
+			if (FlxG.save.data.willSeeCrashEnding)
+				{
+					
+				}
+				else
+				{
+					FlxTween.tween(logoBl, {x: -1500}, 3.5, {ease: FlxEase.expoInOut});
+					FlxTween.tween(characters, {y: -1500}, 3.7, {ease: FlxEase.expoInOut});
+					FlxTween.tween(titleText, {y: 1500}, 3.7, {ease: FlxEase.expoInOut});
+				}
+
+
 
 			FlxG.camera.flash(FlxColor.WHITE, 1);
 			if (FlxG.save.data.willSeeCrashEnding)

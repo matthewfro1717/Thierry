@@ -538,26 +538,9 @@ class PlayState extends MusicBeatState
 				dialogue = CoolUtil.coolTextFile(Paths.txt('anjing/dialog'));
 			case 'meninggal':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('meninggal/dialog'));
+
 			case 'gerselo':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('gerselo/dialog'));
-			case 'cut0':
-				dialogue = CoolUtil.coolTextFile(Paths.txt('cut0/dialog')); //POST WEEK 2
-				if (isStoryMode)
-				{
-					FlxG.save.data.mattSongUnlocked = true;
-				}
-			case 'cut1'://IF YOURE WONDERING WHY THIS LOOKS STUPID, IT IS STUPID IM AN IDIOT SO I SWITCH BETWEEN 0 AND 1
-				dialogue = CoolUtil.coolTextFile(Paths.txt('cut1/dialog')); //POST WEEK 1
-				if (isStoryMode)
-				{
-					FlxG.save.data.hexSongUnlocked = true;
-				}
-			case 'cut2':
-				dialogue = CoolUtil.coolTextFile(Paths.txt('cut2/dialog')); //POST WEEK 3
-				if (isStoryMode)
-				{
-					FlxG.save.data.aeroSongUnlocked = true;
-				}
 			case 'get-out':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('get-out/dialog'));
 			case 'run':
@@ -566,6 +549,13 @@ class PlayState extends MusicBeatState
 				dialogue = CoolUtil.coolTextFile(Paths.txt('latihan/dialog'));
 			case 'roasting':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('roasting/dialog'));
+			case 'segitiga':
+				dialogue = CoolUtil.coolTextFile(Paths.txt('segitiga/dialog'));
+			case 'revenge':
+				dialogue = CoolUtil.coolTextFile(Paths.txt('revenge/dialog'));
+			case 'gerlad':
+				dialogue = CoolUtil.coolTextFile(Paths.txt('gerlad/dialog'));
+
 			case 'thorns':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('thorns/thornsDialogue'));
 		}
@@ -1433,7 +1423,7 @@ class PlayState extends MusicBeatState
 				case 'roses':
 					FlxG.sound.play(Paths.sound('ANGRY'));
 					schoolIntro(doof);
-				case 'anjing':
+				case 'anjing' | 'segitiga' | 'gerlad':
 					schoolIntro(doof);
 				case 'meninggal':
 					schoolIntro(doof);
@@ -3607,6 +3597,25 @@ class PlayState extends MusicBeatState
 			#if !switch
 			Highscore.saveScore(SONG.song, Math.round(songScore), storyDifficulty);
 			#end
+		}
+
+		switch (SONG.song)
+		{
+			case 'meninggal':
+				if (isStoryMode)
+				{
+					FlxG.save.data.hexSongUnlocked = true;
+				}
+			case 'segitiga':
+				if (isStoryMode)
+				{
+					FlxG.save.data.mattSongUnlocked = true;
+				}
+			case 'gerselo':
+				if (isStoryMode)
+				{
+					FlxG.save.data.aeroSongUnlocked = true;
+				}
 		}
 
 		if (offsetTesting)

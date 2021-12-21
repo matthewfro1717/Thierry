@@ -139,7 +139,7 @@ class FreeplayState extends MusicBeatState
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
-		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
+		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "HARD", 24);
 		diffText.font = scoreText.font;
 		add(diffText);
 
@@ -233,6 +233,12 @@ class FreeplayState extends MusicBeatState
 		}
 		/****/
 
+		curDifficulty = 2; //Force it to hard difficulty.
+		diffText.text = "HARD";
+		#if !switch
+		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
+		#end
+
 		
 		if (FlxG.sound.music.volume < 0.7)
 		{
@@ -295,7 +301,7 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function changeDiff(change:Int = 0)
-	{
+	{	
 		trace("dude look this guy is trying to chnage diff LOL");
 	}
 
