@@ -93,6 +93,12 @@ class FreeplayBuffer extends MusicBeatState
 			FlxG.switchState(new MainMenuState());
 		}
 
+		if (FlxG.keys.pressed.CONTROL)
+		{
+			trace("EXECUTING PRELOAD IMMIDIETLY");
+			preloadSongs = true;
+		}
+
 		if (FlxG.keys.pressed.SPACE)
 		{
 			trace("[WARNING] PRELOADING SKIPPED!");

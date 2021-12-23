@@ -11,15 +11,13 @@ function update (elapsed) -- every frame
 end
 
 function beatHit (beat) -- every beat (1/4 of a step)
-    if (curBeat == 145) then
-        banger = false
-    end
-    if (banger) then
-        if (curBeat % 4 == 0) then
-            setCamZoom(0.2)
-        end
-    end
 
+    if (curBeat == 2352) then
+        showOnlyStrums = true
+    end
+    if (curBeat == 2638) then
+        showOnlyStrums = false
+    end
     
 end
 

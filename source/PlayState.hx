@@ -588,11 +588,11 @@ class PlayState extends MusicBeatState
 				curStage = 'sekolahMalam'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 
 				defaultCamZoom = 0.9;
-				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stagemalem'));
-				bg.antialiasing = true;
-				bg.scrollFactor.set(0.9, 0.9);
-				bg.active = false;
-				add(bg);
+				bego = new FlxSprite(-600, -200).loadGraphic(Paths.image('stagemalem'));
+				bego.antialiasing = true;
+				bego.scrollFactor.set(0.9, 0.9);
+				bego.active = false;
+				add(bego);
 
 				thierry = new FlxSprite(-100, 400).loadGraphic(Paths.image('Thieri'));
 				thierry.antialiasing = true;
@@ -2745,7 +2745,7 @@ class PlayState extends MusicBeatState
 		{
 			if (FlxG.save.data.accuracyDisplay)
 			{
-				scoreTxt.text = (FlxG.save.data.npsDisplay ? "NPS: " + nps + " | " : "") + "Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Missses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "% | " + generateRanking() + " | " + "Combo: " + combo;
+				scoreTxt.text = (FlxG.save.data.npsDisplay ? "NPS: " + nps + " | " : "") + "Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "% | " + generateRanking() + " | " + "Combo: " + combo;
 			}
 			else
 			{
@@ -5185,32 +5185,6 @@ class PlayState extends MusicBeatState
 						gw.visible = true;
 						thierry.visible = false;
 						trace('STAGE CHANGED!');
-
-
-
-
-						
-	
-						//remove(healthBarBG);
-						//remove(healthBar);
-						//remove(iconP2);
-						//remove(iconP1);
-						
-						
-						
-						//add(healthBarBG);
-						//add(healthBar);
-						//iconP2 = new HealthIcon('pico', false);
-						//iconP2.y = healthBar.y - (iconP2.height / 3);//shorcut
-						//iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.50)));
-						//iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - 26);
-						//iconP2.updateHitbox();
-						//add(iconP2);
-						//add(iconP1);
-						
-						
-						
-						//trace('ICON CHANGED!');
 					case 1455:
 
 						FlxG.camera.flash(FlxColor.WHITE, 1);
@@ -5226,26 +5200,6 @@ class PlayState extends MusicBeatState
 						thierry.visible = true;
 						gw.visible = false;
 						trace('STAGE CHANGED!');
-						//remove(healthBarBG);
-						//remove(healthBar);
-						//remove(iconP2);
-						//remove(iconP1);
-							
-							
-							
-						//add(healthBarBG);
-						//add(healthBar);
-						//iconP2 = new HealthIcon('bob', false);
-						//iconP2.y = healthBar.y - (iconP2.height / 3);//shorcut
-						//iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.50)));
-						//iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - 26);
-						//iconP2.updateHitbox();
-						//add(iconP2);
-						//add(iconP1);
-	
-						
-							
-							
 						trace('ICON CHANGED!');
 					case 1584:
 						FlxG.camera.flash(FlxColor.WHITE, 1);
@@ -5275,9 +5229,93 @@ class PlayState extends MusicBeatState
 						trace('STAGE CHANGED!');
 						
 					case 2352:
-						FlxG.camera.fade(FlxColor.BLACK, 3, blackScreeneg);
-						healthDrainBool = false;
+						if (FlxG.save.data.memoryTrace)
+						{
+							trace("internal transform executed");
+						}
+						blackScreen = new FlxSprite().makeGraphic(9999, 9999, FlxColor.BLACK);
+						blackScreen.alpha = 0;
+						add(blackScreen);
+						new FlxTimer().start(0.01, function(tmr:FlxTimer)
+						{
+							blackScreen.alpha += 0.01;
+						}, 200);
+						new FlxTimer().start(3, function(tmr:FlxTimer)
+						{
+							healthDrainBool = false;
+							boyfriend.visible = false;
+							thierry.visible = false;
+							gf.visible = false;
+							dad.visible = false;
+							blackScreen.visible = false;
+							remove(blackScreen);
+							remove(bego);
+							bego = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+							add(bego);
+						});
+
 						//DIP TO BLACK
+					case 2419:
+
+						
+					case 2638:
+						if (FlxG.save.data.memoryTrace)
+						{
+							trace("dad visible");
+						}
+						FlxG.camera.flash(FlxColor.BLACK, 3);
+						dad.visible = true;
+					case 2648:
+						if (FlxG.save.data.memoryTrace)
+						{
+							trace("bf visible");
+						}
+						boyfriend.alpha = 0;
+						boyfriend.visible = true;
+						new FlxTimer().start(0.01, function(tmr:FlxTimer)
+						{
+							boyfriend.alpha += 0.01;
+						}, 100);
+						
+					case 2663:
+						if (FlxG.save.data.memoryTrace)
+						{
+							trace("the weel;y thing");
+						}
+						FlxG.camera.flash(FlxColor.WHITE, 2);
+						boyfriend.visible = true;
+						gf.visible = true;
+						dad.visible = true;
+						remove(bego);
+						bego = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
+						add(bego);
+					case 2792:
+						//THE CROWD CAME
+					case 3414:
+						remove(dad);
+						dad = new Character(-200, 200, 'parents-christmas');
+						iconP2.animation.play("parents-christmas", true);
+						add(dad);
+						updateHealthColor(0xFF653537, bfHealthBar);
+
+					case 3928:
+						remove(dad);
+						dad = new Character(200, 400, 'pico');
+						iconP2.animation.play("pico", true);
+						add(dad);
+						updateHealthColor(0xFFffff52, bfHealthBar);
+
+					case 4952:
+						remove(dad);
+						dad = new Character(100, 100, 'bob');
+						iconP2.animation.play("bob", true);
+						add(dad);
+						updateHealthColor(0xFFe30227, bfHealthBar);
+
+
+
+
+
 				}
 			}
 
@@ -5429,6 +5467,21 @@ class PlayState extends MusicBeatState
 
 	}
 
+	function dependencyBG() 
+	{
+
+	}
+
+	function verycoalinternaltransition() 
+	{
+		boyfriend.visible = false;
+		gf.visible = false;
+		dad.visible = false;
+		bego = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		add(bego);
+		remove(blackScreen);
+	}
+
 	public function updateHealthColor(dadColor:FlxColor, bfColor:FlxColor)
 	{
 
@@ -5449,8 +5502,9 @@ class PlayState extends MusicBeatState
 		if (datatype == 'Character')
 		{
 			var newthingy:Character = new Character(-200, 150, graphic);
-			remove(newthingy);
 			add(newthingy);
+			remove(newthingy);
+			
 		}
 		else if (datatype == 'FlxSprite')
 		{
