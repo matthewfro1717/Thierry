@@ -40,7 +40,9 @@ class GlitchedMainMenu extends MusicBeatState
 
 	var newGaming:FlxText;
 	var newGaming2:FlxText;
+	public static var fromCheaterEnding:Bool = true;
 	var newInput:Bool = true;
+	var daSong:String = 'confronting-yourself';
 
 	public static var nightly:String = "";
 
@@ -155,7 +157,7 @@ class GlitchedMainMenu extends MusicBeatState
 
 			if (controls.BACK)
 			{
-				FlxG.switchState(new GlitchedTitleState());
+	
 			}
 
 			if (controls.ACCEPT)
@@ -199,7 +201,7 @@ class GlitchedMainMenu extends MusicBeatState
 										FlxG.switchState(new CrasherStateEnding("crasherEnding", "bSOD"));
 										trace("Story Menu Selected");
 									case 'freeplay':
-										FlxG.switchState(new CrasherStateEnding("crasherEnding", "bSOD"));
+										FlxG.switchState(new GlitchedFreeplay());
 
 										trace("Freeplay Menu Selected");
 

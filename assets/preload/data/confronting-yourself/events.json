@@ -1,0 +1,394 @@
+{
+	"song": {
+		"speed": 3.5,
+		"stage": "stage",
+		"player1": "bf",
+		"player2": "fake",
+		"player3": null,
+		"events": [
+			[
+				14000,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					],
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				14625,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					],
+					[
+						"Play Animation",
+						"ha",
+						"Dad "
+					]
+				]
+			],
+			[
+				15000,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				15250,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					],
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				62000,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				62125,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				62250,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				62375,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				62500,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				62625,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				62750,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				62875,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				63000,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				63125,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				63250,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				63375,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				63500,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				63625,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				63750,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				63875,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				160000,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				160125,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				160250,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				160375,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				160500,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				160625,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				160750,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				160875,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				161000,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				161125,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				161250,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				161375,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				161500,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				161625,
+				[
+					[
+						"Play Animation",
+						"ha",
+						"Dad"
+					]
+				]
+			],
+			[
+				161750,
+				[
+					[
+						"Screen Shake",
+						"1, 0.02",
+						"0.05"
+					]
+				]
+			],
+			[
+				161875,
+				[
+					[
+						"Change Character",
+						"1",
+						"faked"
+					]
+				]
+			]
+		],
+		"notes": [],
+		"splashSkin": null,
+		"validScore": false,
+		"gfVersion": "gf",
+		"bpm": 120,
+		"arrowSkin": null,
+		"needsVoices": true,
+		"song": "confronting yourself"
+	}
+}

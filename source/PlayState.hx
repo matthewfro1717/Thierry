@@ -1,5 +1,7 @@
 package;
 
+import openfl.system.System;
+import lime.system.System;
 import flixel.util.FlxSpriteUtil;
 import openfl.geom.Matrix;
 import openfl.display.BitmapData;
@@ -118,6 +120,7 @@ class PlayState extends MusicBeatState
 
 	private var notes:FlxTypedGroup<Note>;
 	private var unspawnNotes:Array<Note> = [];
+	var doTrace:Bool = true;
 
 	private var strumLine:FlxSprite;
 	private var curSection:Int = 0;
@@ -223,6 +226,7 @@ class PlayState extends MusicBeatState
 	public var jancokKalian:Bool;
 	public var gwHasBeenAdded:Bool = false;
 	public static var repPresses:Int = 0;
+	var blackScreen:FlxSprite;
 	public static var repReleases:Int = 0;
 	public var mati:Bool;
 
@@ -527,6 +531,9 @@ class PlayState extends MusicBeatState
 			case 'chaos':
 				preload('gw-3d', 'FlxSprite');
 				preload('parents-christmas', 'Character');
+			case 'meninggal':
+				preload('pico', 'Character');
+
 		}
 
 
@@ -566,6 +573,16 @@ class PlayState extends MusicBeatState
 
 		switch(SONG.song.toLowerCase())
 		{
+			case 'confronting-yourself' | 'termination' | 'ghost':
+				curStage = 'dumbshit';
+
+				defaultCamZoom = 0.9;
+				var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+				bg.antialiasing = true;
+				bg.scrollFactor.set(0.9, 0.9);
+				bg.active = false;
+				add(bg);
+
 			case 'glitcher' | 'meninggal' | 'cut1': 
 			{
 				curStage = 'sekolahMalam'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
@@ -584,6 +601,7 @@ class PlayState extends MusicBeatState
 				if (SONG.song == "meninggal")
 				{
 					thierry.visible = true;
+					UsingNewCam = true;
 				}
 				
 				add(thierry);
@@ -1119,8 +1137,9 @@ class PlayState extends MusicBeatState
 		{
 			camPos = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
 		}
-		if (SONG.song == 'segitiga' || SONG.song == 'chaos')
+		if (SONG.song == 'segitiga' || SONG.song == 'chaos' || SONG.song == 'confronting-yourself' || SONG.song == 'Termination' || SONG.song == 'GHOST')
 		{
+			trace('event called, gf is deleted');
 			gf.visible = false;
 		}
 
@@ -1156,10 +1175,17 @@ class PlayState extends MusicBeatState
 				dad.x += 150;
 				dad.y += 360;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+
+			case 'fake':
+				dad.x -= 120;
+				camPos.set(dad.getGraphicMidpoint().y - 200);
 			case 'spirit':
 				dad.x -= 150;
 				dad.y += 100;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+			case 'bob':
+				trace(dad.getGraphicMidpoint().x + dad.getGraphicMidpoint().y);
+				camPos.set(dad.getGraphicMidpoint().x);
 			case 'gw-3d':
 				camPos.set(dad.getGraphicMidpoint().y);
 			case 'thierry-mad':
@@ -1176,6 +1202,8 @@ class PlayState extends MusicBeatState
 		// REPOSITIONING PER STAGE
 		switch (curStage)
 		{
+			case 'dumbshit':
+				boyfriend.y -= 120;
 			case 'limo':
 				boyfriend.y -= 220;
 				boyfriend.x += 260;
@@ -1318,6 +1346,11 @@ class PlayState extends MusicBeatState
 			aeroEngineWatermark.text = SONG.song + " " + "3 DIMENSION" + (Main.watermarks ? " - Aeroshide Engine (3D THREADED ENGINE)" + MainMenuState.kadeEngineVer : "");
 			add(aeroEngineWatermark);
 		}
+		else if (SONG.song == 'confronting-yourself')
+		{
+			kadeEngineWatermark.text = "Original song by Penguin 123-452";
+			add(kadeEngineWatermark);
+		}
 		else
 		{
 			add(kadeEngineWatermark);
@@ -1391,9 +1424,6 @@ class PlayState extends MusicBeatState
 			switch (curSong.toLowerCase())
 			{
 				case "winter-horrorland":
-					var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
-					add(blackScreen);
-					blackScreen.scrollFactor.set();
 					camHUD.visible = false;
 
 					new FlxTimer().start(0.1, function(tmr:FlxTimer)
@@ -1642,11 +1672,11 @@ class PlayState extends MusicBeatState
 					return FlxG.camera.y;
 				}));
 	
-				trace(Lua_helper.add_callback(lua,"setCamZoom", function(zoomAmount:Int) {
+				trace(Lua_helper.add_callback(lua,"setCamZoom", function(zoomAmount:Float) {
 					FlxG.camera.zoom = zoomAmount;
 				}));
 	
-				trace(Lua_helper.add_callback(lua,"setHudZoom", function(zoomAmount:Int) {
+				trace(Lua_helper.add_callback(lua,"setHudZoom", function(zoomAmount:Float) {
 					camHUD.zoom = zoomAmount;
 				}));
 	
@@ -1934,7 +1964,10 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 
-
+		if (SONG.song == 'meninggal')
+		{
+			healthDrainBool = true;
+		}
 
 		var splash:FlxSprite = new FlxSprite(0, 0);
 		splash.frames = Paths.getSparrowAtlas('notesplash');
@@ -1953,6 +1986,10 @@ class PlayState extends MusicBeatState
 		if (SONG.song == 'cheat-blitar')
 		{
 			health = 2;
+			canPause = false;
+		}
+		else if (SONG.song == 'confronting-yourself')
+		{
 			canPause = false;
 		}
 
@@ -2020,6 +2057,7 @@ class PlayState extends MusicBeatState
 	}
 
 	var debugNum:Int = 0;
+	
 
 	private function generateSong(dataPath:String):Void
 	{
@@ -2089,22 +2127,30 @@ class PlayState extends MusicBeatState
 		// Per song offset check
 		#if desktop
 			var songPath = 'assets/data/' + PlayState.SONG.song.toLowerCase() + '/';
-			for(file in sys.FileSystem.readDirectory(songPath))
+			if (GlitchedMainMenu.fromCheaterEnding)
 			{
-				var path = haxe.io.Path.join([songPath, file]);
-				if(!sys.FileSystem.isDirectory(path))
-				{
-					if(path.endsWith('.offset'))
-					{
-						trace('Found offset file: ' + path);
-						songOffset = Std.parseFloat(file.substring(0, file.indexOf('.off')));
-						break;
-					}else {
-						trace('Offset file not found. Creating one @: ' + songPath);
-						sys.io.File.saveContent(songPath + songOffset + '.offset', '');
-					}
-				}
+				// no
 			}
+			else
+			{
+				for(file in sys.FileSystem.readDirectory(songPath))
+					{
+						var path = haxe.io.Path.join([songPath, file]);
+						if(!sys.FileSystem.isDirectory(path))
+						{
+							if(path.endsWith('.offset'))
+							{
+								trace('Found offset file: ' + path);
+								songOffset = Std.parseFloat(file.substring(0, file.indexOf('.off')));
+								break;
+							}else {
+								trace('Offset file not found. Creating one @: ' + songPath);
+								sys.io.File.saveContent(songPath + songOffset + '.offset', '');
+							}
+						}
+					}
+			}
+			
 		#end
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 		for (section in noteData)
@@ -2466,6 +2512,7 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		susussamongus = false; //LMAO UPDATING VARIABLE EVERY FRAME THIS IS OVERKILL
+		ZoomCam(focusOnDadGlobal);
 
 		if (SONG.song == 'chaos')
 		{
@@ -2522,6 +2569,7 @@ class PlayState extends MusicBeatState
 			dad.y += (Math.sin(elapsedtime) * 0.72);
 			camFollow.y = boyfriend.getMidpoint().y - 100;
 		}
+
 		if(SONG.song == 'segitiga' && jancokKalian)
 		{
 			boyfriend.y += (Math.sin(elapsedtime) * 0.4);
@@ -2530,6 +2578,7 @@ class PlayState extends MusicBeatState
 		{
 			gf.y += (Math.sin(elapsedtime) * 0.4);
 		}
+
 
 
 		elapsedtime += elapsed; //THIS SHIT IS KINDA LIKE A TEST CODE, THIS WILL BE REPLACED WITH MODCHART SOON
@@ -2696,7 +2745,7 @@ class PlayState extends MusicBeatState
 		{
 			if (FlxG.save.data.accuracyDisplay)
 			{
-				scoreTxt.text = (FlxG.save.data.npsDisplay ? "NPS: " + nps + " | " : "") + "Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Combo Breaks:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "% | " + generateRanking();
+				scoreTxt.text = (FlxG.save.data.npsDisplay ? "NPS: " + nps + " | " : "") + "Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Missses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "% | " + generateRanking() + " | " + "Combo: " + combo;
 			}
 			else
 			{
@@ -2723,7 +2772,7 @@ class PlayState extends MusicBeatState
 			else
 				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
-		else if (FlxG.keys.justPressed.ENTER && startedCountdown && SONG.song == 'cheat-blitar')
+		else if (FlxG.keys.justPressed.ENTER && startedCountdown && SONG.song == 'cheat-blitar' || FlxG.keys.justPressed.ENTER && SONG.song == 'confronting-yourself')
 		{
 			FlxG.sound.play(Paths.soundRandom('error', 0, 1), 69.69);
 			var blocked:FlxSprite = new FlxSprite(500, 500);
@@ -2846,7 +2895,7 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.SEVEN)
 		{
-			if (curSong.toLowerCase() == 'cheat-blitar')
+			if (curSong.toLowerCase() == 'cheat-blitar' || curSong.toLowerCase() == 'confronting-yourself')
 			{
 				FlxG.sound.play(Paths.soundRandom('error', 0, 1), 69.69);
 				trace("HAHAHA DEBUG MODE BLOCKED");
@@ -3230,14 +3279,16 @@ class PlayState extends MusicBeatState
 				vocals.stop();
 				FlxG.sound.music.stop();
 
-				if (SONG.song != 'cheat-blitar')
+				switch (SONG.song)
 				{
-					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+					case 'cheat-blitar':
+						FlxG.switchState(new MainMenuState());
+					case 'confronting-yourself':
+						System.exit(0);
+					default:
+						openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				}
-				else
-				{
-					FlxG.switchState(new MainMenuState());
-				}
+
 				
 
 				#if windows
@@ -3271,6 +3322,12 @@ class PlayState extends MusicBeatState
 			{
 				notes.forEachAlive(function(daNote:Note)
 				{	
+					if (UsingNewCam)
+					{
+						focusOnDadGlobal = true;
+						ZoomCam(true);
+					}
+
 					if (daNote.y > FlxG.height)
 					{
 						daNote.active = false;
@@ -3307,9 +3364,14 @@ class PlayState extends MusicBeatState
 						{
 							health -= 0.02;
 						}/****/
-						if (SONG.song == 'revenge' && health > 0.015 || SONG.song == 'meninggal' && health > 0.015|| SONG.song == 'cheat-blitar' && health > 0.015 || SONG.song == 'latihan' && health > 0.025) //LOW DAMAGE NOT KILLING
+						if (SONG.song == 'revenge' && health > 0.015 || SONG.song == 'cheat-blitar' && health > 0.015 || SONG.song == 'latihan' && health > 0.025) //LOW DAMAGE NOT KILLING
 						{
 							health -= 0.014;
+						}
+
+						if (SONG.song == 'meninggal' && healthDrainBool && health > 0.015)
+						{
+							health -= 0.008;
 						}
 
 						if (SONG.song == 'AppleCore' && healthDrainBool && health > 0.015)
@@ -3471,6 +3533,8 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.ONE)
 			endSong();
 		#end
+
+		ZoomCam(focusOnDadGlobal);
 	}
 
 	function ZoomCam(focusondad:Bool):Void
@@ -3601,6 +3665,8 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.song)
 		{
+			case 'confronting-yourself':
+				FlxG.switchState(new CrasherStateEnding("crasherEnding", "bSOD"));
 			case 'meninggal':
 				if (isStoryMode)
 				{
@@ -5079,6 +5145,8 @@ class PlayState extends MusicBeatState
 	
 				switch(curBeat)//HEY UHHH, IF YOURE LOOKING TO EDIT ME, SPRITE COORDINATES ARE STORED IN STAGE, NOT IT BEAT CHECK!
 				{
+					case 336:
+						jancok = true;
 
 					case 1199:
 						FlxG.camera.flash(FlxColor.WHITE, 1);
@@ -5086,8 +5154,10 @@ class PlayState extends MusicBeatState
 
 						remove(dad);
 						dad = new Character(200, 400, 'pico');
+						iconP2.animation.play("pico", true);
 						add(dad);
-						trace('CHARACTER CHANGED!');
+						trace('CHARACTER CHANGED! AT ' + curBeat);
+						updateHealthColor(0xFFffff52, bfHealthBar);
 	
 						gw.visible = true;
 						thierry.visible = false;
@@ -5125,7 +5195,9 @@ class PlayState extends MusicBeatState
 
 						remove(dad);
 						dad = new Character(100, 100, 'bob');
+						iconP2.animation.play("bob", true);
 						add(dad);
+						updateHealthColor(0xFFe30227, bfHealthBar);
 						trace('CHARACTER CHANGED!');
 	
 						thierry.visible = true;
@@ -5157,7 +5229,9 @@ class PlayState extends MusicBeatState
 						trace('CAMERA FLASHED!');
 						remove(dad);
 						dad = new Character(200, 400, 'pico');
+						iconP2.animation.play("pico", true);
 						add(dad);
+						updateHealthColor(0xFFffff52, bfHealthBar);
 						trace('CHARACTER CHANGED!');
 	
 						gw.visible = true;
@@ -5168,13 +5242,19 @@ class PlayState extends MusicBeatState
 						trace('CAMERA FLASHED!');
 						remove(dad);
 						dad = new Character(100, 100, 'bob');
+						iconP2.animation.play("bob", true);
 						add(dad);
 						trace('CHARACTER CHANGED!');
+						updateHealthColor(0xFFe30227, bfHealthBar);
 	
 						thierry.visible = true;
 						gw.visible = false;
 						trace('STAGE CHANGED!');
 						
+					case 2352:
+						FlxG.camera.fade(FlxColor.BLACK, 3, blackScreeneg);
+						healthDrainBool = false;
+						//DIP TO BLACK
 				}
 			}
 
@@ -5317,6 +5397,13 @@ class PlayState extends MusicBeatState
 			}
 		}
 		return null;
+	}
+
+	function blackScreeneg() 
+	{
+		blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		add(blackScreen);
+
 	}
 
 	public function updateHealthColor(dadColor:FlxColor, bfColor:FlxColor)

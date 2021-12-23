@@ -132,6 +132,22 @@ class Character extends FlxSprite
 				antialiasing = false;
 		
 				playAnim('idle');
+
+			case 'fake':
+				tex = Paths.getSparrowAtlas('fake');
+				frames = tex;
+				animation.addByPrefix('idle', "fake idle", 24, false);
+				animation.addByPrefix('singUP', 'fake up', 24, false);
+				animation.addByPrefix('singDOWN', 'fake down', 24, false);
+				animation.addByPrefix('singLEFT', 'fake left', 24, false);
+				animation.addByPrefix('singRIGHT', 'fake right', 24, false);
+
+				addOffset('idle', -1, -91);
+				addOffset("singUP", -10, -84);
+				addOffset("singRIGHT", -2, -80);
+				addOffset("singLEFT", 0, -84);
+				addOffset("singDOWN", 0, -84);
+
 			case 'bob':
 				tex = Paths.getSparrowAtlas('bob_asset');
 				frames = tex;

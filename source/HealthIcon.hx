@@ -47,6 +47,7 @@ class HealthIcon extends FlxSprite
 		animation.add('gw-3d-mad', [32, 33], 0, false, isPlayer);
 		animation.add('gerlad', [35, 36], 0, false, isPlayer);
 		animation.add('thierry-mad', [37, 38], 0, false, isPlayer);
+		animation.add('fake', [42, 43], 0, false, isPlayer);
 		animation.play(char);
 		switch(char){
 			case 'bf-pixel' | 'senpai' | 'senpai-angry' | 'spirit' | 'gf-pixel':

@@ -1,0 +1,145 @@
+var isplayerturn = 0;
+var dfjkenabled = 0;
+
+Keystoclick = new FlxGroup();
+
+NegaBF = new FlxSprite().loadGraphic('assets/images/above-ground/negachin/NegaBF.png');
+	NegaBF.antialiasing = true;
+	NegaBF.scrollFactor.set();
+	NegaBF.screenCenter();
+	NegaBF.cameras = [camHUD];
+	NegaBF.x -= 110;
+	NegaBF.y -= 165;
+	Keystoclick.add(NegaBF);
+	
+NegaBFPress = new FlxSprite().loadGraphic('assets/images/above-ground/negachin/NegaBFPress.png');
+	NegaBFPress.antialiasing = true;
+	NegaBFPress.scrollFactor.set();
+	NegaBFPress.screenCenter();
+	NegaBFPress.cameras = [camHUD];
+	NegaBFPress.x -= 110;
+	NegaBFPress.y -= 165;
+	NegaBFPress.alpha = 0.5;
+	Keystoclick.add(NegaBFPress);
+	
+BF = new FlxSprite().loadGraphic('assets/images/above-ground/negachin/BF.png');
+	BF.antialiasing = true;
+	BF.scrollFactor.set();
+	BF.screenCenter();
+	BF.cameras = [camHUD];
+	BF.x += 20;
+	BF.y -= 165;
+	Keystoclick.add(BF);
+	
+BFPress = new FlxSprite().loadGraphic('assets/images/above-ground/negachin/BFPress.png');
+	BFPress.antialiasing = true;
+	BFPress.scrollFactor.set();
+	BFPress.screenCenter();
+	BFPress.cameras = [camHUD];
+	BFPress.x += 20;
+	BFPress.y -= 165;
+	BFPress.alpha = 0.5;
+	Keystoclick.add(BFPress);
+
+function start(song) {
+addSprite(Keystoclick, BEHIND_NONE);
+dad.x -= 200;
+gf.x += 450;
+}
+
+
+function beatHit(beat)
+{
+
+}
+
+function update(elapsed)
+{
+	if (isplayerturn == 0)
+	{
+	BFPress.alpha = 0;
+	BF.alpha = 1;
+	NegaBF.alpha = 0;
+	NegaBFPress.alpha = 0.5;	
+	}
+	
+	if (isplayerturn == 1)
+	{
+	BFPress.alpha = 0.5;
+	BF.alpha = 0;
+	NegaBF.alpha = 1;
+	NegaBFPress.alpha = 0;	
+	}
+	
+	if (FlxG.keys.justPressed.Q && dfjkenabled == 0)
+	{
+	isplayerturn = 0;
+	FlxG.sound.play(FNFAssets.getSound('assets/sounds/confront/NEGABFTURN' + TitleState.soundExt));
+	}
+	
+	if (FlxG.keys.justPressed.E && dfjkenabled == 0)
+	{
+	isplayerturn = 1;
+	FlxG.sound.play(FNFAssets.getSound('assets/sounds/confront/BFTURN' + TitleState.soundExt));
+	}
+	
+	if (FlxG.keys.justPressed.S && dfjkenabled == 1)
+	{
+	isplayerturn = 0;
+	FlxG.sound.play(FNFAssets.getSound('assets/sounds/confront/NEGABFTURN' + TitleState.soundExt));
+	}
+	
+	if (FlxG.keys.justPressed.L && dfjkenabled == 1)
+	{
+	isplayerturn = 1;
+	FlxG.sound.play(FNFAssets.getSound('assets/sounds/confront/BFTURN' + TitleState.soundExt));
+	}
+	
+	if (FlxG.keys.pressed.D && FlxG.keys.pressed.F && FlxG.keys.pressed.J && FlxG.keys.pressed.K && dfjkenabled == 0)
+	{
+	FlxG.sound.play(FNFAssets.getSound('assets/sounds/dfjkactivate' + TitleState.soundExt));
+	dfjkenabled = 1;	
+	}
+}
+
+function stepHit(step)
+{
+	
+}
+
+function playerTwoTurn()
+{
+    if (isplayerturn == 1)
+	{
+	currentPlayState.health -= 0.015;	
+	}
+}
+
+function playerTwoMiss()
+{
+    
+}
+
+function playerTwoSing()
+{
+	if (currentPlayState.health > 0.2)
+	{
+	currentPlayState.health -= 0.02;	
+	}
+}
+
+function playerOneTurn()
+{
+	if (isplayerturn == 0)
+	{
+	currentPlayState.health -= 0.015;	
+	}
+}
+
+function playerOneMiss()
+{
+}
+
+function playerOneSing()
+{
+}

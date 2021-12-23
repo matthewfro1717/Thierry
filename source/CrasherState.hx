@@ -22,6 +22,12 @@ class CrasherState extends FlxState
 	
 	override public function create():Void 
 	{
+		trace("LMAO CRASHED");
+		FlxG.save.data.willSeeCrashEnding = true;
+		var bad = FlxG.save.data.willSeeCrashEnding;
+		trace("FLIXEL SAVED TRUE BUT I DONT TRUST IT");
+		trace("HERES AN ACTUAL INFO" + bad);
+
 		super.create();
 		var end2:FlxSprite = new FlxSprite(0, 0);
 		var end:FlxSprite = new FlxSprite(0, 0);

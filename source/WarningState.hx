@@ -133,8 +133,8 @@ class WarningState extends MusicBeatState
 	{
         if (FlxG.keys.pressed.ENTER || FlxG.keys.pressed.SPACE)
         {
+			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
             FlxG.switchState(new TitleState());
-            FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
         }
     }
 
