@@ -4916,6 +4916,29 @@ class PlayState extends MusicBeatState
 	{
 		super.beatHit();
 
+		if (!UsingNewCam)
+		{
+			if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null)
+			{
+				if (curBeat % 4 == 0)
+				{
+					// trace(PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection);
+				}
+
+				if (!PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+				{
+					focusOnDadGlobal = true;
+					ZoomCam(true);
+				}
+
+				if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+				{
+					focusOnDadGlobal = false;
+					ZoomCam(false);
+				}
+			}
+		}
+
 		if (SONG.song == 'cheat-blitar')
 		{
 			dad.playAnim('idle');
