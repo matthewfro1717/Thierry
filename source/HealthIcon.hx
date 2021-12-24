@@ -42,12 +42,14 @@ class HealthIcon extends FlxSprite
 		animation.add('monster-christmas', [19, 20], 0, false, isPlayer);
 		animation.add('matt', [24, 25], 0, false, isPlayer);
 		animation.add('bob', [26, 27], 0, false, isPlayer);
+		animation.add('bob-player', [26, 27, 46], 0, false, isPlayer);
 		animation.add('bob-bersama', [28, 29], 0, false, isPlayer);
 		animation.add('gw-3d', [30, 31, 35], 0, false, isPlayer);
 		animation.add('gw-3d-mad', [32, 33], 0, false, isPlayer);
 		animation.add('gerlad', [35, 36], 0, false, isPlayer);
 		animation.add('thierry-mad', [37, 38], 0, false, isPlayer);
 		animation.add('fake', [42, 43], 0, false, isPlayer);
+		animation.add('bob-real-omg', [44, 45], 0, false, isPlayer);
 		animation.play(char);
 		switch(char){
 			case 'bf-pixel' | 'senpai' | 'senpai-angry' | 'spirit' | 'gf-pixel':

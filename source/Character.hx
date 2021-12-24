@@ -164,6 +164,39 @@ class Character extends FlxSprite
 				addOffset("singDOWN", 0, -250);
 				flipX = true;
 
+			case 'bob-player':
+				tex = Paths.getSparrowAtlas('bob_ass_play');
+				frames = tex;
+				animation.addByPrefix('idle', "bob_idle", 24, false);
+				animation.addByPrefix('singUP', 'bob_UP', 24, false);
+				animation.addByPrefix('singDOWN', 'bob_DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'bob_LEFT', 24, false);
+				animation.addByPrefix('singRIGHT', 'bob_RIGHT', 24, false);
+		
+				addOffset('idle', 0, 100);
+				addOffset("singUP", 0, 100);
+				addOffset("singRIGHT", 0, 100);
+				addOffset("singLEFT", 0, 100);
+				addOffset("singDOWN", 0, 100);
+				flipX = true;
+				
+
+			case 'bob-real-omg':
+				tex = Paths.getSparrowAtlas('bob_ass_real');
+				frames = tex;
+				animation.addByPrefix('idle', "bob_idle", 24, false);
+				animation.addByPrefix('singUP', 'bob_UP', 24, false);
+				animation.addByPrefix('singDOWN', 'bob_DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'bob_LEFT', 24, false);
+				animation.addByPrefix('singRIGHT', 'bob_RIGHT', 24, false);
+	
+				addOffset('idle', 0, -250);
+				addOffset("singUP", 0, -250);
+				addOffset("singRIGHT", 0, -250);
+				addOffset("singLEFT", 0, -250);
+				addOffset("singDOWN", 0, -250);
+				flipX = true;
+
 			case 'bob-bersama':
 				tex = Paths.getSparrowAtlas('bob_asset');
 				frames = tex;

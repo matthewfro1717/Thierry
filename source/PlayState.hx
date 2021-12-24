@@ -738,7 +738,7 @@ class PlayState extends MusicBeatState
 				bg.active = false;
 				add(bg);
 			}
-			case 'get-out' | 'revenge' | 'latihan' | 'bonus-song' | 'gerlad': 
+			case 'get-out' | 'revenge' | 'latihan' | 'bonus-song' | 'gerlad' | 'copy-cat': 
 			{
 				curStage = 'sekolahTapiDepan';
 			
@@ -780,6 +780,10 @@ class PlayState extends MusicBeatState
 				gw.scrollFactor.set(1, 1);
 				gw.visible = true;
 				gw.flipX = true;
+				if (SONG.song == 'copy-cat')
+				{
+					UsingNewCam = true;
+				}
 				if (SONG.song == 'gerlad')
 				{
 					bg.y -= 100;
@@ -1137,7 +1141,7 @@ class PlayState extends MusicBeatState
 		{
 			camPos = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
 		}
-		if (SONG.song == 'segitiga' || SONG.song == 'chaos' || SONG.song == 'confronting-yourself' || SONG.song == 'Termination' || SONG.song == 'GHOST')
+		if (SONG.song == 'segitiga' || SONG.song == 'chaos' || SONG.song == 'confronting-yourself' || SONG.song == 'Termination' || SONG.song == 'GHOST' || SONG.song == 'copy-cat')
 		{
 			trace('event called, gf is deleted');
 			gf.visible = false;
@@ -2513,6 +2517,11 @@ class PlayState extends MusicBeatState
 	{
 		susussamongus = false; //LMAO UPDATING VARIABLE EVERY FRAME THIS IS OVERKILL
 		ZoomCam(focusOnDadGlobal);
+
+		if (SONG.song == 'copy-cat')
+		{
+			camFollow.setPosition(gf.getMidpoint().x + 150, gf.getMidpoint().y - 100);
+		}
 
 		if (SONG.song == 'chaos')
 		{
@@ -4689,6 +4698,8 @@ class PlayState extends MusicBeatState
 					if (mashing != 0)
 						mashing = 0;
 				}
+				
+			susussamongus = false;
 		}
 
 		var nps:Int = 0;

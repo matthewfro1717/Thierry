@@ -49,6 +49,7 @@ class FreeplayExtrasState extends MusicBeatState
 		0xFF008594, // HEX 7
 		0xFFd68f00, // MATT 8
 		0xFF12ff35, // Applecore 9
+		0xFFFFFFFF, // copy-cat 10
 
     ];
 
