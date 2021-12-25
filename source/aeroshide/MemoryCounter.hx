@@ -2,6 +2,7 @@ package aeroshide;
 
 import openfl.events.Event;
 import openfl.system.System;
+import haxe.SysTools;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 

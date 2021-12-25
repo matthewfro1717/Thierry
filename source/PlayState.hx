@@ -152,6 +152,9 @@ class PlayState extends MusicBeatState
 	public var elapsedtime:Float = 0;
 	public var gwwhatWidth:Int = 364;
 	public var gwwhatHeight:Int = 357;
+	public var thierrySiang:FlxSprite;
+	public var boppersSpawned:Bool = false;
+	public var elonMusk:Bool = false;
 
 	private var ss:Bool = false;
 
@@ -533,6 +536,10 @@ class PlayState extends MusicBeatState
 				preload('parents-christmas', 'Character');
 			case 'meninggal':
 				preload('pico', 'Character');
+				preload('parents-christmas', 'Character');
+				preload('meksi', 'FlxSprite');
+				preload('achel', 'FlxSprite');
+				preload('radit', 'FlxSprite');
 
 		}
 
@@ -595,16 +602,55 @@ class PlayState extends MusicBeatState
 				add(bego);
 
 				thierry = new FlxSprite(-100, 400).loadGraphic(Paths.image('Thieri'));
+				thierry.setGraphicSize(200, 300);
 				thierry.antialiasing = true;
 				thierry.scrollFactor.set(1, 1);
 				thierry.visible = false;
+
+
+				thierrySiang = new FlxSprite(250, 250).loadGraphic(Paths.image('Thieri'));
+				thierrySiang.setGraphicSize(200, 300);
+				thierrySiang.antialiasing = true;
+				thierrySiang.scrollFactor.set(1, 1);
+				thierrySiang.visible = false;
+
+				raditz = new FlxSprite(1250, 250).loadGraphic(Paths.image('radit'));
+				raditz.setGraphicSize(300, 400);
+				raditz.antialiasing = true;
+				raditz.scrollFactor.set(1, 1);
+				raditz.visible = false;
+
+				meksi = new FlxSprite(850, 250).loadGraphic(Paths.image('meksi'));
+				meksi.setGraphicSize(300, 400);
+				meksi.antialiasing = true;
+				meksi.scrollFactor.set(1, 1);
+				meksi.visible = false;
+
+				achell = new FlxSprite(-250, 490).loadGraphic(Paths.image('achel'));
+				achell.setGraphicSize(255, 355);
+				achell.antialiasing = true;
+				achell.scrollFactor.set(1, 1);//stage code lmafo
+				achell.visible = false;
+				
+	
+				gw = new FlxSprite(-100, 220).loadGraphic(Paths.image('gw'));
+				gw.setGraphicSize(120, 120);
+				gw.antialiasing = true;
+				gw.scrollFactor.set(1, 1);
+				gw.visible = false;
+				gw.flipX = true;
 				if (SONG.song == "meninggal")
 				{
+					add(gw);
+					add(meksi);
+					add(achell);
+					add(raditz);
+					add(thierrySiang);
+					add(thierry);
 					thierry.visible = true;
 					UsingNewCam = true;
 				}
-				
-				add(thierry);
+
 	
 				gw = new FlxSprite(0, 450).loadGraphic(Paths.image('gw'));
 				gw.antialiasing = true;
@@ -2938,6 +2984,36 @@ class PlayState extends MusicBeatState
 			iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8)));	
 		}
 
+		if (SONG.song == 'meninggal')
+		{
+			if (FlxG.save.data.memoryTrace && curBeat % 4 == 0)
+			{
+				trace("jumped with eval " + iconP2.height + ' ' + iconP2.width);
+			}
+			
+
+			if (boppersSpawned)
+			{
+				thierrySiang.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(1000, iconP2.height, 0.8)));
+				achell.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(555, iconP2.height, 0.5)));
+				raditz.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(1500, iconP2.height, 0.8)));
+				meksi.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(1300, iconP2.height, 0.8)));
+			}
+			else
+			{
+				if (thierry.visible)
+				{
+					thierry.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(2000, iconP2.height, 0.86)));
+				}
+				if (gw.visible)
+				{
+					gw.setGraphicSize(Std.int(FlxMath.lerp(800, iconP2.width, 0.8)),Std.int(FlxMath.lerp(300, iconP2.height, 0.1)));
+				}
+				
+			}
+
+		}
+
 		if (SONG.song == 'gerlad')
 		{
 			if (FlxG.save.data.memoryTrace)
@@ -3568,7 +3644,15 @@ class PlayState extends MusicBeatState
 		}
 		if (focusondad)
 		{
-			camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+			if (elonMusk)
+			{
+				camFollow.setPosition(dad.getMidpoint().x + 400, dad.getMidpoint().y - 100);
+			}
+			else
+			{
+				camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+			}
+			
 			// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
 
 			switch (dad.curCharacter)
@@ -5301,22 +5385,62 @@ class PlayState extends MusicBeatState
 						bego = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
 						add(bego);
 					case 2792:
+						boppersSpawned = true;
+						FlxG.camera.flash(FlxColor.WHITE, 2);
+						thierrySiang.visible = true;
+						achell.visible = true;
+						meksi.visible = true;
+						raditz.visible = true;
+
 						//THE CROWD CAME
+					case 3212:
+						FlxTween.tween(FlxG.camera, {zoom: 1.3}, 4, {ease: FlxEase.quadInOut});
+						new FlxTimer().start(4 , function(tmr:FlxTimer)
+						{
+							defaultCamZoom = 1.3;
+						});
 					case 3414:
+						elonMusk = true;
+						FlxG.camera.flash(FlxColor.WHITE, 2);
+						meksi.visible = false;
+						gw.visible = true;
 						remove(dad);
-						dad = new Character(-200, 200, 'parents-christmas');
+						dad = new Character(-300, 100, 'parents-christmas');
 						iconP2.animation.play("parents-christmas", true);
 						add(dad);
 						updateHealthColor(0xFF653537, bfHealthBar);
+					case 3276:
+						FlxTween.tween(FlxG.camera, {zoom: 0.9}, 8, {ease: FlxEase.quadInOut});
+						new FlxTimer().start(8 , function(tmr:FlxTimer)
+						{
+							defaultCamZoom = 0.9;
+						});
 
 					case 3928:
+						elonMusk = false;
+						healthDrainBool = true;
+						FlxG.camera.flash(FlxColor.WHITE, 2);
+						remove(bego);
+						bego = new FlxSprite(-600, -200).loadGraphic(Paths.image('stagesore'));
+						add(bego);
+						meksi.visible = true;
+						thierrySiang.visible = false;
 						remove(dad);
 						dad = new Character(200, 400, 'pico');
 						iconP2.animation.play("pico", true);
 						add(dad);
 						updateHealthColor(0xFFffff52, bfHealthBar);
 
+					case 4593:
+						remove(bego);
+						bego = new FlxSprite(-600, -200).loadGraphic(Paths.image('stagemalem'));
+						add(bego);
+
 					case 4952:
+						healthDrainBool = false;
+						FlxG.camera.flash(FlxColor.WHITE, 2);
+						thierrySiang.visible = true;
+						gw.visible = false;
 						remove(dad);
 						dad = new Character(100, 100, 'bob');
 						iconP2.animation.play("bob", true);
