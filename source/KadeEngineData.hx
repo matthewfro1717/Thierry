@@ -102,6 +102,8 @@ class KadeEngineData
 		
 		if (FlxG.save.data.memUsage == null)
 			FlxG.save.data.memUsage = true;
+		if (FlxG.save.data.discordRPC == null)
+			FlxG.save.data.discordRPC = true;
 		
 
 		Conductor.recalculateTimings();

@@ -5377,6 +5377,7 @@ class PlayState extends MusicBeatState
 						{
 							trace("the weel;y thing");
 						}
+						boyfriend.alpha = 1;
 						FlxG.camera.flash(FlxColor.WHITE, 2);
 						boyfriend.visible = true;
 						gf.visible = true;
@@ -5432,6 +5433,7 @@ class PlayState extends MusicBeatState
 						updateHealthColor(0xFFffff52, bfHealthBar);
 
 					case 4593:
+						FlxG.camera.flash(FlxColor.BLACK, 1);
 						remove(bego);
 						bego = new FlxSprite(-600, -200).loadGraphic(Paths.image('stagemalem'));
 						add(bego);
@@ -5446,6 +5448,8 @@ class PlayState extends MusicBeatState
 						iconP2.animation.play("bob", true);
 						add(dad);
 						updateHealthColor(0xFFe30227, bfHealthBar);
+					case 5080:
+						FlxG.camera.fade(FlxColor.BLACK, 4);
 
 
 

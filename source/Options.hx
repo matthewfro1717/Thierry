@@ -1,5 +1,6 @@
 package;
 
+import Discord.DiscordClient;
 import flixel.util.FlxColor;
 import Controls.KeyboardScheme;
 import flixel.FlxG;
@@ -452,6 +453,35 @@ class FPSOption extends Option
 	private override function updateDisplay():String
 	{
 		return "FPS Counter " + (!FlxG.save.data.fps ? "off" : "on");
+	}
+}
+
+class DiscordRPC extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.discordRPC = !FlxG.save.data.discordRPC;
+		display = updateDisplay();
+		if (FlxG.save.data.discordRPC)
+		{
+			DiscordClient.initialize();
+		}
+		else
+		{
+			DiscordClient.shutdown();
+		}
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Discord RPC " + (!FlxG.save.data.discordRPC ? "HIDE" : "SHOW");
 	}
 }
 
