@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.StaticData;
 import openfl.system.System;
 import lime.system.System;
 import flixel.util.FlxSpriteUtil;
@@ -156,6 +157,7 @@ class PlayState extends MusicBeatState
 	public var boppersSpawned:Bool = false;
 	public var elonMusk:Bool = false;
 
+
 	private var ss:Bool = false;
 
 
@@ -187,6 +189,7 @@ class PlayState extends MusicBeatState
 	var phillyCityLights:FlxTypedGroup<FlxSprite>;
 	var phillyTrain:FlxSprite;
 	var trainSound:FlxSound;
+	var scoreTxtTween:FlxTween;
 
 	var limo:FlxSprite;
 	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
@@ -534,6 +537,9 @@ class PlayState extends MusicBeatState
 			case 'chaos':
 				preload('gw-3d', 'FlxSprite');
 				preload('parents-christmas', 'Character');
+			case 'segitiga':
+				preload('bob', 'Character');
+				preload('bf', 'Character');
 			case 'meninggal':
 				preload('pico', 'Character');
 				preload('parents-christmas', 'Character');
@@ -566,7 +572,15 @@ class PlayState extends MusicBeatState
 			case 'segitiga':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('segitiga/dialog'));
 			case 'revenge':
-				dialogue = CoolUtil.coolTextFile(Paths.txt('revenge/dialog'));
+				if (StaticData.gotBadEnding)
+				{
+					dialogue = CoolUtil.coolTextFile(Paths.txt('revenge/baddialog'));
+				}
+				else
+				{
+					dialogue = CoolUtil.coolTextFile(Paths.txt('revenge/dialog'));
+				}
+				
 			case 'gerlad':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('gerlad/dialog'));
 
@@ -1383,7 +1397,7 @@ class PlayState extends MusicBeatState
 		aeroEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		aeroEngineWatermark.scrollFactor.set();		
 		// Add Kade Engine watermark
-		kadeEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,SONG.song + " " + (storyDifficulty == 2 ? "Hard" : storyDifficulty == 1 ? "Normal" : "Easy") + (Main.watermarks ? " - Thierry Engine (KE 1.4.2)" + MainMenuState.kadeEngineVer : ""), 16);
+		kadeEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,SONG.song + " " + (Main.watermarks ? " - Thierry Engine (KE 1.4.2)" + MainMenuState.kadeEngineVer : ""), 16);
 		kadeEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		kadeEngineWatermark.scrollFactor.set();
 
@@ -2016,6 +2030,7 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song == 'meninggal')
 		{
+			StaticData.isAllowedToBop = true;
 			healthDrainBool = true;
 		}
 
@@ -2804,7 +2819,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				scoreTxt.text = ("Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Rating: " + truncateFloat(accuracy, 2) + "% " + generateRanking());
+				scoreTxt.text = ("Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Rating: " + truncateFloat(accuracy, 0) + "% " + generateRanking());
 			}
 		}
 		else
@@ -3001,14 +3016,18 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				if (thierry.visible)
+				if (StaticData.isAllowedToBop)
 				{
-					thierry.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(2000, iconP2.height, 0.86)));
+					if (thierry.visible)
+					{
+						thierry.setGraphicSize(Std.int(FlxMath.lerp(300, iconP2.width, 0.1)),Std.int(FlxMath.lerp(2000, iconP2.height, 0.86)));
+					}
+					if (gw.visible)
+					{
+						gw.setGraphicSize(Std.int(FlxMath.lerp(800, iconP2.width, 0.8)),Std.int(FlxMath.lerp(300, iconP2.height, 0.1)));
+					}
 				}
-				if (gw.visible)
-				{
-					gw.setGraphicSize(Std.int(FlxMath.lerp(800, iconP2.width, 0.8)),Std.int(FlxMath.lerp(300, iconP2.height, 0.1)));
-				}
+
 				
 			}
 
@@ -3366,6 +3385,20 @@ class PlayState extends MusicBeatState
 
 				switch (SONG.song)
 				{
+					case 'ded':
+						openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+						if (isStoryMode)
+						{
+							StaticData.goingBadEndingRoute = true;
+						}
+					case 'anjing':
+						openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+						if (isStoryMode)
+						{
+							StaticData.goingBadEndingRoute = true;
+						}
+
+					//PUNISHJMENTS
 					case 'cheat-blitar':
 						FlxG.switchState(new MainMenuState());
 					case 'confronting-yourself':
@@ -3794,27 +3827,65 @@ class PlayState extends MusicBeatState
 				campaignScore += Math.round(songScore);
 
 				storyPlaylist.remove(storyPlaylist[0]);
-				if (curSong.toLowerCase() == 'roasting')
-				{
-					FlxG.switchState(new EndingState('goodEnding', 'goodEnding'));
-				}
 
 				if (storyPlaylist.length <= 0)
 				{
 					if (curSong.toLowerCase() == 'meninggal')
 					{
-						if (health < 1)
+						if (StaticData.goingBadEndingRoute)
 						{
-							FlxG.switchState(new EndingState('badEnding', 'badEnding'));
+							canPause = false;
+							StaticData.gotBadEnding = true;
+							FlxG.sound.music.volume = 0;
+							vocals.volume = 0;
+							generatedMusic = false; // stop the game from trying to generate anymore music and to just cease attempting to play the music in general
+							boyfriend.stunned = true;
+							var doof:DialogueBox = new DialogueBox(false, CoolUtil.coolTextFile(Paths.txt('meninggal/badEndDialogue')));
+							doof.scrollFactor.set();
+							doof.finishThing = nextSong;
+							doof.cameras = [camHUD];
+							doof.finishThing = function()
+							{
+								FlxG.switchState(new EndingState('badEnding', 'badEnding'));
+							};
+							schoolIntro(doof);
+							
+
 						}
 						else
 						{
-							FlxG.switchState(new EndingState('goodEnding', 'goodEnding'));
+							canPause = false;
+							FlxG.sound.music.volume = 0;
+							vocals.volume = 0;
+							generatedMusic = false; // stop the game from trying to generate anymore music and to just cease attempting to play the music in general
+							boyfriend.stunned = true;
+							var doof:DialogueBox = new DialogueBox(false, CoolUtil.coolTextFile(Paths.txt('meninggal/goodEndDialogue')));
+							doof.scrollFactor.set();
+							doof.finishThing = nextSong;
+							doof.cameras = [camHUD];
+							doof.finishThing = function()
+							{
+								FlxG.switchState(new EndingState('goodEnding', 'goodEnding'));
+							};
+							schoolIntro(doof);
 						}
 					}
 					else if (curSong.toLowerCase() == 'segitiga')
 					{
-						FlxG.switchState(new EndingState('goodEnding', 'goodEnding')); //savior ending, will count as good ending
+						canPause = false;
+						FlxG.sound.music.volume = 0;
+						vocals.volume = 0;
+						generatedMusic = false; // stop the game from trying to generate anymore music and to just cease attempting to play the music in general
+						boyfriend.stunned = true;
+						var doof:DialogueBox = new DialogueBox(false, CoolUtil.coolTextFile(Paths.txt('segitiga/endDialogue')));
+						doof.scrollFactor.set();
+						doof.finishThing = nextSong;
+						doof.cameras = [camHUD];
+						doof.finishThing = function()
+						{
+							FlxG.switchState(new EndingState('goodEnding', 'goodEnding'));
+						};
+						schoolIntro(doof);
 					}
 					else if (curSong.toLowerCase() == 'gerselo')
 					{
@@ -3822,7 +3893,7 @@ class PlayState extends MusicBeatState
 					}
 					
 
-					FlxG.switchState(new StoryMenuState());
+					//FlxG.switchState(new StoryMenuState());
 
 					if (lua != null)
 					{
@@ -3837,6 +3908,9 @@ class PlayState extends MusicBeatState
 					{
 						Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 					}
+
+					StaticData.isAllowedToBop = false;
+					StaticData.goingBadEndingRoute = false;
 
 					FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 					FlxG.save.flush();
@@ -3853,6 +3927,39 @@ class PlayState extends MusicBeatState
 							generatedMusic = false; // stop the game from trying to generate anymore music and to just cease attempting to play the music in general
 							boyfriend.stunned = true;
 							var doof:DialogueBox = new DialogueBox(false, CoolUtil.coolTextFile(Paths.txt('anjing/endDialogue')));
+							doof.scrollFactor.set();
+							doof.finishThing = nextSong;
+							doof.cameras = [camHUD];
+							schoolIntro(doof);
+						case 'revenge':
+							canPause = false;
+							FlxG.sound.music.volume = 0;
+							vocals.volume = 0;
+							generatedMusic = false; // stop the game from trying to generate anymore music and to just cease attempting to play the music in general
+							boyfriend.stunned = true;
+							var doof:DialogueBox = new DialogueBox(false, CoolUtil.coolTextFile(Paths.txt('revenge/endDialogue')));
+							doof.scrollFactor.set();
+							doof.finishThing = nextSong;
+							doof.cameras = [camHUD];
+							schoolIntro(doof);
+						case 'gerlad':
+							canPause = false;
+							FlxG.sound.music.volume = 0;
+							vocals.volume = 0;
+							generatedMusic = false; // stop the game from trying to generate anymore music and to just cease attempting to play the music in general
+							boyfriend.stunned = true;
+							var doof:DialogueBox = new DialogueBox(false, CoolUtil.coolTextFile(Paths.txt('gerlad/endDialogue')));
+							doof.scrollFactor.set();
+							doof.finishThing = nextSong;
+							doof.cameras = [camHUD];
+							schoolIntro(doof);
+						case 'segitiga':
+							canPause = false;
+							FlxG.sound.music.volume = 0;
+							vocals.volume = 0;
+							generatedMusic = false; // stop the game from trying to generate anymore music and to just cease attempting to play the music in general
+							boyfriend.stunned = true;
+							var doof:DialogueBox = new DialogueBox(false, CoolUtil.coolTextFile(Paths.txt('segitiga/endDialogue')));
 							doof.scrollFactor.set();
 							doof.finishThing = nextSong;
 							doof.cameras = [camHUD];
@@ -3943,9 +4050,18 @@ class PlayState extends MusicBeatState
 
 			var daRating = daNote.rating;
 
-			scoreTxt.scale.x = 1.075;
-			scoreTxt.scale.y = 1.075;
-			FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {ease: FlxEase.quadOut});
+			if(scoreTxtTween != null) 
+				{
+					scoreTxtTween.cancel();
+				}
+	
+				scoreTxt.scale.x = 1.1;
+				scoreTxt.scale.y = 1.1;
+				scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
+					onComplete: function(twn:FlxTween) {
+						scoreTxtTween = null;
+					}
+				});
 
 			if (daRating == 'sick' && FlxG.save.data.spong)//note splash
 			{
@@ -5044,6 +5160,11 @@ class PlayState extends MusicBeatState
 			trace("curBeat " + curBeat);
 			trace("curStep " + curStep);
 			trace("currentBPM " + Conductor.bpm);
+			if (isStoryMode)
+			{
+				trace("Ending Status :" + StaticData.goingBadEndingRoute);
+			}
+			
 			if (gwHasBeenAdded)
 			{
 				trace("gw.position X / Y / A " + gwwhat.x + '|' + gwwhat.y + '|' + gwwhat.angle);
@@ -5163,6 +5284,7 @@ class PlayState extends MusicBeatState
 					healthDrainBool = true;
 				case 636:
 					FlxG.camera.flash(FlxColor.BLACK, 3);
+					updateHealthColor(0xFFffff52, bfHealthBar);
 					iconP2.animation.play("pico", true);
 					remove(bego);
 					bego = new FlxSprite(-700, -200).loadGraphic(Paths.image('hellstage'));

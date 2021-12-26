@@ -39,6 +39,7 @@ class DialogueBox extends FlxSpriteGroup
 	var geral:FlxSprite;
 	var meksi:FlxSprite;
 	var marsel:FlxSprite;
+	var bf3D:FlxSprite;
 
 	var handSelect:FlxSprite;
 	var bgFade:FlxSprite;
@@ -157,7 +158,7 @@ class DialogueBox extends FlxSpriteGroup
 				hasDialog = true;
 				box.frames = Paths.getSparrowAtlas('dialogstuff/pixelUI/speech_bubble_talking', 'shared');
 				box.animation.addByPrefix('normalOpen', 'Speech Bubble Normal Open', 24, false);
-				box.animation.addByIndices('normal', 'speech bubble normal', [4], "", 24);
+				box.animation.addByIndices('normal', 'speech bubble normal', [4], "", 24);//
 				box.width = 200;
 				box.height = 200;
 				box.x = 100;
@@ -224,6 +225,15 @@ class DialogueBox extends FlxSpriteGroup
 		portraitRight.scrollFactor.set();
 		add(portraitRight);
 		portraitRight.visible = false;
+		
+		bf3D = new FlxSprite(0, 40);
+		bf3D.frames = Paths.getSparrowAtlas('dialogstuff/boyfriend3dPortrait', 'shared');
+		bf3D.animation.addByPrefix('enter', 'Portrait Enter instance', 24, false);
+		bf3D.setGraphicSize(Std.int(bf3D.width * PlayState.daPixelZoom * 0.15));
+		bf3D.updateHitbox();
+		bf3D.scrollFactor.set();
+		add(bf3D);
+		bf3D.visible = false;
 
 		gwRight = new FlxSprite(-80, 120);
 		gwRight.frames = Paths.getSparrowAtlas('dialogstuff/gwPortrait', 'shared');
@@ -436,6 +446,7 @@ class DialogueBox extends FlxSpriteGroup
 		switch (curCharacter) // 
 		{
 			case 'dad':
+				bf3D.visible = false;
 				portraitRight.visible = false;
 				gwRight.visible = false;
 				raditRight.visible = false;
@@ -451,6 +462,7 @@ class DialogueBox extends FlxSpriteGroup
 					portraitLeft.animation.play('enter');
 				}
 			case 'gw':
+				bf3D.visible = false;
 				portraitRight.visible = false;
 				gwRight.visible = false;
 				raditRight.visible = false;
@@ -465,6 +477,7 @@ class DialogueBox extends FlxSpriteGroup
 					gwRight.animation.play('enter');
 				}
 			case 'gerlad':
+				bf3D.visible = false;
 				portraitRight.visible = false;
 				gwRight.visible = false;
 				raditRight.visible = false;
@@ -478,6 +491,7 @@ class DialogueBox extends FlxSpriteGroup
 					geral.animation.play('enter');
 				}
 			case 'maxzi':
+				bf3D.visible = false;
 				portraitRight.visible = false;
 				gwRight.visible = false;
 				raditRight.visible = false;
@@ -491,6 +505,7 @@ class DialogueBox extends FlxSpriteGroup
 					meksi.animation.play('enter');
 				}
 			case 'marchel':
+				bf3D.visible = false;
 				portraitRight.visible = false;
 				gwRight.visible = false;
 				raditRight.visible = false;
@@ -504,6 +519,7 @@ class DialogueBox extends FlxSpriteGroup
 					marsel.animation.play('enter');
 				}
 			case 'gw3d':
+				bf3D.visible = false;
 				portraitRight.visible = false;
 				gwRight.visible = false;
 				raditRight.visible = false;
@@ -517,6 +533,7 @@ class DialogueBox extends FlxSpriteGroup
 					gw3D.animation.play('enter');
 				}
 			case 'radit':
+				bf3D.visible = false;
 				portraitRight.visible = false;
 				gwRight.visible = false;
 				raditRight.visible = false;
@@ -531,6 +548,7 @@ class DialogueBox extends FlxSpriteGroup
 					raditRight.animation.play('enter');
 				}
 			case 'bf':
+				bf3D.visible = false;
 				portraitRight.visible = false;
 				gwRight.visible = false;
 				raditRight.visible = false;
@@ -544,6 +562,21 @@ class DialogueBox extends FlxSpriteGroup
 					portraitRight.visible = true;
 					portraitRight.animation.play('enter');
 				}
+			case 'bf3d':
+				portraitRight.visible = false;
+				gwRight.visible = false;
+				raditRight.visible = false;
+				geral.visible = false;
+				meksi.visible = false;
+				marsel.visible = false;
+				gw3D.visible = false;
+				portraitLeft.visible = false;
+				if (!portraitRight.visible)
+				{
+					bf3D.visible = true;
+					portraitRight.animation.play('enter');
+				}
+
 		}
 
 		if (dialogueList[0] == 'yo need some help?') //DIALOGUE EVENTS CHANGEABLES
