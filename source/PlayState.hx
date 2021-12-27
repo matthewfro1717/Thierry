@@ -3832,8 +3832,10 @@ class PlayState extends MusicBeatState
 				{
 					if (curSong.toLowerCase() == 'meninggal')
 					{
+						Achievements.unlockAchievement('week5_nomiss');
 						if (StaticData.goingBadEndingRoute)
 						{
+							Achievements.unlockAchievement('week2_nomiss');
 							canPause = false;
 							StaticData.gotBadEnding = true;
 							FlxG.sound.music.volume = 0;
@@ -3854,6 +3856,7 @@ class PlayState extends MusicBeatState
 						}
 						else
 						{
+							Achievements.unlockAchievement('week1_nomiss');
 							canPause = false;
 							FlxG.sound.music.volume = 0;
 							vocals.volume = 0;
@@ -5670,21 +5673,6 @@ class PlayState extends MusicBeatState
 									FlxG.save.data.cheaterSongUnlocked = true;
 								}
 							case 'meninggal':
-								if(achievementName == 'week5_nomiss' || achievementName == 'week1_nomiss' || achievementName == 'week2_nomiss')
-								{
-									trueunlock = true;//ending stuff
-									if (health > 1)
-									{
-										unlock = true;
-										trace("halo");
-									}
-									else if (health < 1)
-									{
-										unlock = true;
-										trace("cecep");
-									}
-									trace("cocot");
-								}
 							/*case 'week2':
 								if(achievementName == 'week2_nomiss') unlock = true;
 							case 'week3':

@@ -9,7 +9,7 @@
 - [x] FIX NORMAL DED CHART!!!!!
 - [x] RECREATE MAIN MENU FROM VSDAVE THINGY
 - [x] FIX MENGINGGAL AUDIO
-- [ ] add ending dialogue, will replace cutscenes songs (code done, just need to copy paste to songs)
+- [x] add ending dialogue, will replace cutscenes songs (code done, just need to copy paste to songs)
 - [x] implement ghost tapping
 - [x] REDO THE ENTIRE SEGITGA SONG CODES FUUUUUUUUUUUUUUU
 - [x] ACCURACCY CALCULATIONS
@@ -99,7 +99,7 @@ TO GET MII CHART WORKING SO ITS NOT A PROBLEM FOR SKIPPA (RADIT MIGHT BE CANON T
 - [x] DO SOME DIALOGUE CODE AAAAAAAAAAAAAAAAAAAA
 
 - [x] MAKE ENDING STATE SO PLAYERS KNOW THEY UNLOCK SONG OK!? (CODE IS DONE, JUST NEED ART AND SOME IMPROVEMENTS LATER)
-- [ ] backend stuff (changing library)
+- [x] backend stuff (changing library)
 - [ ] CHANGE BACK THE PRESENCE TO VS THIERRY
 
 TARGET RELEASE : ANY FRIDAY

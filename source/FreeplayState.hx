@@ -37,7 +37,7 @@ class FreeplayState extends MusicBeatState
 	var bg:FlxSprite;
 
 	var songColors:Array<FlxColor> = [
-    	0xFFff0044, // GF 0
+    	0xFFca1f6f, // GF 0
 		0xFFffff52, // THIERRY 1
 		0xFFfc6938, // GW3D 2
 		0xFF750606, // Meninggal 3
