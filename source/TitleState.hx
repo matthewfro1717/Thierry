@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.StaticData;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -53,6 +54,8 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+
+		StaticData.goingBadEndingRoute = false;
 
 		/*
 		#if polymod

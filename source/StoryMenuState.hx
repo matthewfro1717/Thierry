@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.StaticData;
 import flixel.math.FlxPoint;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -74,6 +75,7 @@ class StoryMenuState extends MusicBeatState
 
 	override function create()
 	{
+		StaticData.goingBadEndingRoute = false;
 		#if windows
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Story Mode Menu", null);

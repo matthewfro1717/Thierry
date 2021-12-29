@@ -3752,6 +3752,10 @@ class PlayState extends MusicBeatState
 	
 	function endSong():Void
 	{
+		if (SONG.song == 'Tutorial')
+		{
+			FlxG.switchState(new MainMenuState());
+		}
 
 		if (SONG.song == 'cheat-blitar')
 		{
@@ -3875,6 +3879,7 @@ class PlayState extends MusicBeatState
 					}
 					else if (curSong.toLowerCase() == 'segitiga')
 					{
+						Achievements.unlockAchievement('week1_nomiss');
 						canPause = false;
 						FlxG.sound.music.volume = 0;
 						vocals.volume = 0;
@@ -3892,6 +3897,7 @@ class PlayState extends MusicBeatState
 					}
 					else if (curSong.toLowerCase() == 'gerselo')
 					{
+						Achievements.unlockAchievement('week1_nomiss');
 						FlxG.switchState(new EndingState('goodEnding', 'goodEnding')); //will not count to ending (will be me talking saying thank you f or playing the mod)
 					}
 					
@@ -5336,6 +5342,20 @@ class PlayState extends MusicBeatState
 
 
 		}
+
+		if (SONG.song == 'Tutorial')
+		{
+			switch(curBeat)
+			{
+				case 109://647
+					trace("event fired lol");
+					endSong();
+						
+			}
+	
+	
+		}
+	
 
 		if (curSong == 'chaos')
 			{
