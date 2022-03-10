@@ -41,6 +41,7 @@ class OptionsMenu extends MusicBeatState
 			#end
 			new DownscrollOption("Change the layout of the strumline."),
 			new ScrollSpeedOption("Change your scroll speed (Left for -0.1, right for +0.1. If its at 1, it will be chart dependent)"),
+			new BotPlay("poger")
 			//new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
 			// new OffsetMenu("Get a note offset based off of your inputs!"),
 			//new CustomizeGameplay("Drag'n'Drop Gameplay Modules around to your preference")
@@ -89,7 +90,7 @@ class OptionsMenu extends MusicBeatState
 		
 
 		menuBG.color = 0xFFea71fd;
-		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
+		menuBG.setGraphicSize(Std.int(menuBG.width * 1.4), Std.int(menuBG.height * 1.4));
 		menuBG.updateHitbox();
 		menuBG.screenCenter();
 		menuBG.antialiasing = true;

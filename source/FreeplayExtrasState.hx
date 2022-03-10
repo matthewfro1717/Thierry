@@ -247,7 +247,7 @@ class FreeplayExtrasState extends MusicBeatState
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 			#end
 		}
-		else if(songs[curSelected].songName.toLowerCase()=="ghost")
+		else if(songs[curSelected].songName.toLowerCase()=="ghost" || songs[curSelected].songName.toLowerCase()=="nacreous-snowmelt")
 		{
 			curDifficulty = 1; //Force it to hard difficulty.
 				diffText.text = "TRUE MANIA";

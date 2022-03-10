@@ -135,11 +135,15 @@ class WarningState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-        if (FlxG.keys.pressed.ENTER || FlxG.keys.pressed.SPACE)
+        if (FlxG.keys.pressed.ENTER)
         {
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-            FlxG.switchState(new TitleState());
+            FlxG.switchState(new FreeplayBuffer());
         }
+		else if (FlxG.keys.pressed.SPACE)
+		{
+			FlxG.switchState(new TitleState());
+		}
     }
 
 

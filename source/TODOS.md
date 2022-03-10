@@ -8,6 +8,7 @@
 
 - [x] FIX NORMAL DED CHART!!!!!
 - [x] RECREATE MAIN MENU FROM VSDAVE THINGY
+- [ ] ABILITY (HAVING HEALTH MORE THAN 2 IS ALREADY AN ABILITY LOL)
 - [x] FIX MENGINGGAL AUDIO
 - [x] add ending dialogue, will replace cutscenes songs (code done, just need to copy paste to songs)
 - [x] implement ghost tapping

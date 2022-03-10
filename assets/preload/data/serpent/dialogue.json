@@ -1,0 +1,46 @@
+{
+	"dialogue": [
+		{
+			"speed": 0.1,
+			"portrait": "spong2",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "I feel"
+		},
+		{
+			"speed": 0.1,
+			"portrait": "spong2",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "I feel Wrong"
+		},
+		{
+			"speed": 0.1,
+			"portrait": "spong2",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "Glowing metal has encased my chest"
+		},
+		{
+			"speed": 0.1,
+			"portrait": "spong2",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "I remember              The lab"
+		},
+		{
+			"speed": 0.1,
+			"portrait": "spong2",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "Hes                                                                                                         \\n\\n\\n\\dead"
+		},
+		{
+			"speed": 0.1,
+			"portrait": "spong2",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "Goodbye            Boyfriend"
+		}
+	]
+}

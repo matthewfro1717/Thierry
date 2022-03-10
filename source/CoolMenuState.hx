@@ -29,7 +29,7 @@ class CoolMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
 	#if !switch
-	var optionShit:Array<String> = ['story mode', 'freeplay'];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate'];
 	#else
 	var optionShit:Array<String> = ['story mode', 'freeplay'];
 	#end
@@ -41,7 +41,7 @@ class CoolMenuState extends MusicBeatState
 	public static var nightly:String = "";
 
 	public static var kadeEngineVer:String = "Thierry Engine" + nightly;
-	public static var gameVer:String = "0.2.7.1";
+	public static var gameVer:String = "Aeroshide Engine // ALPHA 1";
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -56,10 +56,13 @@ class CoolMenuState extends MusicBeatState
 
 		trace(TitleState.firstBoot);
 
+
+		/*
 		if (TitleState.firstBoot)
 		{
 			FlxG.sound.playMusic(Paths.music('songSelect'));
 		}
+		/****/
 
 		persistentUpdate = persistentDraw = true;
 
@@ -102,6 +105,7 @@ class CoolMenuState extends MusicBeatState
 			menuItem.ID = i;
 			menuItem.screenCenter(X);
 			menuItems.add(menuItem);
+			menuItem.x = 4 + (i * 450);
 			menuItem.scrollFactor.set();
 			menuItem.antialiasing = FlxG.save.data.antialiasing;
 			if (firstStart)
@@ -187,9 +191,9 @@ class CoolMenuState extends MusicBeatState
 
 			if (controls.ACCEPT)
 			{
-				if (optionShit[curSelected] == 'donate')
+				if (optionShit[curSelected] == 'sit')
 				{
-					
+
 				}
 				else
 				{
@@ -247,6 +251,9 @@ class CoolMenuState extends MusicBeatState
 
 		switch (daChoice)
 		{
+			case 'donate':
+				FlxG.switchState(new FreeplayPurgatoryState());
+				trace("Purgatory songs selected");
 			case 'story mode':
 				FlxG.switchState(new FreeplayState());
 				trace("Canon songs selected");

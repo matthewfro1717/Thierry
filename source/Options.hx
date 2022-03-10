@@ -485,6 +485,27 @@ class DiscordRPC extends Option
 	}
 }
 
+class BotPlay extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.botplay = !FlxG.save.data.botplay;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Botplay " + (!FlxG.save.data.botplay ? "False" : "True");
+	}
+}
+
 class MemCounter extends Option
 {
 	public function new(desc:String)

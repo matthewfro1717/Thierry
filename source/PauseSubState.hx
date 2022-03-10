@@ -1,5 +1,7 @@
 package;
 
+import aeroshide.StaticData;
+import PlayState;
 import llua.Lua;
 import Controls.Control;
 import flixel.FlxG;

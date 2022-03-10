@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.StaticData;
 import flixel.addons.effects.FlxSkewedSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -58,33 +59,29 @@ class Note extends FlxSprite
 
 		var daStage:String = PlayState.curStage;
 
-		switch (daStage)
+		switch (StaticData.using3DEngine)
 		{
-			case 'school' | 'schoolEvil':
-				loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels'), true, 17, 17);
+			case true:
+				frames = Paths.getSparrowAtlas('NOTE_assets_3D');
 
-				animation.add('greenScroll', [6]);
-				animation.add('redScroll', [7]);
-				animation.add('blueScroll', [5]);
-				animation.add('purpleScroll', [4]);
+				animation.addByPrefix('greenScroll', 'green0');
+				animation.addByPrefix('redScroll', 'red0');
+				animation.addByPrefix('blueScroll', 'blue0');
+				animation.addByPrefix('purpleScroll', 'purple0');
 
-				if (isSustainNote)
-				{
-					loadGraphic(Paths.image('weeb/pixelUI/arrowEnds'), true, 7, 6);
+				animation.addByPrefix('purpleholdend', 'pruple end hold');
+				animation.addByPrefix('greenholdend', 'green hold end');
+				animation.addByPrefix('redholdend', 'red hold end');
+				animation.addByPrefix('blueholdend', 'blue hold end');
 
-					animation.add('purpleholdend', [4]);
-					animation.add('greenholdend', [6]);
-					animation.add('redholdend', [7]);
-					animation.add('blueholdend', [5]);
+				animation.addByPrefix('purplehold', 'purple hold piece');
+				animation.addByPrefix('greenhold', 'green hold piece');
+				animation.addByPrefix('redhold', 'red hold piece');
+				animation.addByPrefix('bluehold', 'blue hold piece');
 
-					animation.add('purplehold', [0]);
-					animation.add('greenhold', [2]);
-					animation.add('redhold', [3]);
-					animation.add('bluehold', [1]);
-				}
-
-				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
+				setGraphicSize(Std.int(width * 0.7));
 				updateHitbox();
+				antialiasing = true;
 
 			default:
 				frames = Paths.getSparrowAtlas('NOTE_assets');
@@ -134,52 +131,55 @@ class Note extends FlxSprite
 			flipY = true;
 
 		if (isSustainNote && prevNote != null)
-		{
-			noteScore * 0.2;
-			alpha = 0.6;
-
-			x += width / 2;
-
-			switch (noteData)
 			{
-				case 2:
-					animation.play('greenholdend');
-				case 3:
-					animation.play('redholdend');
-				case 1:
-					animation.play('blueholdend');
-				case 0:
-					animation.play('purpleholdend');
-			}
-
-			updateHitbox();
-
-			x -= width / 2;
-
-			if (PlayState.curStage.startsWith('school'))
-				x += 30;
-
-			if (prevNote.isSustainNote)
-			{
-				switch (prevNote.noteData)
+				noteScore * 0.2;
+				alpha = 0.6;
+	
+				x += width / 2;
+	
+				switch (noteData)
 				{
-					case 0:
-						prevNote.animation.play('purplehold');
-					case 1:
-						prevNote.animation.play('bluehold');
 					case 2:
-						prevNote.animation.play('greenhold');
+						animation.play('greenholdend');
 					case 3:
-						prevNote.animation.play('redhold');
+						animation.play('redholdend');
+					case 1:
+						animation.play('blueholdend');
+					case 0:
+						animation.play('purpleholdend');
 				}
-
-				
-				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.8 * FlxG.save.data.scrollSpeed;
-				prevNote.updateHitbox();
-				// prevNote.setGraphicSize();
+	
+				updateHitbox();
+	
+				x -= width / 2;
+	
+				if (PlayState.curStage.startsWith('school'))
+					x += 30;
+	
+				if (prevNote.isSustainNote)
+				{
+					switch (prevNote.noteData)
+					{
+						case 0:
+							prevNote.animation.play('purplehold');
+						case 1:
+							prevNote.animation.play('bluehold');
+						case 2:
+							prevNote.animation.play('greenhold');
+						case 3:
+							prevNote.animation.play('redhold');
+					}
+	
+	
+					if(FlxG.save.data.scrollSpeed != 1)
+						prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * FlxG.save.data.scrollSpeed;
+					else
+						prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
+					prevNote.updateHitbox();
+					// prevNote.setGraphicSize();
+				}
 			}
 		}
-	}
 
 	override function update(elapsed:Float)
 	{

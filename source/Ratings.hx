@@ -9,7 +9,6 @@ class Ratings
             customTimeScale = customSafeZone / 166;
 
         // trace(customTimeScale + ' vs ' + Conductor.timeScale);
-
         // I HATE THIS IF CONDITION
         // IF LEMON SEES THIS I'M SORRY :(
 

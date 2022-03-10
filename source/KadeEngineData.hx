@@ -58,7 +58,7 @@ class KadeEngineData
 			FlxG.save.data.accuracyMod = 0;
 
 		if (FlxG.save.data.watermark == null)
-			FlxG.save.data.watermark = true;
+			FlxG.save.data.watermark = false;
 
 		if (FlxG.save.data.epico == null)
 			FlxG.save.data.epico = false;
@@ -104,6 +104,9 @@ class KadeEngineData
 			FlxG.save.data.memUsage = true;
 		if (FlxG.save.data.discordRPC == null)
 			FlxG.save.data.discordRPC = true;
+
+		if (FlxG.save.data.botplay == null)
+			FlxG.save.data.botplay = false;
 		
 
 		Conductor.recalculateTimings();

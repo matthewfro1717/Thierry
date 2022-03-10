@@ -39,8 +39,8 @@ class DiscordClient
 		DiscordRpc.presence({
 			details: "Engine Starting...",
 			state: null,
-			largeImageKey: 'omegalul',
-			largeImageText: "VS Thierry"
+			largeImageKey: 'thierrylogo',
+			largeImageText: "DEFINITIVE EDITION"
 		});
 	}
 
@@ -75,8 +75,8 @@ class DiscordClient
 		DiscordRpc.presence({
 			details: details,
 			state: state,
-			largeImageKey: 'downloadresized',
-			largeImageText: "VS Thierry",
+			largeImageKey: 'thierrylogo',
+			largeImageText: "DEFINITIVE EDITION",
 			smallImageKey : smallImageKey,
 			// Obtained times are in milliseconds so they are divided so Discord can use it
 			startTimestamp : Std.int(startTimestamp / 1000),

@@ -21,6 +21,7 @@ class Character extends FlxSprite
 	public var nativelyPlayable:Bool = false;
 
 	public var globaloffset:Array<Float> = [0,0];
+	public var nil:Int = 0;
 
 	public var holdTimer:Float = 0;
 
@@ -66,6 +67,7 @@ class Character extends FlxSprite
 				antialiasing = false;
 
 				playAnim('idle');
+				
 			case 'thierry-mad':
 				trace("THIERRY GLITCHED LOADED!");
 				tex = Paths.getSparrowAtlas('thierry_mad');
@@ -87,6 +89,7 @@ class Character extends FlxSprite
 				updateHitbox();
 				antialiasing = false;
 				playAnim('idle');
+
 			case 'gerlad':
 				tex = Paths.getSparrowAtlas('gerlad');
 				frames = tex;
@@ -133,6 +136,24 @@ class Character extends FlxSprite
 		
 				playAnim('idle');
 
+				
+
+			case 'spong-3d':
+				tex = Paths.getSparrowAtlas('spong_3d');
+				frames = tex;
+				animation.addByPrefix('idle', "spooky dance idle", 24, false);
+				animation.addByPrefix('singUP', 'spooky UP NOTE', 24, false);
+				animation.addByPrefix('singDOWN', 'spooky DOWN note', 24, false);
+				animation.addByPrefix('singLEFT', 'note sing left', 24, false);
+				animation.addByPrefix('singRIGHT', 'spooky sing right', 24, false);
+
+
+				addOffset('idle', -41, 0);
+				addOffset("singUP", 43, 0);
+				addOffset("singRIGHT", 20, 0);
+				addOffset("singLEFT", -20, 0);
+				addOffset("singDOWN", 450, 0);
+
 			case 'fake':
 				tex = Paths.getSparrowAtlas('fake');
 				frames = tex;
@@ -142,14 +163,32 @@ class Character extends FlxSprite
 				animation.addByPrefix('singLEFT', 'fake left', 24, false);
 				animation.addByPrefix('singRIGHT', 'fake right', 24, false);
 
-				addOffset('idle', -1, -91);
+				addOffset('idle', -20, -91);
 				addOffset("singUP", -10, -84);
 				addOffset("singRIGHT", -2, -80);
 				addOffset("singLEFT", 0, -84);
 				addOffset("singDOWN", 0, -84);
 
+
+
 			case 'bob':
 				tex = Paths.getSparrowAtlas('bob_asset');
+				frames = tex;
+				animation.addByPrefix('idle', "bob_idle", 24, false);
+				animation.addByPrefix('singUP', 'bob_UP', 24, false);
+				animation.addByPrefix('singDOWN', 'bob_DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'bob_LEFT', 24, false);
+				animation.addByPrefix('singRIGHT', 'bob_RIGHT', 24, false);
+
+				addOffset('idle', 0, -250);
+				addOffset("singUP", 0, -250);
+				addOffset("singRIGHT", 0, -250);
+				addOffset("singLEFT", 0, -250);
+				addOffset("singDOWN", 0, -250);
+				flipX = true;
+
+			case 'bob-invis':
+				tex = Paths.getSparrowAtlas('bob_invis');
 				frames = tex;
 				animation.addByPrefix('idle', "bob_idle", 24, false);
 				animation.addByPrefix('singUP', 'bob_UP', 24, false);
@@ -423,6 +462,54 @@ class Character extends FlxSprite
 				addOffset("singRIGHT", -51);
 				addOffset("singLEFT", -30);
 				addOffset("singDOWN", -40, -94);
+				playAnim('idle');
+			case 'Fsby':
+				tex = Paths.getSparrowAtlas('ohungi');
+				frames = tex;
+
+				animation.addByPrefix('idle', 'idle', 24, false);
+				animation.addByPrefix('singUP', 'up', 24, false);
+				animation.addByPrefix('singDOWN', 'down', 24, false);
+				animation.addByPrefix('singLEFT', 'left', 24, false);
+				animation.addByPrefix('singRIGHT', 'right', 24, false);
+
+				animation.addByPrefix('singUP-alt', 'alt-up', 24, false);
+				animation.addByPrefix('singDOWN-alt', 'alt-down', 24, false);
+				animation.addByPrefix('singLEFT-alt', 'alt-left', 24, false);
+				animation.addByPrefix('singRIGHT-alt', 'alt-right', 24, false);
+				addOffset('idle', nil, -500);
+				addOffset("singUP", nil, -500);
+				addOffset("singDOWN", nil, -500);
+				addOffset("singLEFT", nil, -500);
+				addOffset("singRIGHT", nil, -500);
+
+				addOffset("singUP-alt", nil, -500);
+				addOffset("singDOWN-alt", nil, -500);
+				addOffset("singLEFT-alt", nil, -500);
+				addOffset("singRIGHT-alt", nil, -500);
+				
+				
+
+				playAnim('idle');
+			case 'badai':
+				// BADAI SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('badai');
+				frames = tex;
+				animation.addByPrefix('idle', 'IDLE', 24, false);
+				animation.addByPrefix('singUP', 'UP', 24, false);
+				animation.addByPrefix('singRIGHT', 'RIGHT', 24, false);
+				animation.addByPrefix('singDOWN', 'DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'LEFT', 24, false);
+		
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+				setGraphicSize(Std.int(width * furiosityScale),Std.int(height * furiosityScale));
+				updateHitbox();
+				antialiasing = false;
+		
 				playAnim('idle');
 			case 'pico':
 				tex = Paths.getSparrowAtlas('Pico_FNF_assetss');

@@ -50,6 +50,7 @@ class FreeplayBuffer extends MusicBeatState
 
 		var initSonglist = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
 		var buffSonglist = CoolUtil.coolTextFile(Paths.txt('listLaguTolol'));
+		var anotherSonglist = CoolUtil.coolTextFile(Paths.txt('apaanYaIni'));
 
 		for (i in 0...initSonglist.length)
 		{
@@ -63,6 +64,12 @@ class FreeplayBuffer extends MusicBeatState
 			var otherdata:Array<String> = buffSonglist[i].split(':');
 			songs.push(new SongMeta(otherdata[0], Std.parseInt(otherdata[2]), otherdata[1]));
 			trace("Array 2 pushed");
+		}
+		for (i in 0...anotherSonglist.length)
+		{
+			var anotherdata:Array<String> = anotherSonglist[i].split(':');
+			songs.push(new SongMeta(anotherdata[0], Std.parseInt(anotherdata[2]), anotherdata[1]));
+			trace("Array 3 pushed");
 		}
 
 		logo = new FlxSprite().loadGraphic(Paths.image('thierryLogo'));
@@ -81,6 +88,12 @@ class FreeplayBuffer extends MusicBeatState
 			add(logo);
 			add(text);
 		}
+
+		preloadSongs = true;
+
+		sys.thread.Thread.create(() -> {
+            cache();
+        });
 
 
 		
@@ -102,60 +115,42 @@ class FreeplayBuffer extends MusicBeatState
 		if (FlxG.keys.pressed.SPACE)
 		{
 			trace("[WARNING] PRELOADING SKIPPED!");
-			FlxG.switchState(new CoolMenuState());
+			FlxG.switchState(new TitleState());
 		}
 
 		text.text = ("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ (songs.length + 1) + ")");
 		frame++;
-		if (frame % 60 == 0)
-			beatHit();
 		
 	}
 
-	function loopBuffer() 
+	function cache() 
 	{
-
-	}
-	override function beatHit() 
-	{
-		timing++;
-		if (timing % 4 == 0)
-			bruhify++;
-		text.text = ("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ (songs.length + 1) + ")");
 		if (preloadSongs && TitleState.firstBoot)
 		{
-			trace("PRELOAD STARTED! (SNAPSHOT-8)");
+			trace("PRELOAD STARTED! (build.27022022)");
 
 			for (i in 0...songs.length)
 			{
 				bruhify++;
 				text.text = ("PRELOADING ASSETS TO RAM... (" + (bruhify) + " / "+ (songs.length + 1) + ")");
-				FlxG.sound.playMusic(Paths.inst(songs[i].songName), 0);
+				FlxG.sound.cache(Paths.inst(songs[i].songName));
+				FlxG.sound.cache(Paths.voices(songs[i].songName));
 				trace("Preloading " + (i + 1) + " / "+ songs.length);
 				preloadSongs = false;
 			}
 			preloadSongs = false;
 			trace("PRELOAD COMPLETE");
-			FlxG.switchState(new CoolMenuState());
+			FlxG.switchState(new TitleState());
 			
 
-		}
-		else if (!preloadSongs && TitleState.firstBoot)
-		{
-			new FlxTimer().start(2, function(tmr:FlxTimer)
-			{
-				preloadSongs = true;
-			});
-			
 		}
 		else
 		{
 			trace("EITHER PRELOADING FAILED, OR ALL ASSETS HAS BEEN PRELOADED!\n SKIPPING!");
-			FlxG.switchState(new CoolMenuState());
+			FlxG.switchState(new TitleState());
 		}	
 	}
 }
-
 
 class SongMeta
 {

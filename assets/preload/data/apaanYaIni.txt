@@ -1,0 +1,16 @@
+Disarray:gw-3d:3:2
+Trigometry:gw-3d:3:2
+Wraith:gw-3d:3:2
+Serpent:spong-3d:3:1
+Ascension:pico:3:1
+Torment:pico:3:1
+Purgatory:pico:3:1
+Los-angeles:gerlad:3:1
+Brutal:bob-invis:3:1
+Decimal:Fsby:3:1
+Nether:bob-invis:3:1
+Rush:badai:3:1
+Root:bob:3:1
+Five-nights:bob:3:1
+
+
