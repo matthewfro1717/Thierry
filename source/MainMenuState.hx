@@ -49,7 +49,7 @@ class MainMenuState extends MusicBeatState
 	public static var nightly:String = "";
 
 	public static var kadeEngineVer:String = " " + nightly;
-	public static var gameVer:String = "Aeroshide Engine // ALPHA 1";
+	public static var gameVer:String = "Aeroshide Engine // ALPHA 1.1";
 	public var frame:Int;
 	public var whichonetobouncelol:Bool = true; //TRUE IS LEFT
 	var bg:FlxSprite;

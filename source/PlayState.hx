@@ -118,6 +118,7 @@ class PlayState extends MusicBeatState
 	public var bego:FlxSprite;
 
 	private var dad:Character;
+	private var gwOppo:Character;
 	private var gf:Character;
 	private var boyfriend:Boyfriend;
 
@@ -687,10 +688,11 @@ class PlayState extends MusicBeatState
 				bg.shader = testshader.shader;
 				curbg = bg;
 			}
-			case 'glitcher' | 'meninggal' | 'cut1' | 'five-nights': 
+			case 'glitcher' | 'meninggal' | 'cut1' | 'five-nights' | 'unturned': 
 			{
 				curStage = 'sekolahMalam'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 
+				if (SONG.song == 'Unturned') {health = 0.01;}
 				defaultCamZoom = 0.9;
 				bego = new FlxSprite(-600, -200).loadGraphic(Paths.image('stagemalem'));
 				bego.antialiasing = true;
@@ -868,11 +870,11 @@ class PlayState extends MusicBeatState
 				curbg = bg;
 			}
 
-			case 'chaos' | 'disarray' | 'rush':
+			case 'chaos' | 'disarray' | 'rush' | 'hyperactivity':
 				curStage = 'worldeater'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 		
 				defaultCamZoom = 0.9;
-				if (SONG.song == 'Rush')
+				if (SONG.song == 'Rush' || SONG.song == 'Hyperactivity')
 				{
 					defaultCamZoom = 0.5;
 				}
@@ -1354,7 +1356,7 @@ class PlayState extends MusicBeatState
 			dad.scale.set(1.6, 1.6);
 		}
 
-		if (SONG.song == 'Rush')
+		if (SONG.song == 'Rush' || SONG.song == 'Hyperactivity')
 		{
 			dad.x -= 420;
 		}
@@ -2779,7 +2781,7 @@ class PlayState extends MusicBeatState
 		#end
 
 		judgementCounter.visible = StaticData.debugMenu;
-		judgementCounter.text = 'Alpha 1 - Aeroshide Engine (KadeEngine 1.4.2/Modded)\nRendered notes : ${notes.length}\n\n\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits} 
+		judgementCounter.text = 'Alpha 1.1 - Aeroshide Engine (KadeEngine 1.4.2/Modded)\nRendered notes : ${notes.length}\n\n\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits} 
 		\n\n\n\n\nBeat : ${curBeat}\nStep : ${curStep}\nBPM : ${Conductor.bpm}\n\n\n\n\n';
 
 		if (StaticData.tunnelOpen && width <= 2048 && height <= 2048)
@@ -2787,6 +2789,12 @@ class PlayState extends MusicBeatState
 			width += 3;
 			height += 3;
 			secondBG.setGraphicSize(width, height);
+		}
+
+		if (StaticData.sartFade)
+		{
+			dad.alpha -= 0.01;
+			iconP2.alpha -= 0.01;
 		}
 
 		if (StaticData.tunnelOpen && twidth >= 0)
@@ -2887,7 +2895,7 @@ class PlayState extends MusicBeatState
 			FlxG.camera.shake(0.010, 0.1);
 		}
 
-		if (SONG.song == 'chaos' || SONG.song == 'disarray' || SONG.song == 'Rush')
+		if (SONG.song == 'chaos' || SONG.song == 'disarray' || SONG.song == 'Rush' || SONG.song == 'Hyperactivity')
 		{
 			if (mati)
 			{
@@ -3895,7 +3903,7 @@ class PlayState extends MusicBeatState
 							camHUD.shake(0.017, 0.1);
 						}
 
-						if (SONG.song == 'chaos' || SONG.song == 'disarray' || SONG.song == 'brutal' || SONG.song == 'Rush')
+						if (SONG.song == 'chaos' || SONG.song == 'disarray' || SONG.song == 'brutal' || SONG.song == 'Rush' || SONG.song == 'Hyperactivity')
 						{
 							camHUD.shake(0.0037, 0.1);
 						}
@@ -5893,6 +5901,8 @@ class PlayState extends MusicBeatState
 				}
 			}
 	
+		
+
 
 		if (curSong == 'brutal')
 		{
@@ -5905,7 +5915,7 @@ class PlayState extends MusicBeatState
 					iconP1.visible = false;
 					iconP2.visible = false;
 
-				case 44:
+				case 64:
 					healthBarBG.visible = true;
 					healthBar.visible = true;
 					iconP1.visible = true;
@@ -5916,7 +5926,7 @@ class PlayState extends MusicBeatState
 					healthDrainBool = true;
 					mati = false;
 					jancok = true;
-				case 172:
+				case 255:
 					healthDrainBool = false;
 					mati = true;
 					jancok = false;
@@ -5929,11 +5939,16 @@ class PlayState extends MusicBeatState
 					thierry.visible = false;
 					trace(dad.x);
 					trace('THIERRY REMOCVED');
+					FlxTween.tween(FlxG.camera, {zoom: 0.5}, 4, {ease: FlxEase.quadInOut});
+					new FlxTimer().start(4 , function(tmr:FlxTimer)
+						{
+							defaultCamZoom = 0.5;
+						});
 					
 					
 					//health = 0.01;
 					/****/
-				case 195:
+				case 275:
 					mati = false;
 					remove(dad);
 					iconP2.animation.play("badai", true);
@@ -5941,30 +5956,48 @@ class PlayState extends MusicBeatState
 					dad.setGraphicSize(0, 0);
 					StaticData.badaiComesin = true;
 					add(dad);
-				case 209:
+
+				case 289:
 					FlxG.camera.flash(FlxColor.WHITE, 1);
 					stupidFuckingRedBg.visible = true;
-					FlxTween.tween(FlxG.camera, {zoom: 0.5}, 8, {ease: FlxEase.quadInOut});
-					new FlxTimer().start(8 , function(tmr:FlxTimer)
-						{
-							defaultCamZoom = 0.5;
-						});
-				case 434:
+					
+
+				/*case 434:
 					FlxG.camera.flash(FlxColor.WHITE, 1);
 					stupidFuckingRedBg.visible = false;
 					StaticData.tunnelOpen = false;
-				case 471:
+					/****/
+				case 517:
 					healthDrainBool = true;
 					thierry.setGraphicSize(720, 720);
 					StaticData.expungedSinging = true;
 					thierry.visible = true;
 					iconP2.animation.play("bob-invis", true);
-				case 610:
+				case 676:
 					StaticData.expungedSinging = false;
 					iconP2.animation.play("badai", true);
-				case 653:
+				case 738 | 739 | 740:
 					StaticData.expungedSinging = true;
 					iconP2.animation.play("bob-invis", true);
+				case 993 | 994 | 995 | 996 | 997:
+					StaticData.expungedSinging = false;
+					iconP2.animation.play("badai", true);
+				case 1058 | 1059 | 1060 | 1061 | 1062:
+					StaticData.expungedSinging = true;
+					iconP2.animation.play("bob-invis", true);
+				case 1507:
+					FlxG.camera.flash(FlxColor.WHITE, 1);
+					var loops:Int = 300;
+					StaticData.expungedSinging = false;
+					iconP2.animation.play("gw-3d", true);
+					gwOppo = new Character(-600, -600, 'gw-3d');
+					while (gwOppo.y < 0)
+					{
+						gwOppo.y += 2;
+					}
+					add(gwOppo);
+					gwOppo.playAnim('idle', true);
+					//im lazy please add myself later
 
 
 
@@ -5972,6 +6005,16 @@ class PlayState extends MusicBeatState
 				
 			}
 		}
+
+		if (curSong == 'Unturned')
+			{
+				switch(curBeat)
+				{
+					case 354:
+						StaticData.sartFade = true;
+				}
+	
+			}
 
 		if (curSong == 'segitiga')
 		{

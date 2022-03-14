@@ -358,6 +358,27 @@ class Character extends FlxSprite
 				updateHitbox();
 				antialiasing = false;
 
+			case 'sart-producer-night':
+				frames = Paths.getSparrowAtlas('sart_producer');
+				animation.addByPrefix('idle', 'idle', 24, false);
+				for (anim in ['left', 'down', 'up', 'right']) {
+					animation.addByPrefix('sing${anim.toUpperCase()}', anim, 24, false);
+				}
+
+				addOffset('idle', 300, 100);
+				addOffset('singLEFT', 300, 100);
+				addOffset('singDOWN', 300, 100);
+				addOffset('singUP', 300, 100);
+				addOffset('singRIGHT', 789, 100);
+
+
+				setGraphicSize(811);
+				updateHitbox();
+
+				antialiasing = false;
+
+				playAnim('idle');
+
 			case 'dad':
 				// DAD ANIMATION LOADING CODE
 				tex = Paths.getSparrowAtlas('DADDY_DEAREST','shared');

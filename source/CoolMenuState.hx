@@ -41,7 +41,7 @@ class CoolMenuState extends MusicBeatState
 	public static var nightly:String = "";
 
 	public static var kadeEngineVer:String = "Thierry Engine" + nightly;
-	public static var gameVer:String = "Aeroshide Engine // ALPHA 1";
+	public static var gameVer:String = "Aeroshide Engine // ALPHA 1.1";
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;

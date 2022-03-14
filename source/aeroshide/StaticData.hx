@@ -14,6 +14,7 @@ class StaticData extends MusicBeatState
     public static var expungedSinging:Bool = false;
     public static var animaticaEngine:Bool = false;
     public static var debugMenu:Bool = false;
+    public static var sartFade:Bool = false;
     
     public static var Optimize:Bool;
 
@@ -29,5 +30,6 @@ class StaticData extends MusicBeatState
         expungedSinging = false;
         animaticaEngine = false;
         debugMenu = false;
+        sartFade = false;
     }
 }

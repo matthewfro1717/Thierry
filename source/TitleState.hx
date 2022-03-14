@@ -686,7 +686,7 @@ class TitleState extends MusicBeatState
 					addMoreText('sfsfcstsgjkdbsfhjsrbgihcbgjdbhjrtnjdbgnjkdbgjksg');
 				else
 				{
-					addMoreText('VS');
+					addMoreText('Friday Night Funkin');
 				}
 				
 			// credTextShit.visible = true;
@@ -695,7 +695,7 @@ class TitleState extends MusicBeatState
 					addMoreText('scgscgsgcscgsgcsfcrtecribe84bycw84gt7824784272bc husdfbuasegfysagfxyuasgfasuigsaugt');
 				else
 				{
-					addMoreText('THIERRY');
+					addMoreText('DEFINITIVE');
 				}
 			// credTextShit.text += '\nNight';
 			case 20:
@@ -703,7 +703,7 @@ class TitleState extends MusicBeatState
 					addMoreText('andjfhdfuiweghuofgjkfgjksgklhkosfgjksdghjkfgjkslfghjk');
 				else
 				{
-					addMoreText('DEFINITIVE EDITION'); // credTextShit.text += '\nFunkin';
+					addMoreText('EDITION'); // credTextShit.text += '\nFunkin';
 				}
 			case 21:
 				skipIntro();
