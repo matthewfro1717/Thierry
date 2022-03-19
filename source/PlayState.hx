@@ -2950,8 +2950,6 @@ class PlayState extends MusicBeatState
 		{
 			dad.y += (Math.sin(elapsedtime) * 0.72);
 			camFollow.y = boyfriend.getMidpoint().y - 100;
-
-			
 		}
 
 		if (dad.curCharacter == 'badai')
