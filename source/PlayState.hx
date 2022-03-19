@@ -1505,7 +1505,7 @@ class PlayState extends MusicBeatState
 		add(camFollow);
 
 		//that does the actual camera change and NOT follow
-		FlxG.camera.follow(camFollow, LOCKON, 0.06 * (30 / (cast (Lib.current.getChildAt(0), Main)).getFPS()));
+		FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / (cast (Lib.current.getChildAt(0), Main)).getFPS()));
 		// FlxG.camera.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		FlxG.camera.zoom = defaultCamZoom;
 		FlxG.camera.focusOn(camFollow.getPosition());
@@ -2950,6 +2950,8 @@ class PlayState extends MusicBeatState
 		{
 			dad.y += (Math.sin(elapsedtime) * 0.72);
 			camFollow.y = boyfriend.getMidpoint().y - 100;
+
+			
 		}
 
 		if (dad.curCharacter == 'badai')
