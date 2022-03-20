@@ -620,6 +620,8 @@ class PlayState extends MusicBeatState
 			case 'cheat-blitar' | 'purgatory' | 'nether' | 'brutal':
 				difficultSong = true;
 		}
+		//NEW CAM IS NOW MANDATORY AS LEGACY CAM IS NO LONGER SUPPORTED
+		UsingNewCam = true;
 
 		switch(SONG.song.toLowerCase())
 		{
@@ -693,6 +695,8 @@ class PlayState extends MusicBeatState
 				curStage = 'sekolahMalam'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 
 				if (SONG.song == 'Unturned') {health = 0.01;}
+
+				UsingNewCam = true;
 				defaultCamZoom = 0.9;
 				bego = new FlxSprite(-600, -200).loadGraphic(Paths.image('stagemalem'));
 				bego.antialiasing = true;
@@ -1285,6 +1289,7 @@ class PlayState extends MusicBeatState
 			}
 			default:
 			{
+					UsingNewCam = true;
 					defaultCamZoom = 0.9;
 					curStage = 'stage';
 					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
@@ -2819,7 +2824,10 @@ class PlayState extends MusicBeatState
 			dad.setGraphicSize(badaix, badaiy);
 		}
 
-		ZoomCam(focusOnDadGlobal);
+		if (startingSong)
+		{
+			ZoomCam(focusOnDadGlobal, 4);
+		}
 
 		if (SONG.song.toLowerCase() == 'torment') // fuck you
 		{
@@ -3652,7 +3660,7 @@ class PlayState extends MusicBeatState
 			//what the fuck is this even for??
 			if (camFollow.x != dad.getMidpoint().x + 150 && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 			{
-				camFollow.setPosition(dad.getMidpoint().x + 150 + (lua != null ? getVar("followXOffset", "float") : 0), dad.getMidpoint().y - 100 + (lua != null ? getVar("followYOffset", "float") : 0));
+				//camFollow.setPosition(dad.getMidpoint().x + 150 + (lua != null ? getVar("followXOffset", "float") : 0), dad.getMidpoint().y - 100 + (lua != null ? getVar("followYOffset", "float") : 0));
 				// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
 
 				switch (dad.curCharacter)
@@ -3680,7 +3688,7 @@ class PlayState extends MusicBeatState
 
 			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != boyfriend.getMidpoint().x - 100)
 			{
-				camFollow.setPosition(boyfriend.getMidpoint().x - 100 + (lua != null ? getVar("followXOffset", "float") : 0), boyfriend.getMidpoint().y - 100 + (lua != null ? getVar("followYOffset", "float") : 0));
+				//camFollow.setPosition(boyfriend.getMidpoint().x - 100 + (lua != null ? getVar("followXOffset", "float") : 0), boyfriend.getMidpoint().y - 100 + (lua != null ? getVar("followYOffset", "float") : 0));
 
 				switch (curStage)
 				{
@@ -3821,7 +3829,11 @@ class PlayState extends MusicBeatState
 					if (UsingNewCam)
 					{
 						focusOnDadGlobal = true;
-						ZoomCam(true);
+						if (startingSong)
+						{
+							ZoomCam(focusOnDadGlobal, 4);
+						}
+						//ZoomCam(true);
 					}
 
 					if (daNote.y > FlxG.height)
@@ -3947,6 +3959,7 @@ class PlayState extends MusicBeatState
 						{
 
 							case 2:
+								ZoomCam(true, 2);
 								if(SONG.song == 'segitiga')
 								{
 									FlxG.camera.shake(0.0050, 0.1);
@@ -3979,18 +3992,21 @@ class PlayState extends MusicBeatState
 								}
 								
 							case 3:
+								ZoomCam(true, 3);
 								if (!StaticData.expungedSinging)
 									{
 										dad.playAnim('singRIGHT' + altAnim, true);
 									}
 								
 							case 1:
+								ZoomCam(true, 1);
 								if (!StaticData.expungedSinging)
 									{
 										dad.playAnim('singDOWN' + altAnim, true);
 									}
 								
 							case 0:
+								ZoomCam(true, 0);
 								if (!StaticData.expungedSinging)
 									{
 										dad.playAnim('singLEFT' + altAnim, true);
@@ -4150,10 +4166,14 @@ class PlayState extends MusicBeatState
 			endSong();
 		#end
 
-		ZoomCam(focusOnDadGlobal);
+		if (startingSong)
+		{
+			ZoomCam(focusOnDadGlobal, 4);
+		}
+		
 	}
 
-	function ZoomCam(focusondad:Bool):Void
+	function ZoomCam(focusondad:Bool, noteData:Int):Void
 	{
 		var bfplaying:Bool = false;
 		if (focusondad)
@@ -4181,7 +4201,36 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+				switch(noteData)
+				{
+					case 0:
+						if (dad.curCharacter == 'Fsby')
+							{
+								
+							}
+						else
+							{
+								camFollow.setPosition(dad.getMidpoint().x + 150 - 40, dad.getMidpoint().y - 100);
+							}
+						
+					case 1:
+						camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100 + 40);
+					case 2:
+						camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 10 - 40);
+					case 3:
+						if (dad.curCharacter == 'Fsby')
+							{
+								
+							}
+						else
+							{
+								camFollow.setPosition(dad.getMidpoint().x + 150 + 40, dad.getMidpoint().y - 100);
+							}
+
+					default:
+						camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+
+				}
 			}
 			
 			// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
@@ -4200,7 +4249,22 @@ class PlayState extends MusicBeatState
 
 		if (!focusondad)
 		{
-			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+
+			switch(noteData)
+			{
+				case 0:
+					camFollow.setPosition(boyfriend.getMidpoint().x - 100 - 40, boyfriend.getMidpoint().y - 100);
+				case 1:
+					camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100 + 40);
+				case 2:
+					camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100 - 40);
+				case 3:
+					camFollow.setPosition(boyfriend.getMidpoint().x - 100 + 40, boyfriend.getMidpoint().y - 100);
+				default:
+					camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+
+			}
+			
 
 			switch(boyfriend.curCharacter)
 			{
@@ -5439,7 +5503,7 @@ class PlayState extends MusicBeatState
 				if (UsingNewCam)
 				{
 					focusOnDadGlobal = false;
-					ZoomCam(false);
+					//ZoomCam(false, 4);
 				}
 
 
@@ -5470,12 +5534,16 @@ class PlayState extends MusicBeatState
 					switch (note.noteData)
 					{
 						case 2:
+							ZoomCam(false, 2);
 							boyfriend.playAnim('singUP', true);
 						case 3:
+							ZoomCam(false, 3);
 							boyfriend.playAnim('singRIGHT', true);
 						case 1:
+							ZoomCam(false, 1);
 							boyfriend.playAnim('singDOWN', true);
 						case 0:
+							ZoomCam(false, 0);
 							boyfriend.playAnim('singLEFT', true);
 					}
 		
@@ -5706,13 +5774,13 @@ class PlayState extends MusicBeatState
 				if (!PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 				{
 					focusOnDadGlobal = true;
-					ZoomCam(true);
+					ZoomCam(true, 4);
 				}
 
 				if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 				{
 					focusOnDadGlobal = false;
-					ZoomCam(false);
+					ZoomCam(false, 4);
 				}
 			}
 		}
