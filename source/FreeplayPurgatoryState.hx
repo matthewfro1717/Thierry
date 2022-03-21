@@ -28,8 +28,14 @@ class FreeplayPurgatoryState extends MusicBeatState
 	var curDifficulty:Int = 2;
 	var kontol:Int = 0;
 
+	var sicks:Int;
+	var goods:Int;
+	var bads:Int;
+	var shits:Int;
+
 	var scoreText:FlxText;
 	var diffText:FlxText;
+	var rating:Int;
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 	public var preloadSongs:Bool = true;
@@ -220,7 +226,18 @@ class FreeplayPurgatoryState extends MusicBeatState
 			lerpScore = intendedScore;
 
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
-		diffText.text = "Rating : " + kontol;
+
+		if (rating == 0 && bads == 0 && shits == 0 && goods == 0 && kontol == 0) // Marvelous (SICK) Full Combo
+			diffText.text = "UNRATED"; 
+		else if (rating == 0 && bads == 0 && shits == 0 && goods == 0 && kontol == 100) // Marvelous (SICK) Full Combo
+			diffText.text = "Rating : " + kontol + "% " + "| " + "(MFC)"; 
+		else if (rating == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
+			diffText.text = "Rating : " + kontol + "% " + "| " + "(GFC)"; 
+		else if (rating == 0) // Regular FC
+			diffText.text = "Rating : " + kontol + "% " + "| " + "(FC)"; 
+		else if (rating > 0) // Single Digit Combo Breaks
+			diffText.text = "Rating : " + kontol + "% " + "| " + rating + " Misses"; 
+		
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
@@ -305,7 +322,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 				//diffText.text = "INSANE+";
 			#if !switch
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-			kontol = Highscore.getAcc(songs[curSelected].songName, curDifficulty);
+			
 			#end
 		}
 		else
@@ -319,6 +336,13 @@ class FreeplayPurgatoryState extends MusicBeatState
 	
 			#if !switch
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
+			
+			kontol = Highscore.getAcc(songs[curSelected].songName, curDifficulty);
+			rating = Highscore.getMisses(songs[curSelected].songName, curDifficulty);
+			sicks = Highscore.getSicks(songs[curSelected].songName, curDifficulty);
+			goods = Highscore.getGoods(songs[curSelected].songName, curDifficulty);
+			bads = Highscore.getBads(songs[curSelected].songName, curDifficulty);
+			shits = Highscore.getShits(songs[curSelected].songName, curDifficulty);
 			#end
 	
 			/*
@@ -356,6 +380,8 @@ class FreeplayPurgatoryState extends MusicBeatState
 
 		#if !switch
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
+		kontol = Highscore.getAcc(songs[curSelected].songName, curDifficulty);
+		rating = Highscore.getMisses(songs[curSelected].songName, curDifficulty);
 		// lerpScore = 0;
 		#end
 

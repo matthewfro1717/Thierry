@@ -7,6 +7,13 @@ class Highscore
 	#if (haxe >= "4.0.0")
 	public static var songScores:Map<String, Int> = new Map();
 	public static var songAccs:Map<String, Int> = new Map();
+
+	//rating
+	public static var songMisses:Map<String, Int> = new Map();
+	public static var songShits:Map<String, Int> = new Map();
+	public static var songBads:Map<String, Int> = new Map();
+	public static var songGoods:Map<String, Int> = new Map();
+	public static var songSicks:Map<String, Int> = new Map();
 	#else
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 	#end
@@ -37,6 +44,73 @@ class Highscore
 			}
 			else
 				setAcc(daSong, acc);
+		}
+
+		//RATING
+
+		public static function saveMisses(song:String, misses:Int = 0, ?diff:Int = 0):Void
+		{
+			var daSong:String = formatSong(song, diff);
+	
+			if (songMisses.exists(daSong))
+			{
+				if (songMisses.get(daSong) < misses)
+					setMisses(daSong, misses);
+			}
+			else
+				setMisses(daSong, misses);
+		}
+
+		public static function saveSicks(song:String, sicks:Int = 0, ?diff:Int = 0):Void
+		{
+			var daSong:String = formatSong(song, diff);
+	
+			if (songSicks.exists(daSong))
+			{
+				if (songSicks.get(daSong) < sicks)
+					setSicks(daSong, sicks);
+			}
+			else
+				setSicks(daSong, sicks);
+		}
+
+		public static function saveGoods(song:String, goods:Int = 0, ?diff:Int = 0):Void
+		{
+			var daSong:String = formatSong(song, diff);
+	
+			if (songGoods.exists(daSong))
+			{
+				if (songGoods.get(daSong) < goods)
+					setGoods(daSong, goods);
+			}
+			else
+				setGoods(daSong, goods);
+		}
+
+		public static function saveBads(song:String, bads:Int = 0, ?diff:Int = 0):Void
+		{
+			var daSong:String = formatSong(song, diff);
+	
+			if (songBads.exists(daSong))
+			{
+				if (songBads.get(daSong) < bads)
+					setBads(daSong, bads);
+			}
+			else
+				setBads(daSong, bads);
+		}
+
+		public static function saveShits(song:String, shits:Int = 0, ?diff:Int = 0):Void
+		{
+			var daSong:String = formatSong(song, diff);
+	
+			if (songShits.exists(daSong))
+			{
+				if (songShits.get(daSong) < shits)
+					setShits(daSong, shits);
+			}
+			else
+				setShits(daSong, shits);
 		}
 
 	public static function saveWeekScore(week:Int = 1, score:Int = 0, ?diff:Int = 0):Void
@@ -74,6 +148,52 @@ class Highscore
 		// what
 		songAccs.set(song, acc);
 		FlxG.save.data.songacc = songAccs;
+
+		FlxG.save.flush();
+	}
+
+	static function setMisses(song:String, miss:Int):Void
+	{
+		// what
+		songMisses.set(song, miss);
+		FlxG.save.data.songmiss = songMisses;
+
+		FlxG.save.flush();
+	}
+
+	static function setSicks(song:String, sicks:Int):Void
+	{
+		// what
+		songSicks.set(song, sicks);
+		FlxG.save.data.songsicks = songSicks;
+
+		FlxG.save.flush();
+	}
+
+	static function setGoods(song:String, goods:Int):Void
+	{
+		// what
+		songGoods.set(song, goods);
+		FlxG.save.data.songgoods = songGoods;
+
+		FlxG.save.flush();
+	}
+
+	static function setBads(song:String, bads:Int):Void
+	{
+		// what
+		songBads.set(song, bads);
+		FlxG.save.data.songbads = songBads;
+
+		FlxG.save.flush();
+	}
+
+	static function setShits(song:String, shits:Int):Void
+	{
+		// what
+		songShits.set(song, shits);
+		FlxG.save.data.songshits = songShits;
+
 		FlxG.save.flush();
 	}
 
@@ -97,6 +217,46 @@ class Highscore
 		return songAccs.get(formatSong(song, diff));
 	}
 
+	public static function getMisses(song:String, diff:Int):Int
+	{
+		if (!songMisses.exists(formatSong(song, diff)))
+			setMisses(formatSong(song, diff), 0);
+
+		return songMisses.get(formatSong(song, diff));
+	}
+
+	public static function getSicks(song:String, diff:Int):Int
+	{
+		if (!songSicks.exists(formatSong(song, diff)))
+			setSicks(formatSong(song, diff), 0);
+
+		return songSicks.get(formatSong(song, diff));
+	}
+
+	public static function getGoods(song:String, diff:Int):Int
+	{
+		if (!songGoods.exists(formatSong(song, diff)))
+			setGoods(formatSong(song, diff), 0);
+
+		return songGoods.get(formatSong(song, diff));
+	}
+
+	public static function getBads(song:String, diff:Int):Int
+	{
+		if (!songBads.exists(formatSong(song, diff)))
+			setBads(formatSong(song, diff), 0);
+
+		return songBads.get(formatSong(song, diff));
+	}
+
+	public static function getShits(song:String, diff:Int):Int
+	{
+		if (!songShits.exists(formatSong(song, diff)))
+			setShits(formatSong(song, diff), 0);
+
+		return songShits.get(formatSong(song, diff));
+	}
+
 	public static function getScore(song:String, diff:Int):Int
 	{
 		if (!songScores.exists(formatSong(song, diff)))
@@ -115,9 +275,13 @@ class Highscore
 
 	public static function load():Void
 	{
-		if (FlxG.save.data.songScores != null)
-		{
-			songScores = FlxG.save.data.songScores;
-		}
+		if (FlxG.save.data.songScores != null) { songScores = FlxG.save.data.songScores; }
+		if (FlxG.save.data.songmiss != null) { songMisses = FlxG.save.data.songmiss; }
+		if (FlxG.save.data.songacc != null) { songAccs = FlxG.save.data.songacc; }
+		if (FlxG.save.data.songsicks != null) { songSicks = FlxG.save.data.songsicks; }
+		if (FlxG.save.data.songgoods != null) { songGoods = FlxG.save.data.songgoods; }
+		if (FlxG.save.data.songbads != null) { songBads = FlxG.save.data.songbads; }
+		if (FlxG.save.data.songshits != null) { songShits = FlxG.save.data.songshits; }
+
 	}
 }
