@@ -6,6 +6,7 @@ class Highscore
 {
 	#if (haxe >= "4.0.0")
 	public static var songScores:Map<String, Int> = new Map();
+	public static var songAccs:Map<String, Int> = new Map();
 	#else
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 	#end
@@ -16,11 +17,6 @@ class Highscore
 		var daSong:String = formatSong(song, diff);
 
 
-		#if !switch
-		NGio.postScore(score, song);
-		#end
-
-
 		if (songScores.exists(daSong))
 		{
 			if (songScores.get(daSong) < score)
@@ -29,6 +25,19 @@ class Highscore
 		else
 			setScore(daSong, score);
 	}
+
+	public static function saveAcc(song:String, acc:Int = 0, ?diff:Int = 0):Void
+		{
+			var daSong:String = formatSong(song, diff);
+	
+			if (songAccs.exists(daSong))
+			{
+				if (songAccs.get(daSong) < acc)
+					setAcc(daSong, acc);
+			}
+			else
+				setAcc(daSong, acc);
+		}
 
 	public static function saveWeekScore(week:Int = 1, score:Int = 0, ?diff:Int = 0):Void
 	{
@@ -60,6 +69,14 @@ class Highscore
 		FlxG.save.flush();
 	}
 
+	static function setAcc(song:String, acc:Int):Void
+	{
+		// what
+		songAccs.set(song, acc);
+		FlxG.save.data.songacc = songAccs;
+		FlxG.save.flush();
+	}
+
 	public static function formatSong(song:String, diff:Int):String
 	{
 		var daSong:String = song;
@@ -70,6 +87,14 @@ class Highscore
 			daSong += '-hard';
 
 		return daSong;
+	}
+
+	public static function getAcc(song:String, diff:Int):Int
+	{
+		if (!songAccs.exists(formatSong(song, diff)))
+			setAcc(formatSong(song, diff), 0);
+
+		return songAccs.get(formatSong(song, diff));
 	}
 
 	public static function getScore(song:String, diff:Int):Int

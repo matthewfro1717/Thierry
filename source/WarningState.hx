@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.StaticData;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -137,11 +138,13 @@ class WarningState extends MusicBeatState
 	{
         if (FlxG.keys.pressed.ENTER)
         {
+			StaticData.didPreload = true;
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
             FlxG.switchState(new FreeplayBuffer());
         }
 		else if (FlxG.keys.pressed.SPACE)
 		{
+			StaticData.didPreload = false;
 			FlxG.switchState(new TitleState());
 		}
     }

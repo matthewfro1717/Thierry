@@ -57,6 +57,10 @@ class CoolMenuState extends MusicBeatState
 		trace(TitleState.firstBoot);
 
 
+		if (!FlxG.sound.music.playing)
+		{
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+		}
 		/*
 		if (TitleState.firstBoot)
 		{

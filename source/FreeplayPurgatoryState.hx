@@ -26,6 +26,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 	var selector:FlxText;
 	var curSelected:Int = 0;
 	var curDifficulty:Int = 2;
+	var kontol:Int = 0;
 
 	var scoreText:FlxText;
 	var diffText:FlxText;
@@ -219,6 +220,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 			lerpScore = intendedScore;
 
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
+		diffText.text = "Rating : " + kontol;
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
@@ -243,7 +245,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 		if(songs[curSelected].songName.toLowerCase()=="termination")
 		{
 			curDifficulty = 1; //Force it to hard difficulty.
-				diffText.text = "INSANE+";
+				//diffText.text = "INSANE+";
 			#if !switch
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 			#end
@@ -251,7 +253,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 		else if(songs[curSelected].songName.toLowerCase()=="ghost")
 		{
 			curDifficulty = 1; //Force it to hard difficulty.
-				diffText.text = "TRUE MANIA";
+				//diffText.text = "TRUE MANIA";
 			#if !switch
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 			#end
@@ -259,7 +261,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 		else
 		{
 			curDifficulty = 2; //Force it to hard difficulty.
-				diffText.text = "HARD";
+				//diffText.text = "HARD";
 			#if !switch
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 			#end
@@ -300,9 +302,10 @@ class FreeplayPurgatoryState extends MusicBeatState
 		if(songs[curSelected].songName.toLowerCase()=="termination")
 		{
 			curDifficulty = 2; //Force it to hard difficulty.
-				diffText.text = "INSANE+";
+				//diffText.text = "INSANE+";
 			#if !switch
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
+			kontol = Highscore.getAcc(songs[curSelected].songName, curDifficulty);
 			#end
 		}
 		else
@@ -318,6 +321,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 			#end
 	
+			/*
 			switch (curDifficulty)
 			{
 				case 0:
@@ -327,6 +331,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 				case 2:
 					diffText.text = "HARD";
 			}
+			/****/
 		}	
 
 	}
@@ -354,9 +359,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 		// lerpScore = 0;
 		#end
 
-		#if PRELOAD_ALL
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
-		#end
+		if (aeroshide.StaticData.didPreload) { FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0); }
 
 		var bullShit:Int = 0;
 

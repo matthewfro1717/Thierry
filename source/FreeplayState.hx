@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.StaticData;
 import flixel.tweens.FlxTween;
 import flash.text.TextField;
 import flixel.FlxG;
@@ -329,9 +330,7 @@ class FreeplayState extends MusicBeatState
 		// lerpScore = 0;
 		#end
 
-		#if PRELOAD_ALL
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
-		#end
+		if (StaticData.didPreload) { FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0); }
 
 		var bullShit:Int = 0;
 

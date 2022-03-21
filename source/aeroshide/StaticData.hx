@@ -1,6 +1,12 @@
 package aeroshide;
 
 
+/**
+ * Datas that are static and will be forgotten when engine restarts.
+ *
+ * 
+ */
+
 class StaticData extends MusicBeatState
 {
     public static var isAllowedToBop:Bool = false;
@@ -15,6 +21,7 @@ class StaticData extends MusicBeatState
     public static var animaticaEngine:Bool = false;
     public static var debugMenu:Bool = false;
     public static var sartFade:Bool = false;
+    public static var didPreload:Bool = false;
     
     public static var Optimize:Bool;
 
@@ -31,5 +38,6 @@ class StaticData extends MusicBeatState
         animaticaEngine = false;
         debugMenu = false;
         sartFade = false;
+        didPreload = false;
     }
 }

@@ -621,7 +621,7 @@ class PlayState extends MusicBeatState
 				difficultSong = true;
 		}
 		//NEW CAM IS NOW MANDATORY AS LEGACY CAM IS NO LONGER SUPPORTED
-		UsingNewCam = true;
+		UsingNewCam = FlxG.save.data.cameraMov;
 
 		switch(SONG.song.toLowerCase())
 		{
@@ -658,7 +658,7 @@ class PlayState extends MusicBeatState
 				bg.scrollFactor.set(0.9, 0.9);
 				bg.active = true;
 				add(bg);
-				UsingNewCam = true;
+				//UsingNewCam = true;
 
 				secondBG = new FlxSprite(-700, -200).loadGraphic(Paths.image('anjayB'));
 				secondBG.visible = false;
@@ -696,7 +696,7 @@ class PlayState extends MusicBeatState
 
 				if (SONG.song == 'Unturned') {health = 0.01;}
 
-				UsingNewCam = true;
+				//UsingNewCam = true;
 				defaultCamZoom = 0.9;
 				bego = new FlxSprite(-600, -200).loadGraphic(Paths.image('stagemalem'));
 				bego.antialiasing = true;
@@ -751,7 +751,7 @@ class PlayState extends MusicBeatState
 					add(thierrySiang);
 					add(thierry);
 					thierry.visible = true;
-					UsingNewCam = true;
+					//UsingNewCam = true;
 				}
 
 	
@@ -818,7 +818,7 @@ class PlayState extends MusicBeatState
 				bg.scrollFactor.set(0.9, 0.9);
 				bg.active = true;
 				add(bg);
-				UsingNewCam = true;
+				//UsingNewCam = true;
 
 				//LMAO LITTERALLY STOLEN CODE FROM VSDAVE
 				testshader = new Shaders.GlitchEffect();
@@ -839,7 +839,7 @@ class PlayState extends MusicBeatState
 				bg.scrollFactor.set(0.9, 0.9);
 				bg.active = true;
 				add(bg);
-				UsingNewCam = true;
+				//UsingNewCam = true;
 
 				//LMAO LITTERALLY STOLEN CODE FROM VSDAVE
 				testshader = new Shaders.GlitchEffect();
@@ -897,7 +897,7 @@ class PlayState extends MusicBeatState
 				add(secondBG);
 				
 				
-				UsingNewCam = true;
+				//UsingNewCam = true;
 
 			case 'applecore': 
 			{
@@ -985,7 +985,7 @@ class PlayState extends MusicBeatState
 				gw.flipX = true;
 				if (SONG.song == 'copy-cat')
 				{
-					UsingNewCam = true;
+					//UsingNewCam = true;
 				}
 				if (SONG.song == 'gerlad')
 				{
@@ -1289,7 +1289,7 @@ class PlayState extends MusicBeatState
 			}
 			default:
 			{
-					UsingNewCam = true;
+					//UsingNewCam = true;
 					defaultCamZoom = 0.9;
 					curStage = 'stage';
 					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
@@ -3658,58 +3658,72 @@ class PlayState extends MusicBeatState
 			
 
 			//what the fuck is this even for??
-			if (camFollow.x != dad.getMidpoint().x + 150 && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+			//oh
+
+			if (!UsingNewCam)
 			{
-				//camFollow.setPosition(dad.getMidpoint().x + 150 + (lua != null ? getVar("followXOffset", "float") : 0), dad.getMidpoint().y - 100 + (lua != null ? getVar("followYOffset", "float") : 0));
-				// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
-
-				switch (dad.curCharacter)
-				{
-					case 'Fsby' | 'fsby':
-						camFollow.y = dad.getMidpoint().y - 420;
-					case 'mom':
-						camFollow.y = dad.getMidpoint().y;
-					case 'senpai':
-						camFollow.y = dad.getMidpoint().y - 430;
-						camFollow.x = dad.getMidpoint().x - 100;
-					case 'senpai-angry':
-						camFollow.y = dad.getMidpoint().y - 430;
-						camFollow.x = dad.getMidpoint().x - 100;
-				}
-
-				if (dad.curCharacter == 'mom')
-					vocals.volume = 1;
-
-				if (SONG.song.toLowerCase() == 'tutorial')
-				{
-					tweenCamIn();
+				if (camFollow.x != dad.getMidpoint().x + 150 && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+					{
+						if (dad.curCharacter == 'Fsby')
+						{
+							camFollow.setPosition(dad.getMidpoint().x + 150 + (lua != null ? getVar("followXOffset", "float") : 0), dad.getMidpoint().y + 300 + (lua != null ? getVar("followYOffset", "float") : 0));
+						}
+						else
+							{
+								camFollow.setPosition(dad.getMidpoint().x + 150 + (lua != null ? getVar("followXOffset", "float") : 0), dad.getMidpoint().y - 100 + (lua != null ? getVar("followYOffset", "float") : 0));
+							}
+						
+						// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
+		
+						switch (dad.curCharacter)
+						{
+							case 'Fsby' | 'fsby':
+								camFollow.y = dad.getMidpoint().y - 420;
+							case 'mom':
+								camFollow.y = dad.getMidpoint().y;
+							case 'senpai':
+								camFollow.y = dad.getMidpoint().y - 430;
+								camFollow.x = dad.getMidpoint().x - 100;
+							case 'senpai-angry':
+								camFollow.y = dad.getMidpoint().y - 430;
+								camFollow.x = dad.getMidpoint().x - 100;
+						}
+		
+						if (dad.curCharacter == 'mom')
+							vocals.volume = 1;
+		
+						if (SONG.song.toLowerCase() == 'tutorial')
+						{
+							tweenCamIn();
+						}
+					}
+		
+					if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != boyfriend.getMidpoint().x - 100)
+					{
+						camFollow.setPosition(boyfriend.getMidpoint().x - 100 + (lua != null ? getVar("followXOffset", "float") : 0), boyfriend.getMidpoint().y - 100 + (lua != null ? getVar("followYOffset", "float") : 0));
+		
+						switch (curStage)
+						{
+							case 'limo':
+								camFollow.x = boyfriend.getMidpoint().x - 300;
+							case 'mall':
+								camFollow.y = boyfriend.getMidpoint().y - 200;
+							case 'school':
+								camFollow.x = boyfriend.getMidpoint().x - 200;
+								camFollow.y = boyfriend.getMidpoint().y - 200;
+							case 'schoolEvil':
+								camFollow.x = boyfriend.getMidpoint().x - 200;
+								camFollow.y = boyfriend.getMidpoint().y - 200;
+						}
+		
+						if (SONG.song.toLowerCase() == 'tutorial')
+						{
+							FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
+						}
+					}
 				}
 			}
-
-			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != boyfriend.getMidpoint().x - 100)
-			{
-				//camFollow.setPosition(boyfriend.getMidpoint().x - 100 + (lua != null ? getVar("followXOffset", "float") : 0), boyfriend.getMidpoint().y - 100 + (lua != null ? getVar("followYOffset", "float") : 0));
-
-				switch (curStage)
-				{
-					case 'limo':
-						camFollow.x = boyfriend.getMidpoint().x - 300;
-					case 'mall':
-						camFollow.y = boyfriend.getMidpoint().y - 200;
-					case 'school':
-						camFollow.x = boyfriend.getMidpoint().x - 200;
-						camFollow.y = boyfriend.getMidpoint().y - 200;
-					case 'schoolEvil':
-						camFollow.x = boyfriend.getMidpoint().x - 200;
-						camFollow.y = boyfriend.getMidpoint().y - 200;
-				}
-
-				if (SONG.song.toLowerCase() == 'tutorial')
-				{
-					FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
-				}
-			}
-		}
+			
 
 		if (camZooming)
 		{
@@ -4175,110 +4189,114 @@ class PlayState extends MusicBeatState
 
 	function ZoomCam(focusondad:Bool, noteData:Int):Void
 	{
-		var bfplaying:Bool = false;
-		if (focusondad)
+		if (UsingNewCam)
 		{
-			notes.forEachAlive(function(daNote:Note)
+			var bfplaying:Bool = false;
+			if (focusondad)
 			{
-				if (!bfplaying)
+				notes.forEachAlive(function(daNote:Note)
 				{
-					if (daNote.mustPress)
+					if (!bfplaying)
 					{
-						bfplaying = true;
+						if (daNote.mustPress)
+						{
+							bfplaying = true;
+						}
+					}
+				});
+				if (UsingNewCam && bfplaying)
+				{
+					return;
+				}
+			}
+			if (focusondad)
+			{
+				if (elonMusk)
+				{
+					camFollow.setPosition(dad.getMidpoint().x + 400, dad.getMidpoint().y - 100);
+				}
+				else
+				{
+					switch(noteData)
+					{
+						case 0:
+							if (dad.curCharacter == 'Fsby')
+								{
+									
+								}
+							else
+								{
+									camFollow.setPosition(dad.getMidpoint().x + 150 - 40, dad.getMidpoint().y - 100);
+								}
+							
+						case 1:
+							camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100 + 40);
+						case 2:
+							camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 10 - 40);
+						case 3:
+							if (dad.curCharacter == 'Fsby')
+								{
+									
+								}
+							else
+								{
+									camFollow.setPosition(dad.getMidpoint().x + 150 + 40, dad.getMidpoint().y - 100);
+								}
+	
+						default:
+							camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+	
 					}
 				}
-			});
-			if (UsingNewCam && bfplaying)
-			{
-				return;
+				
+				// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
+	
+				switch (dad.curCharacter)
+				{
+					case 'gw-3d': //CLEAN THIS LATER IM LAZY AF
+						camFollow.y = dad.getMidpoint().y;
+				}
+	
+				if (SONG.song.toLowerCase() == 'tutorial')
+				{
+					tweenCamIn();
+				}
 			}
-		}
-		if (focusondad)
-		{
-			if (elonMusk)
+	
+			if (!focusondad)
 			{
-				camFollow.setPosition(dad.getMidpoint().x + 400, dad.getMidpoint().y - 100);
-			}
-			else
-			{
+	
 				switch(noteData)
 				{
 					case 0:
-						if (dad.curCharacter == 'Fsby')
-							{
-								
-							}
-						else
-							{
-								camFollow.setPosition(dad.getMidpoint().x + 150 - 40, dad.getMidpoint().y - 100);
-							}
-						
+						camFollow.setPosition(boyfriend.getMidpoint().x - 100 - 40, boyfriend.getMidpoint().y - 100);
 					case 1:
-						camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100 + 40);
+						camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100 + 40);
 					case 2:
-						camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 10 - 40);
+						camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100 - 40);
 					case 3:
-						if (dad.curCharacter == 'Fsby')
-							{
-								
-							}
-						else
-							{
-								camFollow.setPosition(dad.getMidpoint().x + 150 + 40, dad.getMidpoint().y - 100);
-							}
-
+						camFollow.setPosition(boyfriend.getMidpoint().x - 100 + 40, boyfriend.getMidpoint().y - 100);
 					default:
-						camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-
+						camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+	
 				}
-			}
-			
-			// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
-
-			switch (dad.curCharacter)
-			{
-				case 'gw-3d': //CLEAN THIS LATER IM LAZY AF
-					camFollow.y = dad.getMidpoint().y;
-			}
-
-			if (SONG.song.toLowerCase() == 'tutorial')
-			{
-				tweenCamIn();
-			}
+				
+	
+				switch(boyfriend.curCharacter)
+				{
+					case 'gw-3d':
+						camFollow.y = boyfriend.getMidpoint().y;
+					case 'bambi-3d' | 'badai':
+						camFollow.y = boyfriend.getMidpoint().y - 350;
+				}
+	
+				if (SONG.song.toLowerCase() == 'tutorial')
+				{
+					FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
+				}
+			}	
 		}
 
-		if (!focusondad)
-		{
-
-			switch(noteData)
-			{
-				case 0:
-					camFollow.setPosition(boyfriend.getMidpoint().x - 100 - 40, boyfriend.getMidpoint().y - 100);
-				case 1:
-					camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100 + 40);
-				case 2:
-					camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100 - 40);
-				case 3:
-					camFollow.setPosition(boyfriend.getMidpoint().x - 100 + 40, boyfriend.getMidpoint().y - 100);
-				default:
-					camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
-
-			}
-			
-
-			switch(boyfriend.curCharacter)
-			{
-				case 'gw-3d':
-					camFollow.y = boyfriend.getMidpoint().y;
-				case 'bambi-3d' | 'badai':
-					camFollow.y = boyfriend.getMidpoint().y - 350;
-			}
-
-			if (SONG.song.toLowerCase() == 'tutorial')
-			{
-				FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
-			}
-		}
 	}
 
 	function afterGameplay():Void {
@@ -4352,6 +4370,7 @@ class PlayState extends MusicBeatState
 		{
 			#if !switch
 			Highscore.saveScore(SONG.song, Math.round(songScore), storyDifficulty);
+			Highscore.saveAcc(SONG.song, Math.round(accuracy), storyDifficulty);
 			#end
 		}
 
@@ -4475,7 +4494,7 @@ class PlayState extends MusicBeatState
 					// if ()
 					StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
-					if (SONG.validScore)
+					if (SONG.validScore && !botPlay && !cheated)
 					{
 						Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 					}

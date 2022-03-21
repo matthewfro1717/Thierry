@@ -41,6 +41,7 @@ class OptionsMenu extends MusicBeatState
 			#end
 			new DownscrollOption("Change the layout of the strumline."),
 			new ScrollSpeedOption("Change your scroll speed (Left for -0.1, right for +0.1. If its at 1, it will be chart dependent)"),
+			new CameraMov("im very proud of this one"),
 			new BotPlay("poger")
 			//new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
 			// new OffsetMenu("Get a note offset based off of your inputs!"),
