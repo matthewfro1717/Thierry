@@ -81,6 +81,9 @@ class IconBounceState extends MusicBeatState
     private var gui:FlxText;
     private var curSelectedChar:Int = 33;
 
+    private var bounceMethod:Bool = false;
+    private var where:Bool = false;
+
     override function create() 
     {
         masterIcon = new HealthIcon("IBT", true);
@@ -107,7 +110,8 @@ class IconBounceState extends MusicBeatState
 
         masterIcon.animation.curAnim.curFrame = curSelectedChar;
 
-        gui.text = "INTENSITY = " + truncateFloat(intensity, 2) + " | FREQUENCY = " + freq + " | MASTERCODE = " + curSelectedChar;
+        gui.text = "INTENSITY = " + truncateFloat(intensity, 2) + " | FREQUENCY = " + freq + " | MASTERCODE = " + curSelectedChar + " | " 
+        + "JUMP MODE = " + bounceMethod;
 
 
 
@@ -172,12 +176,46 @@ class IconBounceState extends MusicBeatState
             FlxG.sound.play(Paths.sound('click'));
         }
 
+        //bounce mode
+        else if (FlxG.keys.justPressed.W)
+            {
+                bounceMethod = !bounceMethod;
+                gui.visible = true;
+                FlxG.sound.play(Paths.sound('click'));
+            }
+
 
 
         if (frame % freq == 0)
         {
-            masterIcon.setGraphicSize(Std.int(masterIcon.width + (50 * (2 - intensity))),Std.int(masterIcon.height - (25 * (2 - intensity))));
-            masterIcon.updateHitbox();
+            if (bounceMethod)
+            {
+                masterIcon.setGraphicSize(Std.int(masterIcon.width + (50 * (2 - intensity))),Std.int(masterIcon.height - (25 * (2 - intensity))));
+                masterIcon.updateHitbox();
+            }
+            else
+            {
+                var mult:Float = FlxMath.lerp(1, masterIcon.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+                masterIcon.scale.set(mult, mult);
+                masterIcon.updateHitbox();
+
+                masterIcon.scale.set(1.1, 0.8);
+                if (where)
+                {
+                    FlxTween.angle(masterIcon, -15, 0, Conductor.crochet / 1300 * 1, {ease: FlxEase.quadOut});
+                    where = false;
+                }
+                else
+                {
+                    FlxTween.angle(masterIcon, 15, 0, Conductor.crochet / 1300 * 1, {ease: FlxEase.quadOut});
+                    where = true;
+                }
+        
+                FlxTween.tween(masterIcon, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * 1, {ease: FlxEase.quadOut});
+        
+                masterIcon.updateHitbox();
+            }
+
 
             if (FlxG.save.data.memoryTrace)
                 {
