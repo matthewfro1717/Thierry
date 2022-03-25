@@ -181,6 +181,7 @@ class PlayState extends MusicBeatState
 	public var badaiy:Int;
 
 	public var judgementCounter:FlxText;
+	var camdebug:Bool = false;
 	
 	private var generatedMusic:Bool = false;
 	private var startingSong:Bool = false;
@@ -617,7 +618,7 @@ class PlayState extends MusicBeatState
 
 		switch(SONG.song.toLowerCase())
 		{
-			case 'cheat-blitar' | 'purgatory' | 'nether' | 'brutal':
+			case 'cheat-blitar' | 'purgatory' | 'nether' | 'brutal' | 'hellbreaker':
 				difficultSong = true;
 		}
 		//NEW CAM IS NOW MANDATORY AS LEGACY CAM IS NO LONGER SUPPORTED
@@ -636,7 +637,7 @@ class PlayState extends MusicBeatState
 				bg.active = false;
 				add(bg);
 
-			case 'purgatory' | 'torment' | 'brutal' | 'nether': 
+			case 'purgatory' | 'torment' | 'brutal' | 'nether' | 'hellbreaker': 
 			{
 				curStage = 'sekolahDPee'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 		
@@ -3223,6 +3224,19 @@ class PlayState extends MusicBeatState
 			#end
 		}
 
+		if (FlxG.keys.justPressed.FIVE)
+		{
+			if (camdebug)
+			{
+				camHUD.zoom = 0.5;
+			}
+			else
+			{
+				camHUD.zoom = 1;
+			}
+			
+		}
+
 
 
 
@@ -5355,21 +5369,30 @@ class PlayState extends MusicBeatState
 	{
 		if (!boyfriend.stunned)
 		{
-			if (SONG.song == 'Purgatory')
+			if (!botPlay) 
 			{
-				health -= 0.01;
+				if (SONG.song == 'Purgatory')
+					{
+						health -= 0.01;
+					}
+					else
+					{
+						health -= 0.04;
+					}
 			}
-			else
-			{
-				health -= 0.04;
-			}
+
 			
 			if (combo > 5 && gf.animOffsets.exists('sad'))
 			{
 				gf.playAnim('sad');
 			}
-			combo = 0;
-			misses++;
+
+			if (!botPlay) 
+			{
+				combo = 0;
+				misses++;
+			}
+
 
 			var noteDiff:Float = Math.abs(daNote.strumTime - Conductor.songPosition);
 			var wife:Float = EtternaFunctions.wife3(noteDiff, FlxG.save.data.etternaMode ? 1 : 1.7);
@@ -5379,7 +5402,8 @@ class PlayState extends MusicBeatState
 
 			songScore -= 10;
 
-			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
+			if (!botPlay) {FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));}
+			
 			// FlxG.sound.play(Paths.sound('missnote1'), 1, false);
 			// FlxG.log.add('played imss note');
 
@@ -5455,7 +5479,7 @@ class PlayState extends MusicBeatState
 			susussamongus = true;
 
 			if (noteDiff > Conductor.safeZoneOffset * 0.70 || noteDiff < Conductor.safeZoneOffset * -0.70)
-				note.rating = "shit";
+				if (botPlay) {note.rating = "good";} else {note.rating = "shit";}
 			else if (noteDiff > Conductor.safeZoneOffset * 0.50 || noteDiff < Conductor.safeZoneOffset * -0.50)
 				note.rating = "bad";
 			else if (noteDiff > Conductor.safeZoneOffset * 0.45 || noteDiff < Conductor.safeZoneOffset * -0.45)
@@ -6667,4 +6691,6 @@ class PlayState extends MusicBeatState
 	var curLight:Int = 0;
 
 	
+
+
 }

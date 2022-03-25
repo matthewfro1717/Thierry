@@ -13,7 +13,7 @@ class Ratings
         // IF LEMON SEES THIS I'M SORRY :(
 
         if (noteDiff > 135 * customTimeScale) // way early
-            return "shit";
+            if (PlayState.botPlay) {return "good";} else {return "shit";}            
         else if (noteDiff > 90 * customTimeScale) // early
             return "bad";
         else if (noteDiff > 45 * customTimeScale) // your kinda there
@@ -23,7 +23,7 @@ class Ratings
         else if (noteDiff < -90 * customTimeScale) // late
             return "bad";
         else if (noteDiff < -135 * customTimeScale) // late as fuck
-            return "shit";
+            if (PlayState.botPlay) {return "good";} else {return "shit";}
         return "sick";
     }
 }

@@ -336,13 +336,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 	
 			#if !switch
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-			
-			kontol = Highscore.getAcc(songs[curSelected].songName, curDifficulty);
-			rating = Highscore.getMisses(songs[curSelected].songName, curDifficulty);
-			sicks = Highscore.getSicks(songs[curSelected].songName, curDifficulty);
-			goods = Highscore.getGoods(songs[curSelected].songName, curDifficulty);
-			bads = Highscore.getBads(songs[curSelected].songName, curDifficulty);
-			shits = Highscore.getShits(songs[curSelected].songName, curDifficulty);
+		
 			#end
 	
 			/*
@@ -382,6 +376,12 @@ class FreeplayPurgatoryState extends MusicBeatState
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 		kontol = Highscore.getAcc(songs[curSelected].songName, curDifficulty);
 		rating = Highscore.getMisses(songs[curSelected].songName, curDifficulty);
+
+		rating = Highscore.getMisses(songs[curSelected].songName, curDifficulty);
+		sicks = Highscore.getSicks(songs[curSelected].songName, curDifficulty);
+		goods = Highscore.getGoods(songs[curSelected].songName, curDifficulty);
+		bads = Highscore.getBads(songs[curSelected].songName, curDifficulty);
+		shits = Highscore.getShits(songs[curSelected].songName, curDifficulty);
 		// lerpScore = 0;
 		#end
 

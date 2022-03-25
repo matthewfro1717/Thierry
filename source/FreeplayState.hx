@@ -21,20 +21,29 @@ using StringTools;
 
 class FreeplayState extends MusicBeatState
 {
-	public var songs:Array<SongMetadata> = [];
+	var songs:Array<SongMetadata> = [];
 
-	public var selector:FlxText;
-	public var curSelected:Int = 0;
+	var selector:FlxText;
+	var curSelected:Int = 0;
 	var curDifficulty:Int = 2;
+	var kontol:Int = 0;
 
-	public var scoreText:FlxText;
-	public var diffText:FlxText;
-	public var lerpScore:Int = 0;
-	public var intendedScore:Int = 0;
+	var sicks:Int;
+	var goods:Int;
+	var bads:Int;
+	var shits:Int;
+
+	var scoreText:FlxText;
+	var diffText:FlxText;
+	var rating:Int;
+	var lerpScore:Int = 0;
+	var intendedScore:Int = 0;
 	public var preloadSongs:Bool = true;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
+
+	private var iconArray:Array<HealthIcon> = [];
 	var bg:FlxSprite;
 
 	var songColors:Array<FlxColor> = [
@@ -52,8 +61,6 @@ class FreeplayState extends MusicBeatState
 		0xFF008594, // HEX 11
 
     ];
-
-	private var iconArray:Array<HealthIcon> = [];
 
 	override function create()
 	{
@@ -235,9 +242,16 @@ class FreeplayState extends MusicBeatState
 		/****/
 
 		curDifficulty = 2; //Force it to hard difficulty.
-		diffText.text = "HARD";
 		#if !switch
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
+		kontol = Highscore.getAcc(songs[curSelected].songName, curDifficulty);
+		rating = Highscore.getMisses(songs[curSelected].songName, curDifficulty);
+
+		rating = Highscore.getMisses(songs[curSelected].songName, curDifficulty);
+		sicks = Highscore.getSicks(songs[curSelected].songName, curDifficulty);
+		goods = Highscore.getGoods(songs[curSelected].songName, curDifficulty);
+		bads = Highscore.getBads(songs[curSelected].songName, curDifficulty);
+		shits = Highscore.getShits(songs[curSelected].songName, curDifficulty);
 		#end
 
 		
@@ -252,6 +266,17 @@ class FreeplayState extends MusicBeatState
 			lerpScore = intendedScore;
 
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
+
+		if (rating == 0 && bads == 0 && shits == 0 && goods == 0 && kontol == 0) // Marvelous (SICK) Full Combo
+			diffText.text = "UNRATED"; 
+		else if (rating == 0 && bads == 0 && shits == 0 && goods == 0 && kontol == 100) // Marvelous (SICK) Full Combo
+			diffText.text = "Rating : " + kontol + "% " + "| " + "(MFC)"; 
+		else if (rating == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
+			diffText.text = "Rating : " + kontol + "% " + "| " + "(GFC)"; 
+		else if (rating == 0) // Regular FC
+			diffText.text = "Rating : " + kontol + "% " + "| " + "(FC)"; 
+		else if (rating > 0) // Single Digit Combo Breaks
+			diffText.text = "Rating : " + kontol + "% " + "| " + rating + " Misses"; 
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
@@ -311,8 +336,6 @@ class FreeplayState extends MusicBeatState
 		#if !switch
 		// NGio.logEvent('Fresh');
 		#end
-		
-
 		// NGio.logEvent('Fresh');
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
