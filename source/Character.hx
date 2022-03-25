@@ -23,6 +23,8 @@ class Character extends FlxSprite
 	public var globaloffset:Array<Float> = [0,0];
 	public var nil:Int = 0;
 
+	public var ground:Int = 200;
+
 	public var holdTimer:Float = 0;
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
@@ -357,6 +359,26 @@ class Character extends FlxSprite
 				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 				updateHitbox();
 				antialiasing = false;
+
+			case 'dave':
+				// DAVE SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('Dave_insanity_lol');
+				frames = tex;
+				animation.addByPrefix('idle', 'Idle', 24, false);
+				animation.addByPrefix('singUP', 'Up', 24, false);
+				animation.addByPrefix('singRIGHT', 'Right', 24, false);
+				animation.addByPrefix('singDOWN', 'Down', 24, false);
+				animation.addByPrefix('singLEFT', 'Left', 24, false);
+				animation.addByPrefix('scared', 'Scared', 24, true);
+	
+				addOffset('idle', 0, 0 - ground);
+				addOffset("singUP", 3, 18 - ground);
+				addOffset("singRIGHT", 16, -18 - ground);
+				addOffset("singLEFT", 85, -12 - ground);
+				addOffset("singDOWN", 0, -34 - ground);
+				addOffset("scared", 0, -2 - ground);
+	
+				playAnim('idle');
 
 			case 'sart-producer-night':
 				frames = Paths.getSparrowAtlas('sart_producer');

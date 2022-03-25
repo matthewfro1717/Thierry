@@ -259,6 +259,9 @@ class PlayState extends MusicBeatState
 
 	public static var timeCurrently:Float = 0;
 	public static var timeCurrentlyR:Float = 0;
+
+	public var cameraAmplifierX:Int = 150;
+	public var cameraAmplifierY:Int = 100;
 	
 	// Will fire once to prevent debug spam messages and broken animations
 	private var triggeredAlready:Bool = false;
@@ -1348,6 +1351,12 @@ class PlayState extends MusicBeatState
 		if (SONG.song == 'gerlad')
 		{
 			camPos = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
+		}
+
+		switch(dad.curCharacter)
+		{
+			case 'dave':
+				cameraAmplifierY -= 150; 
 		}
 
 
@@ -4234,31 +4243,17 @@ class PlayState extends MusicBeatState
 					switch(noteData)
 					{
 						case 0:
-							if (dad.curCharacter == 'Fsby')
-								{
-									
-								}
-							else
-								{
-									camFollow.setPosition(dad.getMidpoint().x + 150 - 40, dad.getMidpoint().y - 100);
-								}
-							
+							if (dad.curCharacter != 'Fsby')
+								camFollow.setPosition(dad.getMidpoint().x + cameraAmplifierX - 40, dad.getMidpoint().y - cameraAmplifierY);
 						case 1:
-							camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100 + 40);
+							camFollow.setPosition(dad.getMidpoint().x + cameraAmplifierX, dad.getMidpoint().y - cameraAmplifierY + 40);
 						case 2:
-							camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 10 - 40);
+							camFollow.setPosition(dad.getMidpoint().x + cameraAmplifierX, dad.getMidpoint().y - cameraAmplifierY - 40);
 						case 3:
-							if (dad.curCharacter == 'Fsby')
-								{
-									
-								}
-							else
-								{
-									camFollow.setPosition(dad.getMidpoint().x + 150 + 40, dad.getMidpoint().y - 100);
-								}
-	
+							if (dad.curCharacter != 'Fsby')
+								camFollow.setPosition(dad.getMidpoint().x + cameraAmplifierX + 40, dad.getMidpoint().y - cameraAmplifierY);
 						default:
-							camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+							camFollow.setPosition(dad.getMidpoint().x + cameraAmplifierX, dad.getMidpoint().y - cameraAmplifierY);
 	
 					}
 				}
