@@ -2797,7 +2797,7 @@ class PlayState extends MusicBeatState
 		#end
 
 		judgementCounter.visible = StaticData.debugMenu;
-		judgementCounter.text = 'Alpha 1.1 - Aeroshide Engine (KadeEngine 1.4.2/Modded)\nRendered notes : ${notes.length}\n\n\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits} 
+		judgementCounter.text = 'Alpha 1.1 - Aeroshide Engine (KadeEngine 1.4.2/Modded)\nRendered notes : ${notes.length}\n\n\n\nTotal Notes Hit: ${totalNotesHit}\nHit Combo: ${combo}\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits} 
 		\n\n\n\n\nBeat : ${curBeat}\nStep : ${curStep}\nBPM : ${Conductor.bpm}\n\n\n\n\n';
 
 		if (StaticData.tunnelOpen && width <= 2048 && height <= 2048)
