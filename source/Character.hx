@@ -344,6 +344,35 @@ class Character extends FlxSprite
 
 				playAnim('danceRight');
 
+			case 'tunnel-bf':
+				var tex = Paths.getSparrowAtlas('tunnel_bf');
+				frames = tex;
+
+				animation.addByPrefix('idle', 'IDLE', 24, false);
+				animation.addByPrefix('singUP', 'UP', 24, false);
+				animation.addByPrefix('singLEFT', 'LEFT', 24, false);
+				animation.addByPrefix('singRIGHT', 'RIGHT', 24, false);
+				animation.addByPrefix('singDOWN', 'DOWN', 24, false);
+				animation.addByPrefix('turn', 'TURN', 24, false);
+
+				animation.addByPrefix('singUPmiss', 'UP', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'LEFT', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'RIGHT', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'DOWN', 24, false);
+
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT", 53);
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+				addOffset('turn');
+
+				playAnim('idle');
+
+				flipX = true;
+
+				nativelyPlayable = true;
+
 			case 'gf-pixel':
 				tex = Paths.getSparrowAtlas('weeb/gfPixel');
 				frames = tex;
@@ -398,6 +427,23 @@ class Character extends FlxSprite
 				updateHitbox();
 
 				antialiasing = false;
+
+				playAnim('idle');
+
+			case 'dingle':
+				tex = Paths.getSparrowAtlas('dingle');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle', 24);
+				animation.addByPrefix('singUP', 'up', 24);
+				animation.addByPrefix('singRIGHT', 'right', 24);
+				animation.addByPrefix('singDOWN', 'down', 24);
+				animation.addByPrefix('singLEFT', 'left', 24);
+
+				addOffset('idle', 0, -200);
+				addOffset("singUP", 0, -200);
+				addOffset("singRIGHT", 0, -200);
+				addOffset("singLEFT", 0, -200);
+				addOffset("singDOWN", 0, -200);
 
 				playAnim('idle');
 

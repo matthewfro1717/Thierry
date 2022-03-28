@@ -1342,10 +1342,11 @@ class PlayState extends MusicBeatState
 
 		dad = new Character(100, 100, SONG.player2);
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
-		if (boyfriend.curCharacter == '3d-bf')
+		if (boyfriend.curCharacter == '3d-bf' || boyfriend.curCharacter == 'tunnel-bf')
 		{
 			StaticData.using3DEngine = true;
 		}
+
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
 		if (SONG.song == 'gerlad')
@@ -1356,7 +1357,9 @@ class PlayState extends MusicBeatState
 		switch(dad.curCharacter)
 		{
 			case 'dave':
-				cameraAmplifierY -= 150; 
+				cameraAmplifierY -= 150;
+			case 'dingle':
+				cameraAmplifierY -= 150;
 		}
 
 
@@ -2110,7 +2113,11 @@ class PlayState extends MusicBeatState
 		{
 			dad.dance();
 			gf.dance();
-			boyfriend.playAnim('idle');
+			if (!StaticData.using3DEngine)
+			{
+				boyfriend.playAnim('idle');
+			}
+			
 
 			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			if (SONG.song.toLowerCase() == 'cut2' || SONG.song.toLowerCase() == 'cut0' || SONG.song.toLowerCase() == 'cut1')
@@ -2504,12 +2511,18 @@ class PlayState extends MusicBeatState
 
 	private function generateStaticArrows(player:Int):Void
 	{
+		if (boyfriend.curCharacter == 'tunnel-bf')
+		{
+			iconP1.flipX = true;
+			boyfriend.scale.set(0.8, 0.8);
+		}
+
 		for (i in 0...4)
 		{
 			// FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
 
-			if (boyfriend.curCharacter == '3d-bf')
+			if (StaticData.using3DEngine)
 			{
 				babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets_3D');
 				babyArrow.animation.addByPrefix('green', 'arrowUP');
@@ -2967,7 +2980,11 @@ class PlayState extends MusicBeatState
 		if(SONG.song == 'segitiga' && jancok || SONG.song == 'chaos' && jancok || SONG.song == 'disarray' && jancok || SONG.song == 'serpent')
 		{
 			dad.y += (Math.sin(elapsedtime) * 0.72);
-			camFollow.y = boyfriend.getMidpoint().y - 100;
+		}
+
+		if(boyfriend.curCharacter == 'tunnel-bf')
+		{
+			boyfriend.y += (Math.sin(elapsedtime) * 0.82);
 		}
 
 		if (dad.curCharacter == 'badai')
@@ -5051,6 +5068,10 @@ class PlayState extends MusicBeatState
 				if (StaticData.using3DEngine || botPlay)
 				{
 					boyfriend.holdTimer = -1.18;
+					if (boyfriend.curCharacter == 'tunnel-bf')
+						{
+							boyfriend.holdTimer = -3.18;
+						}
 				}
 				else
 				{
