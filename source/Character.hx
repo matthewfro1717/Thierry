@@ -90,7 +90,7 @@ class Character extends FlxSprite
 				setGraphicSize(Std.int((width * 1) / furiosityScale));
 				updateHitbox();
 				antialiasing = false;
-				playAnim('idle');
+				//playAnim('idle');
 
 			case 'gerlad':
 				tex = Paths.getSparrowAtlas('gerlad');
@@ -899,6 +899,8 @@ class Character extends FlxSprite
 	{
 		super.update(elapsed);
 
+
+		/*
 		if (!curCharacter.startsWith('bf'))
 		{
 			if (animation.curAnim.name.startsWith('sing'))
@@ -916,6 +918,7 @@ class Character extends FlxSprite
 				holdTimer = 0;
 			}
 		}
+		/****/
 
 		switch (curCharacter)
 		{

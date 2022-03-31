@@ -90,6 +90,11 @@ class PlayState extends MusicBeatState
 	public var susussamongus:Bool;
 	var stupidFuckingRedBg:FlxObject;
 
+	public var leftInt:Int;
+	public var downInt:Int;
+	public var upInt:Int;
+	public var rightInt:Int;
+
 	public static var songPosBG:FlxSprite;
 	public static var songPosBar:FlxBar;
 
@@ -143,6 +148,11 @@ class PlayState extends MusicBeatState
 	public var pressedSEVEN:Bool;
 	private var curSong:String = "";
 	public var testshader:Shaders.GlitchEffect;
+
+	var up:Bool;
+	var right:Bool;
+	var down:Bool;
+	var left:Bool;
 
 	private var gfSpeed:Int = 1;
 	private var health:Float = 1;
@@ -2811,7 +2821,7 @@ class PlayState extends MusicBeatState
 
 		judgementCounter.visible = StaticData.debugMenu;
 		judgementCounter.text = 'Alpha 1.1 - Aeroshide Engine (KadeEngine 1.4.2/Modded)\nRendered notes : ${notes.length}\n\n\n\nTotal Notes Hit: ${totalNotesHit}\nHit Combo: ${combo}\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits} 
-		\n\n\n\n\nBeat : ${curBeat}\nStep : ${curStep}\nBPM : ${Conductor.bpm}\n\n\n\n\n';
+		\n\nInput nodes : ${left} ${down} ${up} ${right}\n\n\nBeat : ${curBeat}\nStep : ${curStep}\nBPM : ${Conductor.bpm}\n\n\n\n\n';
 
 		if (StaticData.tunnelOpen && width <= 2048 && height <= 2048)
 		{
@@ -4975,13 +4985,13 @@ class PlayState extends MusicBeatState
 		var rightHold:Bool = false;
 		var leftHold:Bool = false;	
 
-	private function keyShit():Void
+	public function keyShit():Void
 	{
 		// HOLDING
-		var up = controls.UP;
-		var right = controls.RIGHT;
-		var down = controls.DOWN;
-		var left = controls.LEFT;
+		up = controls.UP;
+		right = controls.RIGHT;
+		down = controls.DOWN;
+		left = controls.LEFT;
 
 		var upP = controls.UP_P;
 		var rightP = controls.RIGHT_P;
@@ -5063,20 +5073,8 @@ class PlayState extends MusicBeatState
 		if ((upP || rightP || downP || leftP) && !boyfriend.stunned && generatedMusic)
 			{
 				repPresses++;
-				//the 3d magic thing
-
-				if (StaticData.using3DEngine || botPlay)
-				{
-					boyfriend.holdTimer = -1.18;
-					if (boyfriend.curCharacter == 'tunnel-bf')
-						{
-							boyfriend.holdTimer = -3.18;
-						}
-				}
-				else
-				{
-					boyfriend.holdTimer = 0;
-				}
+				//the 3d magic thing real
+				boyfriend.holdTimer = 0;
 				
 	
 				var possibleNotes:Array<Note> = [];
@@ -5259,6 +5257,7 @@ class PlayState extends MusicBeatState
 	
 			if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !up && !down && !right && !left)
 			{
+				trace(up + " " + down + " " + right + " " + left);
 				if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 				{
 					boyfriend.playAnim('idle');
@@ -5695,6 +5694,22 @@ class PlayState extends MusicBeatState
 			if (phillyTrain.x < -4000 && trainFinishing)
 				trainReset();
 		}
+	}
+
+	function convertDataType(v:Bool, b:Int)
+	{
+		if (v && b == 0){leftInt = 1;}
+		if (!v && b == 0){leftInt = 0;}
+
+		if (v && b == 1){downInt = 1;}
+		if (!v && b == 1){downInt = 0;}
+
+		if (v && b == 2){upInt = 1;}
+		if (!v && b == 2){upInt = 0;}
+
+		if (v && b == 0){rightInt = 1;}
+		if (!v && b == 0){rightInt = 0;}
+
 	}
 
 	function trainReset():Void
