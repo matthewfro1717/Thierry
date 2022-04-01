@@ -888,11 +888,11 @@ class PlayState extends MusicBeatState
 				curbg = bg;
 			}
 
-			case 'chaos' | 'disarray' | 'rush' | 'hyperactivity':
+			case 'chaos' | 'disarray' | 'rush' | 'hyperactivity' | 'brute':
 				curStage = 'worldeater'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 		
 				defaultCamZoom = 0.9;
-				if (SONG.song == 'Rush' || SONG.song == 'Hyperactivity')
+				if (SONG.song == 'Rush' || SONG.song == 'Hyperactivity' || SONG.song == 'Brute')
 				{
 					defaultCamZoom = 0.5;
 				}
@@ -1384,7 +1384,7 @@ class PlayState extends MusicBeatState
 			dad.scale.set(1.6, 1.6);
 		}
 
-		if (SONG.song == 'Rush' || SONG.song == 'Hyperactivity')
+		if (SONG.song == 'Rush' || SONG.song == 'Hyperactivity' || SONG.song == 'Brute')
 		{
 			dad.x -= 420;
 		}
@@ -2937,7 +2937,7 @@ class PlayState extends MusicBeatState
 			FlxG.camera.shake(0.010, 0.1);
 		}
 
-		if (SONG.song == 'chaos' || SONG.song == 'disarray' || SONG.song == 'Rush' || SONG.song == 'Hyperactivity')
+		if (SONG.song == 'chaos' || SONG.song == 'disarray' || SONG.song == 'Rush' || SONG.song == 'Hyperactivity' || SONG.song == 'Brute')
 		{
 			if (mati)
 			{
@@ -3990,7 +3990,7 @@ class PlayState extends MusicBeatState
 							camHUD.shake(0.017, 0.1);
 						}
 
-						if (SONG.song == 'chaos' || SONG.song == 'disarray' || SONG.song == 'brutal' || SONG.song == 'Rush' || SONG.song == 'Hyperactivity')
+						if (SONG.song == 'chaos' || SONG.song == 'disarray' || SONG.song == 'brutal' || SONG.song == 'Rush' || SONG.song == 'Hyperactivity' || SONG.song == 'Brute')
 						{
 							camHUD.shake(0.0037, 0.1);
 						}
