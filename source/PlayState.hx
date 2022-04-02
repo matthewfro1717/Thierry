@@ -143,6 +143,7 @@ class PlayState extends MusicBeatState
 
 	private var strumLineNotes:FlxTypedGroup<FlxSprite>;
 	private var playerStrums:FlxTypedGroup<FlxSprite>;
+	public var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 	var segitigaBG:FlxTypedGroup<FlxSprite> = new FlxTypedGroup<FlxSprite>();
 
 	public var pressedSEVEN:Bool;
@@ -554,6 +555,8 @@ class PlayState extends MusicBeatState
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
+
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		FlxCamera.defaultCameras = [camGame];
 
@@ -1509,10 +1512,14 @@ class PlayState extends MusicBeatState
 
 		strumLineNotes = new FlxTypedGroup<FlxSprite>();
 		add(strumLineNotes);
+		add(grpNoteSplashes);
 
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 
 		dadStrums = new FlxTypedGroup<FlxSprite>();
+
+		var splash:NoteSplash = new NoteSplash(1000, 1000, 0);
+		grpNoteSplashes.add(splash);
 
 		// startCountdown();
 
@@ -1661,6 +1668,7 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 
 		strumLineNotes.cameras = [camHUD];
+		grpNoteSplashes.cameras = [camHUD];
 		judgementCounter.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
@@ -2300,7 +2308,7 @@ class PlayState extends MusicBeatState
 
 			songPosBG.screenCenter(X);
 			songPosBG.scrollFactor.set();
-			songPosBar = new FlxBar(640 - (Std.int(songPosBG.width - 100) / 2), songPosBG.y + 4, LEFT_TO_RIGHT, Std.int(songPosBG.width - 150),
+			songPosBar = new FlxBar(690 - (Std.int(songPosBG.width - 100) / 2), songPosBG.y + 4, LEFT_TO_RIGHT, Std.int(songPosBG.width - 200),
 			Std.int(songPosBG.height + 2), this, 'songPositionBar', 0, songLength);
 			songPosBar.scrollFactor.set();
 			songPosBar.createFilledBar(FlxColor.BLACK, FlxColor.fromRGB(255, 255, 255));
@@ -2324,7 +2332,7 @@ class PlayState extends MusicBeatState
 			add(songName);
 
 			songName.screenCenter(X);
-			songName.x -= 30;
+			//songName.x -= 30;
 
 			songPosBG.cameras = [camHUD];
 			bar.cameras = [camHUD];
@@ -2630,7 +2638,7 @@ class PlayState extends MusicBeatState
 			}
 
 			babyArrow.animation.play('static');
-			babyArrow.x += 50;
+			babyArrow.x += 95;
 			babyArrow.x += ((FlxG.width / 2) * player);
 
 			strumLineNotes.add(babyArrow);
@@ -2710,6 +2718,72 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
+	function generateTimings():String
+		{
+			var ranking:String = "N/A";
+	
+			if (misses == 0 && bads == 0 && shits == 0 && goods == 0) // Marvelous (SICK) Full Combo
+				ranking = "- MFC";
+			else if (misses == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
+				ranking = "- GFC";
+			else if (misses == 0) // Regular FC
+				ranking = "- FC";
+			else if (misses < 10) // Single Digit Combo Breaks
+				ranking = "- SDCB";
+			else if (misses < 100) // Double Digit Combo Breaks
+				ranking = "- DDCB";
+			else
+				ranking = "- Goblok";
+
+			return ranking;
+		}
+
+	function generateWife():String
+		{
+			var wife:String = "N/A";
+
+			var wifeConditions:Array<Bool> = [
+				accuracy >= 99.9935, // Perfect!! (Aimed for 100%)
+				accuracy >= 90, // Sick! (self explanatory)
+				accuracy >= 85, // Great
+				accuracy >= 80, // Good
+				accuracy >= 70, // Okay
+				accuracy >= 50, // Goblok
+				accuracy < 49 // Skill Issue
+			];
+	
+			for(i in 0...wifeConditions.length)
+			{
+				var b = wifeConditions[i];
+				if (b)
+				{
+					switch(i)
+					{
+						case 0:
+							wife = "Perfect!!";
+						case 1:
+							wife = "Sick!";
+						case 2:
+							wife = "Great.";
+						case 3:
+							wife = "Good.";
+						case 4:
+							wife = "Okay.";
+						case 5:
+							wife = "Goblok.";
+						case 6:
+							wife = "Skill Issue.";
+					}
+					break;
+				}
+			}
+	
+			if (accuracy == 0)
+				wife = "N/A";
+	
+			return wife;
+		}
+
 	function truncateFloat( number : Float, precision : Int): Float {
 		var num = number;
 		num = num * Math.pow(10, precision);
@@ -2720,20 +2794,20 @@ class PlayState extends MusicBeatState
 
 	function generateRanking():String
 	{
-		var ranking:String = "N/A";
+		var rankingandwife:String = "N/A";
 
 		if (misses == 0 && bads == 0 && shits == 0 && goods == 0) // Marvelous (SICK) Full Combo
-			ranking = "(MFC)";
+			rankingandwife = "(MFC)";
 		else if (misses == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
-			ranking = "(GFC)";
+			rankingandwife = "(GFC)";
 		else if (misses == 0) // Regular FC
-			ranking = "(FC)";
+			rankingandwife = "(FC)";
 		else if (misses < 10) // Single Digit Combo Breaks
-			ranking = "(SDCB)";
+			rankingandwife = "(SDCB)";
 		else if (misses < 100) // Double Digit Combo Breaks
-			ranking = "(DDCB)";
+			rankingandwife = "(DDCB)";
 		else
-			ranking = "(Goblok)";
+			rankingandwife = "(Goblok)";
 
 		// WIFE TIME :)))) (based on Wife3)
 
@@ -2765,48 +2839,48 @@ class PlayState extends MusicBeatState
 				switch(i)
 				{
 					case 0:
-						ranking += " AAAAA";
+						rankingandwife += " AAAAA";
 					case 1:
-						ranking += " AAAA:";
+						rankingandwife += " AAAA:";
 					case 2:
-						ranking += " AAAA.";
+						rankingandwife += " AAAA.";
 					case 3:
-						ranking += " AAAA";
+						rankingandwife += " AAAA";
 					case 4:
-						ranking += " AAA:";
+						rankingandwife += " AAA:";
 					case 5:
-						ranking += " AAA.";
+						rankingandwife += " AAA.";
 					case 6:
-						ranking += " AAA";
+						rankingandwife += " AAA";
 					case 7:
-						ranking += " AA:";
+						rankingandwife += " AA:";
 					case 8:
-						ranking += " AA.";
+						rankingandwife += " AA.";
 					case 9:
-						ranking += " AA";
+						rankingandwife += " AA";
 					case 10:
-						ranking += " A:";
+						rankingandwife += " A:";
 					case 11:
-						ranking += " A.";
+						rankingandwife += " A.";
 					case 12:
-						ranking += " A";
+						rankingandwife += " A";
 					case 13:
-						ranking += " B";
+						rankingandwife += " B";
 					case 14:
-						ranking += " C";
+						rankingandwife += " C";
 					case 15:
-						ranking += " D";
+						rankingandwife += " D";
 					case 16:
-						ranking += " Goblok!";
+						rankingandwife += " Goblok!";
 				}
 				break;
 			}
 		}
 
 		if (accuracy == 0)
-			ranking = "N/A";
+			rankingandwife = "N/A";
 
-		return ranking;
+		return rankingandwife;
 	}
 
 	public static var songRate = 1.5;
@@ -3208,13 +3282,23 @@ class PlayState extends MusicBeatState
 
 		if (!offsetTesting)
 		{
+			var memek:String = generateWife();
+
 			if (FlxG.save.data.accuracyDisplay)
 			{
 				scoreTxt.text = (FlxG.save.data.npsDisplay ? "NPS: " + nps + " | " : "") + "Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "% | " + generateRanking() + " | " + "Combo: " + combo;
 			}
 			else
 			{
-				scoreTxt.text = ("Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Rating: " + truncateFloat(accuracy, 0) + "% " + generateRanking());
+				if (memek != "N/A")
+				{
+					scoreTxt.text = ("Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Rating: " + generateWife() + " (" + truncateFloat(accuracy, 0) + "%) " + generateTimings());
+				}
+				else
+				{
+					scoreTxt.text = ("Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Rating: N/A");
+				}
+				
 			}
 		}
 		else
@@ -4700,6 +4784,9 @@ class PlayState extends MusicBeatState
 
 			if (daRating == 'sick' && FlxG.save.data.spong)//note splash
 			{
+				spawnNoteSplashOnNote(daNote);
+
+				/*
 				var angles:Array<Int> = [25, 60, 180, 260, 0];
 
 				var splash:FlxSprite = new FlxSprite(daNote.x, playerStrums.members[daNote.noteData].y);
@@ -4724,6 +4811,7 @@ class PlayState extends MusicBeatState
 						remove(splash);
 					}
 				});
+				/****/
 			}
 
 			switch(daRating)
@@ -4786,9 +4874,13 @@ class PlayState extends MusicBeatState
 			}
 	
 			rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
+			//rating.cameras = [camHUD];
 			rating.screenCenter();
-			rating.y -= 50;
-			rating.x = coolText.x - 125;
+			rating.x = coolText.x - 40;
+			rating.y -= 60;
+			rating.acceleration.y = 550;
+			rating.velocity.y -= FlxG.random.int(140, 175);
+			rating.velocity.x -= FlxG.random.int(0, 10);
 			
 			if (FlxG.save.data.changedHit)
 			{
@@ -4798,73 +4890,17 @@ class PlayState extends MusicBeatState
 			rating.acceleration.y = 550;
 			rating.velocity.y -= FlxG.random.int(140, 175);
 			rating.velocity.x -= FlxG.random.int(0, 10);
-	
-			
-			var msTiming = truncateFloat(noteDiff, 3);
-
-			if (currentTimingShown != null)
-				remove(currentTimingShown);
-
-			currentTimingShown = new FlxText(0,0,0,"0ms");
-			timeShown = 0;
-			switch(daRating)
-			{
-				case 'shit' | 'bad':
-					currentTimingShown.color = FlxColor.RED;
-				case 'good':
-					currentTimingShown.color = FlxColor.GREEN;
-				case 'sick':
-					currentTimingShown.color = FlxColor.CYAN;
-			}
-			currentTimingShown.borderStyle = OUTLINE;
-			currentTimingShown.borderSize = 1;
-			currentTimingShown.borderColor = FlxColor.BLACK;
-			currentTimingShown.text = msTiming + "ms";
-			currentTimingShown.size = 20;
-
-			if (msTiming >= 0.03 && offsetTesting)
-			{
-				//Remove Outliers
-				hits.shift();
-				hits.shift();
-				hits.shift();
-				hits.pop();
-				hits.pop();
-				hits.pop();
-				hits.push(msTiming);
-
-				var total = 0.0;
-
-				for(i in hits)
-					total += i;
-				
-
-				
-				offsetTest = truncateFloat(total / hits.length,2);
-			}
-
-			if (currentTimingShown.alpha != 1)
-				currentTimingShown.alpha = 1;
-
-			add(currentTimingShown);
-			
-
 
 			var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
+			//comboSpr.cameras = [camHUD];
 			comboSpr.screenCenter();
-			comboSpr.x = rating.x;
-			comboSpr.y = rating.y + 100;
+			comboSpr.x = coolText.x;
 			comboSpr.acceleration.y = 600;
 			comboSpr.velocity.y -= 150;
-
-			currentTimingShown.screenCenter();
-			currentTimingShown.x = comboSpr.x + 100;
-			currentTimingShown.y = rating.y + 100;
-			currentTimingShown.acceleration.y = 600;
-			currentTimingShown.velocity.y -= 150;
+	
 	
 			comboSpr.velocity.x += FlxG.random.int(1, 10);
-			currentTimingShown.velocity.x += comboSpr.velocity.x;
+	
 			add(rating);
 	
 			if (!curStage.startsWith('school'))
@@ -4879,14 +4915,11 @@ class PlayState extends MusicBeatState
 				rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.7));
 				comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.7));
 			}
-	
-			currentTimingShown.updateHitbox();
 			comboSpr.updateHitbox();
 			rating.updateHitbox();
-	
-			currentTimingShown.cameras = [camHUD];
-			comboSpr.cameras = [camHUD];
-			rating.cameras = [camHUD];
+
+			//comboSpr.cameras = [camHUD];
+			//rating.cameras = [camHUD];
 
 			var seperatedScore:Array<Int> = [];
 	
@@ -4908,7 +4941,7 @@ class PlayState extends MusicBeatState
 				numScore.screenCenter();
 				numScore.x = rating.x + (43 * daLoop) - 50;
 				numScore.y = rating.y + 100;
-				numScore.cameras = [camHUD];
+				//numScore.cameras = [camHUD];
 
 				if (!curStage.startsWith('school'))
 				{
@@ -4984,6 +5017,7 @@ class PlayState extends MusicBeatState
 		var downHold:Bool = false;
 		var rightHold:Bool = false;
 		var leftHold:Bool = false;	
+		
 
 	public function keyShit():Void
 	{
@@ -5379,6 +5413,24 @@ class PlayState extends MusicBeatState
 						spr.centerOffsets();
 				});
 	}
+
+	function spawnNoteSplashOnNote(note:Note) {
+		if(FlxG.save.data.spong && note != null) {
+			var strum:FlxSprite = playerStrums.members[note.noteData];
+			if(strum != null) {
+				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
+			}
+		}
+	}
+
+	public function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
+		var skin:String = 'noteSplashes';
+
+		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
+		splash.setupNoteSplash(x, y, data, skin, 2, 2, 2);
+		grpNoteSplashes.add(splash);
+	}
+
 
 	function noteMiss(direction:Int = 1, daNote:Note):Void
 	{
