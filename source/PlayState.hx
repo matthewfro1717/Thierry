@@ -2638,7 +2638,14 @@ class PlayState extends MusicBeatState
 			}
 
 			babyArrow.animation.play('static');
-			babyArrow.x += 95;
+			if (maniaSong)
+			{
+				babyArrow.x += 50;
+			}
+			else
+			{
+				babyArrow.x += 95;
+			}
 			babyArrow.x += ((FlxG.width / 2) * player);
 
 			strumLineNotes.add(babyArrow);
