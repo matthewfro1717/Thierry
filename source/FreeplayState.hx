@@ -325,7 +325,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 	}
-
+	
 	function changeDiff(change:Int = 0)
 	{	
 		trace("dude look this guy is trying to chnage diff LOL");

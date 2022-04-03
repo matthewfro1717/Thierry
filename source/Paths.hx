@@ -1,9 +1,27 @@
 package;
 
+import flixel.math.FlxPoint;
+import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
+import openfl.geom.Rectangle;
+import flixel.math.FlxRect;
+import haxe.xml.Access;
+import openfl.system.System;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
+import lime.utils.Assets;
+import flixel.FlxSprite;
+#if MODS_ALLOWED
+import sys.io.File;
+import sys.FileSystem;
+#end
+import flixel.graphics.FlxGraphic;
+import openfl.display.BitmapData;
+
+import flash.media.Sound;
+
+using StringTools;
 
 class Paths
 {
@@ -118,6 +136,10 @@ class Paths
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
 		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
+	}
+
+	inline static public function formatToSongPath(path:String) {
+		return path.toLowerCase().replace(' ', '-');
 	}
 
 	inline static public function getPackerAtlas(key:String, ?library:String)

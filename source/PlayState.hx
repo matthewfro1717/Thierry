@@ -846,7 +846,34 @@ class PlayState extends MusicBeatState
 				curbg = bg;
 			}
 
-			case 'trigometry' | 'wraith' | 'serpent' | 'decimal': 
+			case 'decimal': 
+			{
+				curStage = 'ohungi'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
+		
+				defaultCamZoom = 0.9;
+				var bg:FlxSprite = new FlxSprite(-700, -400).loadGraphic(Paths.image('ohungi-skybox'));
+				bg.antialiasing = true;
+				bg.scrollFactor.set(0.9, 0.9);
+				bg.active = true;
+				add(bg);
+
+				var tnh:FlxSprite = new FlxSprite(-1000, 200).loadGraphic(Paths.image('ohungi-ground'));
+				tnh.antialiasing = true;
+				tnh.scrollFactor.set(0.9, 0.9);
+				tnh.active = true;
+				add(tnh);
+				//UsingNewCam = true;
+
+				//LMAO LITTERALLY STOLEN CODE FROM VSDAVE
+				testshader = new Shaders.GlitchEffect();
+				testshader.waveAmplitude = 0.1;
+				testshader.waveFrequency = 4;
+				testshader.waveSpeed = 2;
+				bg.shader = testshader.shader;
+				curbg = bg;
+			}
+
+			case 'trigometry' | 'wraith' | 'serpent': 
 			{
 				curStage = 'sekolahDPButCool'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 		
@@ -2332,7 +2359,7 @@ class PlayState extends MusicBeatState
 			add(songName);
 
 			songName.screenCenter(X);
-			//songName.x -= 30;
+			//songName.x += 15;
 
 			songPosBG.cameras = [camHUD];
 			bar.cameras = [camHUD];
@@ -2771,15 +2798,15 @@ class PlayState extends MusicBeatState
 						case 1:
 							wife = "Sick!";
 						case 2:
-							wife = "Great.";
+							wife = "Great";
 						case 3:
-							wife = "Good.";
+							wife = "Good";
 						case 4:
-							wife = "Okay.";
+							wife = "Okay";
 						case 5:
-							wife = "Goblok.";
+							wife = "Goblok";
 						case 6:
-							wife = "Skill Issue.";
+							wife = "Skill Issue";
 					}
 					break;
 				}
@@ -4749,7 +4776,7 @@ class PlayState extends MusicBeatState
 
 			if (FlxG.save.data.hitSounds)
 			{
-				FlxG.sound.play(Paths.soundRandom('hitSound', 1, 3), FlxG.random.float(0.5, 0.7));
+				FlxG.sound.play(Paths.soundRandom('hitSound', 1, 3), FlxG.random.float(3.5, 3.7));
 			}
 			
 

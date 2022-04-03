@@ -8,6 +8,8 @@ class Highscore
 	public static var songScores:Map<String, Int> = new Map();
 	public static var songAccs:Map<String, Int> = new Map();
 
+	public static var canFlushWifeData:Bool = false;
+
 	//rating
 	public static var songMisses:Map<String, Int> = new Map();
 	public static var songShits:Map<String, Int> = new Map();
@@ -39,8 +41,11 @@ class Highscore
 	
 			if (songAccs.exists(daSong))
 			{
-				if (songAccs.get(daSong) < acc)
+				if (canFlushWifeData)
+				{
 					setAcc(daSong, acc);
+				}
+					
 			}
 			else
 				setAcc(daSong, acc);
@@ -54,8 +59,12 @@ class Highscore
 	
 			if (songMisses.exists(daSong))
 			{
-				if (songMisses.get(daSong) < misses)
+				if (songMisses.get(daSong) > misses)
+				{
 					setMisses(daSong, misses);
+					canFlushWifeData = true;
+				}
+					
 			}
 			else
 				setMisses(daSong, misses);
@@ -67,7 +76,7 @@ class Highscore
 	
 			if (songSicks.exists(daSong))
 			{
-				if (songSicks.get(daSong) < sicks)
+				if (canFlushWifeData)
 					setSicks(daSong, sicks);
 			}
 			else
@@ -80,7 +89,7 @@ class Highscore
 	
 			if (songGoods.exists(daSong))
 			{
-				if (songGoods.get(daSong) < goods)
+				if (canFlushWifeData)
 					setGoods(daSong, goods);
 			}
 			else
@@ -93,7 +102,7 @@ class Highscore
 	
 			if (songBads.exists(daSong))
 			{
-				if (songBads.get(daSong) < bads)
+				if (canFlushWifeData)
 					setBads(daSong, bads);
 			}
 			else
@@ -106,7 +115,7 @@ class Highscore
 	
 			if (songShits.exists(daSong))
 			{
-				if (songShits.get(daSong) < shits)
+				if (canFlushWifeData)
 					setShits(daSong, shits);
 			}
 			else
