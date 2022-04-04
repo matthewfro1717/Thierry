@@ -22,6 +22,10 @@ class StaticData extends MusicBeatState
     public static var debugMenu:Bool = false;
     public static var sartFade:Bool = false;
     public static var didPreload:Bool = false;
+    public static var theresSecondDad:Bool = false;
+
+    //PERMANENT
+    public static var whoIsSinging:Int = 0;
     
     public static var Optimize:Bool;
 

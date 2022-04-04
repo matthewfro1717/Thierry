@@ -580,6 +580,28 @@ class Character extends FlxSprite
 				
 
 				playAnim('idle');
+
+			case 'bamburg':
+				// BADAI SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('bamburg');
+				frames = tex;
+				animation.addByPrefix('idle', 'Idle', 24, false);
+				animation.addByPrefix('singUP', 'Up', 24, false);
+				animation.addByPrefix('singRIGHT', 'Right', 24, false);
+				animation.addByPrefix('singDOWN', 'Down', 24, false);
+				animation.addByPrefix('singLEFT', 'Left', 24, false);
+		
+				addOffset('idle',855, 0);
+				addOffset("singUP",445, 304);
+				addOffset("singRIGHT",580, 360);
+				addOffset("singLEFT",291,-260);
+				addOffset("singDOWN",491, -357);
+				setGraphicSize(Std.int(width * furiosityScale),Std.int(height * furiosityScale));
+				updateHitbox();
+				antialiasing = false;
+		
+				playAnim('idle');
+
 			case 'badai':
 				// BADAI SHITE ANIMATION LOADING CODE
 				tex = Paths.getSparrowAtlas('badai');
@@ -830,9 +852,9 @@ class Character extends FlxSprite
 				animation.addByPrefix('singLEFT', "left_", 24, false);
 				animation.addByPrefix('singDOWN', "spirit down_", 24, false);
 
-				addOffset('idle', -220, -280);
+				addOffset('idle', -220, 0); //how doesthis work idont udnersstand
 				addOffset('singUP', -220, -240);
-				addOffset("singRIGHT", -220, -280);
+				addOffset("singRIGHT", -60, -280);
 				addOffset("singLEFT", -200, -280);
 				addOffset("singDOWN", 170, 110);
 

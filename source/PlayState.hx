@@ -123,6 +123,7 @@ class PlayState extends MusicBeatState
 	public var bego:FlxSprite;
 
 	private var dad:Character;
+	private var surgarDaddy:Character;
 	private var gwOppo:Character;
 	private var gf:Character;
 	private var boyfriend:Boyfriend;
@@ -273,6 +274,9 @@ class PlayState extends MusicBeatState
 
 	public var cameraAmplifierX:Int = 150;
 	public var cameraAmplifierY:Int = 100;
+	
+	public var camAnchorX:Float;
+	public var camAnchorY:Float;
 	
 	// Will fire once to prevent debug spam messages and broken animations
 	private var triggeredAlready:Bool = false;
@@ -4168,31 +4172,68 @@ class PlayState extends MusicBeatState
 									}
 									
 								}
-								if (!StaticData.expungedSinging)
+								if (StaticData.whoIsSinging == 0)
 								{
 									dad.playAnim('singUP' + altAnim, true);
+								}
+								else if (StaticData.whoIsSinging == 1)
+								{
+									surgarDaddy.playAnim('singUP' + altAnim, true);
+								}
+								else
+								{
+									dad.playAnim('singUP' + altAnim, true);
+									surgarDaddy.playAnim('singUP' + altAnim, true);
 								}
 								
 							case 3:
 								ZoomCam(true, 3);
-								if (!StaticData.expungedSinging)
+								if (StaticData.whoIsSinging == 0)
 									{
 										dad.playAnim('singRIGHT' + altAnim, true);
 									}
+								else if (StaticData.whoIsSinging == 1)
+								{
+									surgarDaddy.playAnim('singRIGHT' + altAnim, true);
+								}
+								else
+								{
+									dad.playAnim('singRIGHT' + altAnim, true);
+									surgarDaddy.playAnim('singRIGHT' + altAnim, true);
+								}
 								
 							case 1:
 								ZoomCam(true, 1);
-								if (!StaticData.expungedSinging)
+								if (StaticData.whoIsSinging == 0)
 									{
 										dad.playAnim('singDOWN' + altAnim, true);
 									}
+								else if (StaticData.whoIsSinging == 1)
+								{
+									surgarDaddy.playAnim('singDOWN' + altAnim, true);
+								}
+								else
+								{
+									dad.playAnim('singDOWN' + altAnim, true);
+									surgarDaddy.playAnim('singDOWN' + altAnim, true);
+								}
 								
 							case 0:
 								ZoomCam(true, 0);
-								if (!StaticData.expungedSinging)
+								if (StaticData.whoIsSinging == 0)
 									{
 										dad.playAnim('singLEFT' + altAnim, true);
 									}
+								else if (StaticData.whoIsSinging == 1)
+								{
+									surgarDaddy.playAnim('singLEFT' + altAnim, true);
+								}
+								else
+								{
+									dad.playAnim('singLEFT' + altAnim, true);
+									surgarDaddy.playAnim('singLEFT' + altAnim, true);
+								}
+
 								
 									
 						}
@@ -4379,6 +4420,28 @@ class PlayState extends MusicBeatState
 			}
 			if (focusondad)
 			{
+				if (StaticData.theresSecondDad)
+				{
+					switch(StaticData.whoIsSinging)
+					{
+						case 0:
+							camAnchorX = dad.getMidpoint().x;
+							camAnchorY = dad.getMidpoint().y;
+						case 1:
+							camAnchorX = surgarDaddy.getMidpoint().x;
+							camAnchorY = surgarDaddy.getMidpoint().y;
+						default:
+							camAnchorX = dad.getMidpoint().x;
+							camAnchorY = dad.getMidpoint().y;
+							
+					}
+				}
+				else
+				{
+					camAnchorX = dad.getMidpoint().x;
+					camAnchorY = dad.getMidpoint().y;
+				}
+
 				if (elonMusk)
 				{
 					camFollow.setPosition(dad.getMidpoint().x + 400, dad.getMidpoint().y - 100);
@@ -4389,16 +4452,16 @@ class PlayState extends MusicBeatState
 					{
 						case 0:
 							if (dad.curCharacter != 'Fsby')
-								camFollow.setPosition(dad.getMidpoint().x + cameraAmplifierX - 40, dad.getMidpoint().y - cameraAmplifierY);
+								camFollow.setPosition(camAnchorX + cameraAmplifierX - 40, camAnchorY - cameraAmplifierY);
 						case 1:
-							camFollow.setPosition(dad.getMidpoint().x + cameraAmplifierX, dad.getMidpoint().y - cameraAmplifierY + 40);
+							camFollow.setPosition(camAnchorX + cameraAmplifierX, camAnchorY - cameraAmplifierY + 40);
 						case 2:
-							camFollow.setPosition(dad.getMidpoint().x + cameraAmplifierX, dad.getMidpoint().y - cameraAmplifierY - 40);
+							camFollow.setPosition(camAnchorX + cameraAmplifierX, camAnchorY - cameraAmplifierY - 40);
 						case 3:
 							if (dad.curCharacter != 'Fsby')
-								camFollow.setPosition(dad.getMidpoint().x + cameraAmplifierX + 40, dad.getMidpoint().y - cameraAmplifierY);
+								camFollow.setPosition(camAnchorX + cameraAmplifierX + 40, camAnchorY - cameraAmplifierY);
 						default:
-							camFollow.setPosition(dad.getMidpoint().x + cameraAmplifierX, dad.getMidpoint().y - cameraAmplifierY);
+							camFollow.setPosition(camAnchorX + cameraAmplifierX, camAnchorY - cameraAmplifierY);
 	
 					}
 				}
@@ -5951,9 +6014,10 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (SONG.song == 'cheat-blitar')
+		if (SONG.song == 'cheat-blitar' || SONG.song == 'Brute' && surgarDaddy != null)
 		{
 			dad.playAnim('idle');
+			surgarDaddy.playAnim('idle');
 		}
 
 		if (FlxG.save.data.memoryTrace)
@@ -6396,6 +6460,84 @@ class PlayState extends MusicBeatState
 						//REST OF THE CODES ARE WRITTEN IN MODCHART
 				}
 		}
+
+		if (curSong == 'Brute')
+			{
+				switch(curBeat)
+				{
+					case 256://607 //BAMBURG!!!!
+						StaticData.theresSecondDad = true;
+						FlxG.camera.flash(FlxColor.BLACK, 2);
+						surgarDaddy = new Character(dad.x - 780, dad.y, 'bamburg');
+						surgarDaddy.scale.set(0.7, 0.7);
+						add(surgarDaddy);
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 1;
+						ZoomCam(true, 1);
+
+					case 365://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("badai", true);
+						StaticData.whoIsSinging = 0;
+					case 396://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 1;
+					case 431://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("badai", true);
+						StaticData.whoIsSinging = 0;
+					case 524://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 1;
+					case 526://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("badai", true);
+						StaticData.whoIsSinging = 0;
+					case 528://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("badai", true);
+						StaticData.whoIsSinging = 2;
+						case 559://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 1;
+						case 591://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("badai", true);
+						StaticData.whoIsSinging = 0;
+						case 608://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 1;
+						case 616://all of this is just animation ycle dont be intimitaded
+						StaticData.whoIsSinging = 2;
+						case 620://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 1;
+						case 719://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("badai", true);
+						StaticData.whoIsSinging = 0;
+						case 751://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 1;
+						case 813://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("badai", true);
+						StaticData.whoIsSinging = 0;
+						case 847://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 1;
+						case 879://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("badai", true);
+						StaticData.whoIsSinging = 0;
+						case 927://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 1;
+						case 936://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 2;
+						case 939://all of this is just animation ycle dont be intimitaded
+						iconP2.animation.play("bamburg", true);
+						StaticData.whoIsSinging = 1;
+						
+
+						
+				}
+	
+	
+			}
 
 		if (curSong == 'anjing')
 			{

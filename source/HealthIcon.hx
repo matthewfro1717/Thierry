@@ -40,9 +40,9 @@ class HealthIcon extends FlxSprite
 			animation.add('tankman', [8, 9], 0, false, isPlayer);
 			animation.add('face', [10, 11], 0, false, isPlayer);
 			animation.add('dad', [12, 13], 0, false, isPlayer);
-			animation.add('senpai', [22, 22], 0, false, isPlayer);
-			animation.add('senpai-angry', [22, 22], 0, false, isPlayer);
-			animation.add('spirit', [23, 23], 0, false, isPlayer);
+			animation.add('senpai', [39, 39], 0, false, isPlayer);
+			animation.add('senpai-angry', [39, 39], 0, false, isPlayer);
+			animation.add('spirit', [39, 39], 0, false, isPlayer);
 			animation.add('bf-old', [14, 15], 0, false, isPlayer);
 			animation.add('gf', [16], 0, false, isPlayer);
 			animation.add('gf-christmas', [16], 0, false, isPlayer);
@@ -66,6 +66,8 @@ class HealthIcon extends FlxSprite
 			animation.add('sart-producer-night', [57, 58], 0, false, isPlayer);
 			animation.add('dave', [8, 9], 0, false, isPlayer);
 			animation.add('dingle', [10, 11], 0, false, isPlayer);
+			animation.add('bamburg', [21, 22], 0, false, isPlayer);
+
 
 			animation.add('IBT', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ,12 ,12, 13, 14, 15, 16
 				,27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43 ,44 ,45, 46, 47, 48, 49, 50
