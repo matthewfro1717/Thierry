@@ -1,5 +1,6 @@
 package;
 
+import mixins.AnimMixin;
 import flixel.tweens.misc.AngleTween;
 import aeroshide.StaticData;
 import openfl.system.System;
@@ -4309,31 +4310,15 @@ class PlayState extends MusicBeatState
 
 					if ((daNote.y < (-daNote.height + 182) && !FlxG.save.data.downscroll && botPlay || daNote.y >= strumLine.y + 106 && FlxG.save.data.downscroll) && daNote.mustPress)
 					{
-						if (daNote.isSustainNote && daNote.wasGoodHit) //pepek
-						{
-							goodNoteHit(daNote);
-							daNote.kill();
-							notes.remove(daNote, true);
-							daNote.destroy();
-							trace("botplay hit!");
-							
-						}
-						else
-						{
-							goodNoteHit(daNote);
-							daNote.active = false;
-							trace("botplay hit!");
-							daNote.kill();
-							notes.remove(daNote, true);
-							daNote.destroy();
-								
-								
-						}
+						goodNoteHit(daNote);
+						daNote.kill();
+						notes.remove(daNote, true);
+						daNote.destroy();
+						trace("botplay hit!");
 
 						if (!boyfriend.stunned && generatedMusic)
 						{
 							repPresses++;
-							//the 3d magic thing
 				
 							if (StaticData.using3DEngine || botPlay)
 							{
@@ -4403,6 +4388,7 @@ class PlayState extends MusicBeatState
 			var bfplaying:Bool = false;
 			if (focusondad)
 			{
+				AnimMixin.makeOpponentIdle(SONG, dad, surgarDaddy, StaticData.whoIsSinging, true);
 				notes.forEachAlive(function(daNote:Note)
 				{
 					if (!bfplaying)
@@ -4482,6 +4468,7 @@ class PlayState extends MusicBeatState
 	
 			if (!focusondad)
 			{
+				AnimMixin.makeOpponentIdle(SONG, dad, surgarDaddy, StaticData.whoIsSinging, false);
 	
 				switch(noteData)
 				{
@@ -4585,7 +4572,7 @@ class PlayState extends MusicBeatState
 		vocals.volume = 0;
 		if (SONG.validScore && !botPlay && !cheated)
 		{
-			#if !switch
+			trace("Datas flushed!");
 			Highscore.saveScore(SONG.song, Math.round(songScore), storyDifficulty);
 			Highscore.saveAcc(SONG.song, Math.round(accuracy),storyDifficulty);
 			Highscore.saveMisses(SONG.song, Math.round(misses),storyDifficulty);
@@ -4594,7 +4581,6 @@ class PlayState extends MusicBeatState
 			Highscore.saveGoods(SONG.song, Math.round(goods),storyDifficulty);
 			Highscore.saveBads(SONG.song, Math.round(bads),storyDifficulty);
 			Highscore.saveShits(SONG.song, Math.round(shits),storyDifficulty);
-			#end
 		}
 
 		switch (SONG.song)
@@ -6014,12 +6000,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (SONG.song == 'cheat-blitar' || SONG.song == 'Brute' && surgarDaddy != null)
-		{
-			dad.playAnim('idle');
-			surgarDaddy.playAnim('idle');
-		}
-
 		if (FlxG.save.data.memoryTrace)
 		{
 			//trace("curBeat " + curBeat);
@@ -6461,6 +6441,11 @@ class PlayState extends MusicBeatState
 				}
 		}
 
+		if (StaticData.secondDadAnim)
+		{
+			surgarDaddy.playAnim('idle');
+		}
+
 		if (curSong == 'Brute')
 			{
 				switch(curBeat)
@@ -6468,13 +6453,15 @@ class PlayState extends MusicBeatState
 					case 256://607 //BAMBURG!!!!
 						StaticData.theresSecondDad = true;
 						FlxG.camera.flash(FlxColor.BLACK, 2);
-						surgarDaddy = new Character(dad.x - 780, dad.y, 'bamburg');
+						surgarDaddy = new Character(dad.x - 500, dad.y, 'bamburg');
 						surgarDaddy.scale.set(0.7, 0.7);
 						add(surgarDaddy);
 						iconP2.animation.play("bamburg", true);
 						StaticData.whoIsSinging = 1;
 						ZoomCam(true, 1);
-
+						StaticData.secondDadAnim = true;
+					case 336:
+						StaticData.secondDadAnim = false;
 					case 365://all of this is just animation ycle dont be intimitaded
 						iconP2.animation.play("badai", true);
 						StaticData.whoIsSinging = 0;

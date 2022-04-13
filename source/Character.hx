@@ -591,11 +591,11 @@ class Character extends FlxSprite
 				animation.addByPrefix('singDOWN', 'Down', 24, false);
 				animation.addByPrefix('singLEFT', 'Left', 24, false);
 		
-				addOffset('idle',855, 0);
-				addOffset("singUP",445, 304);
-				addOffset("singRIGHT",580, 360);
-				addOffset("singLEFT",291,-260);
-				addOffset("singDOWN",491, -357);
+				addOffset('idle',878, -34);
+				addOffset("singUP",449, 309);
+				addOffset("singRIGHT",890, 320);
+				addOffset("singLEFT",540,-150);
+				addOffset("singDOWN",491, -207);
 				setGraphicSize(Std.int(width * furiosityScale),Std.int(height * furiosityScale));
 				updateHitbox();
 				antialiasing = false;

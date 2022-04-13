@@ -23,8 +23,7 @@ class StaticData extends MusicBeatState
     public static var sartFade:Bool = false;
     public static var didPreload:Bool = false;
     public static var theresSecondDad:Bool = false;
-
-    //PERMANENT
+    public static var secondDadAnim:Bool = false;
     public static var whoIsSinging:Int = 0;
     
     public static var Optimize:Bool;
@@ -43,5 +42,8 @@ class StaticData extends MusicBeatState
         debugMenu = false;
         sartFade = false;
         didPreload = false;
+        theresSecondDad = false;
+        whoIsSinging = 0;
+        secondDadAnim = false;
     }
 }

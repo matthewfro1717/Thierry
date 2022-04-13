@@ -382,6 +382,8 @@ class FreeplayPurgatoryState extends MusicBeatState
 		goods = Highscore.getGoods(songs[curSelected].songName, curDifficulty);
 		bads = Highscore.getBads(songs[curSelected].songName, curDifficulty);
 		shits = Highscore.getShits(songs[curSelected].songName, curDifficulty);
+
+		trace(intendedScore + " | " + kontol + " " + kontol + " " + rating + " | " +sicks + " " +goods + " " +bads + " " +shits);
 		// lerpScore = 0;
 		#end
 

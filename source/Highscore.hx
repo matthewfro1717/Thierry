@@ -8,6 +8,8 @@ class Highscore
 	public static var songScores:Map<String, Int> = new Map();
 	public static var songAccs:Map<String, Int> = new Map();
 
+	public static var songRating:Map<String, String> = new Map();
+
 	public static var canFlushWifeData:Bool = false;
 
 	//rating
@@ -19,11 +21,42 @@ class Highscore
 	#else
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 	#end
+	public static function saveMisses(song:String, misses:Int = 0, ?diff:Int = 0):Void
+		{
+			var daSong:String = formatSong(song, diff);
+			trace("tried to flush miss");
+	
+			if (songMisses.exists(daSong))
+			{
+				if (songMisses.get(daSong) != null && songMisses.get(daSong) > misses)
+				{
+					setMisses(daSong, misses);
+					canFlushWifeData = true;
+				}
+				else if (songMisses.get(daSong) == 0)
+				{
+					setMisses(daSong, misses);
+					canFlushWifeData = true;
+					trace("data flushing failed!, a previous data cannot be found. for now creating a new flush instance...");
+				}
+				else
+				{
+					trace("[ERROR] DATA FLUSHING FAILED, ANY ATTEMPTS AFTER THIS WILL FAIL!" + " Error code : " + (songMisses.get(daSong)));
+				}
+					
+			}
+			else
+			{
+				setMisses(daSong, misses);
+			}
+				
+		}
 
 
 	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0):Void
 	{
 		var daSong:String = formatSong(song, diff);
+		trace("tried to flush score");
 
 
 		if (songScores.exists(daSong))
@@ -38,6 +71,7 @@ class Highscore
 	public static function saveAcc(song:String, acc:Int = 0, ?diff:Int = 0):Void
 		{
 			var daSong:String = formatSong(song, diff);
+			trace("tried to flush acc");
 	
 			if (songAccs.exists(daSong))
 			{
@@ -48,31 +82,18 @@ class Highscore
 					
 			}
 			else
+			{
 				setAcc(daSong, acc);
+			}
+				
 		}
 
 		//RATING
 
-		public static function saveMisses(song:String, misses:Int = 0, ?diff:Int = 0):Void
-		{
-			var daSong:String = formatSong(song, diff);
-	
-			if (songMisses.exists(daSong))
-			{
-				if (songMisses.get(daSong) > misses)
-				{
-					setMisses(daSong, misses);
-					canFlushWifeData = true;
-				}
-					
-			}
-			else
-				setMisses(daSong, misses);
-		}
-
 		public static function saveSicks(song:String, sicks:Int = 0, ?diff:Int = 0):Void
 		{
 			var daSong:String = formatSong(song, diff);
+			trace("tried to flush sicks");
 	
 			if (songSicks.exists(daSong))
 			{
@@ -80,11 +101,15 @@ class Highscore
 					setSicks(daSong, sicks);
 			}
 			else
+			{
 				setSicks(daSong, sicks);
+			}
+				
 		}
 
 		public static function saveGoods(song:String, goods:Int = 0, ?diff:Int = 0):Void
 		{
+			trace("tried to flush good");
 			var daSong:String = formatSong(song, diff);
 	
 			if (songGoods.exists(daSong))
@@ -93,33 +118,45 @@ class Highscore
 					setGoods(daSong, goods);
 			}
 			else
+			{
 				setGoods(daSong, goods);
+			}
+				
 		}
 
 		public static function saveBads(song:String, bads:Int = 0, ?diff:Int = 0):Void
 		{
 			var daSong:String = formatSong(song, diff);
 	
+			trace("tried to flush bads");
 			if (songBads.exists(daSong))
 			{
 				if (canFlushWifeData)
 					setBads(daSong, bads);
 			}
 			else
+			{
 				setBads(daSong, bads);
+			}
+				
 		}
 
 		public static function saveShits(song:String, shits:Int = 0, ?diff:Int = 0):Void
 		{
 			var daSong:String = formatSong(song, diff);
 	
+			trace("tried to flush shits");
+
 			if (songShits.exists(daSong))
 			{
 				if (canFlushWifeData)
 					setShits(daSong, shits);
 			}
 			else
+			{
 				setShits(daSong, shits);
+			}
+				
 		}
 
 	public static function saveWeekScore(week:Int = 1, score:Int = 0, ?diff:Int = 0):Void
@@ -150,7 +187,10 @@ class Highscore
 		songScores.set(song, score);
 		FlxG.save.data.songScores = songScores;
 		FlxG.save.flush();
+
+		trace("score flushed!");
 	}
+
 
 	static function setAcc(song:String, acc:Int):Void
 	{
@@ -159,6 +199,7 @@ class Highscore
 		FlxG.save.data.songacc = songAccs;
 
 		FlxG.save.flush();
+		trace("acc flushed!");
 	}
 
 	static function setMisses(song:String, miss:Int):Void
@@ -168,6 +209,7 @@ class Highscore
 		FlxG.save.data.songmiss = songMisses;
 
 		FlxG.save.flush();
+		trace("miss flushed!");
 	}
 
 	static function setSicks(song:String, sicks:Int):Void
@@ -177,6 +219,7 @@ class Highscore
 		FlxG.save.data.songsicks = songSicks;
 
 		FlxG.save.flush();
+		trace("sick flushed!");
 	}
 
 	static function setGoods(song:String, goods:Int):Void
@@ -186,6 +229,7 @@ class Highscore
 		FlxG.save.data.songgoods = songGoods;
 
 		FlxG.save.flush();
+		trace("good flushed!");
 	}
 
 	static function setBads(song:String, bads:Int):Void
@@ -195,6 +239,7 @@ class Highscore
 		FlxG.save.data.songbads = songBads;
 
 		FlxG.save.flush();
+		trace("bads flushed!");
 	}
 
 	static function setShits(song:String, shits:Int):Void
@@ -204,6 +249,7 @@ class Highscore
 		FlxG.save.data.songshits = songShits;
 
 		FlxG.save.flush();
+		trace("shits flushed!");
 	}
 
 	public static function formatSong(song:String, diff:Int):String

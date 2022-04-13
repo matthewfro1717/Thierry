@@ -19,6 +19,8 @@ Hellbreaker:bob-invis:3:1
 Dave:dave:3:1
 The-Big-Dingle:dingle:3:1
 Brute:badai:3:1
+Supplanted:pico:3:1
+Ranova:bob:3:1
 
 
 
