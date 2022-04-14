@@ -37,7 +37,7 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
 	#if !switch
-	var optionShit:Array<String> = ['story_mode', 'freeplay', 'awards', 'options'];
+	var optionShit:Array<String> = ['story_mode', 'freeplay', 'credits', 'options'];
 	#else
 	var optionShit:Array<String> = ['story mode', 'freeplay'];
 	#end
@@ -52,6 +52,7 @@ class MainMenuState extends MusicBeatState
 	public static var gameVer:String = "Aeroshide Engine // ALPHA 1.1";
 	public var frame:Int;
 	public var whichonetobouncelol:Bool = true; //TRUE IS LEFT
+	var daChoice:String;
 	var bg:FlxSprite;
 
 	var magenta:FlxSprite;
@@ -65,9 +66,10 @@ class MainMenuState extends MusicBeatState
 		#end
 		FlxG.mouse.visible = false;
 
-		if (!FlxG.sound.music.playing)
+		if (StaticData.fromCredits)
 		{
 			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			StaticData.fromCredits = false;
 		}
 		
 
@@ -258,24 +260,78 @@ class MainMenuState extends MusicBeatState
 					{
 						if (curSelected != spr.ID)
 						{
-							FlxTween.tween(FlxG.camera, {zoom: 5}, 0.8, {ease: FlxEase.expoIn});
-							FlxTween.tween(bg, {angle: 45}, 0.8, {ease: FlxEase.expoIn});
-							FlxTween.tween(magenta, {angle: 45}, 0.8, {ease: FlxEase.expoIn});
-							FlxTween.tween(bg, {alpha: 0}, 0.8, {ease: FlxEase.expoIn});
-							FlxTween.tween(magenta, {alpha: 0}, 0.8, {ease: FlxEase.expoIn});
-							FlxTween.tween(spr, {alpha: 0}, 0.4, {
-								ease: FlxEase.quadOut,
-								onComplete: function(twn:FlxTween)
-								{
-									spr.kill();
-								}
-							});
+							daChoice = optionShit[curSelected];
+
+							switch(daChoice)
+							{
+								case "freeplay":
+									FlxTween.tween(FlxG.camera, {zoom: 5}, 0.8, {ease: FlxEase.expoIn});
+									FlxTween.tween(bg, {angle: 45}, 0.8, {ease: FlxEase.expoIn});
+									FlxTween.tween(magenta, {angle: 45}, 0.8, {ease: FlxEase.expoIn});
+									FlxTween.tween(bg, {alpha: 0}, 0.8, {ease: FlxEase.expoIn});
+									FlxTween.tween(magenta, {alpha: 0}, 0.8, {ease: FlxEase.expoIn});
+									FlxTween.tween(spr, {alpha: 0}, 0.4, {
+										ease: FlxEase.quadOut,
+										onComplete: function(twn:FlxTween)
+										{
+											spr.kill();
+										}
+									});
+								case "options":
+									FlxTween.tween(bg, {x: -2500}, 1.5, {ease: FlxEase.expoInOut});
+									FlxTween.tween(magenta, {x: -2500}, 1.7, {ease: FlxEase.expoInOut});
+									FlxTween.tween(spr, {x: -2500}, 1.9, {ease: FlxEase.expoInOut});
+									FlxTween.tween(spr, {alpha: 0}, 1.9, {
+										ease: FlxEase.quadOut,
+										onComplete: function(twn:FlxTween)
+										{
+											spr.kill();
+										}
+									});
+								case "credits":
+									FlxTween.tween(bg, {y: -2500}, 1.5, {ease: FlxEase.expoInOut});
+									FlxTween.tween(magenta, {y: -2500}, 1.7, {ease: FlxEase.expoInOut});
+									FlxTween.tween(spr, {y: -2500}, 1.9, {ease: FlxEase.expoInOut});
+									FlxTween.tween(spr, {alpha: 0}, 1.9, {
+										ease: FlxEase.quadOut,
+										onComplete: function(twn:FlxTween)
+										{
+											spr.kill();
+										}
+									});
+							}
+
 						}
 						else
 						{
+							daChoice = optionShit[curSelected];
+							switch(daChoice)
+							{
+								case "options":
+									FlxTween.tween(spr, {x: -2500}, 1.9, {ease: FlxEase.expoInOut});
+									FlxTween.tween(spr, {alpha: 0}, 1.9, {
+										ease: FlxEase.quadOut,
+										onComplete: function(twn:FlxTween)
+										{
+											spr.kill();
+										}
+									});
+								case "credits":
+
+									FlxTween.tween(spr, {y: -2500}, 1.9, {ease: FlxEase.expoInOut});
+									FlxTween.tween(spr, {alpha: 0}, 1.9, {
+										ease: FlxEase.quadOut,
+										onComplete: function(twn:FlxTween)
+										{
+											spr.kill();
+										}
+									});
+							}
+
 							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
 							{
-								var daChoice:String = optionShit[curSelected];
+								daChoice = optionShit[curSelected];
+								
 
 								switch (daChoice)
 								{
@@ -291,20 +347,7 @@ class MainMenuState extends MusicBeatState
 										FlxG.switchState(new OptionsMenu());
 										trace("Options selected");
 									case 'credits':
-										FlxG.switchState(new AchievementsState());
-										trace("Achieve");
-										trace(FlxG.save.data.hasSeenCrashEnding + " heres info cuz im very kind");
-										if (FlxG.save.data.hasSeenCrashEnding)
-										{
-											Achievements.unlockAchievement("week3_nomiss");
-										}
-										#if debug
-										//Achievements.unlockAchievement("week1_nomiss");
-										//Achievements.unlockAchievement("week2_nomiss");
-										//Achievements.unlockAchievement("week3_nomiss");
-										//Achievements.unlockAchievement("week4_nomiss");
-										Achievements.unlockAchievement("debugger");
-										#end
+										FlxG.switchState(new CreditsState());
 										
 										
 								}
