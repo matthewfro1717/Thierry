@@ -46,6 +46,9 @@ class MainMenuState extends MusicBeatState
 	var newGaming2:FlxText;
 	var newInput:Bool = true;
 
+	var kontol:FlxSprite;
+	var bego:FlxSprite;
+
 	public static var nightly:String = "";
 
 	public static var kadeEngineVer:String = " " + nightly;
@@ -71,18 +74,19 @@ class MainMenuState extends MusicBeatState
 			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 			StaticData.fromCredits = false;
 		}
+
 		
 
 		persistentUpdate = persistentDraw = true;
 
 		bg = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
-		bg.scrollFactor.x = 0;
+		bg.scrollFactor.x = 0.15;
 		bg.scrollFactor.y = 0.15;
 		bg.setGraphicSize(Std.int(bg.width * 1.4), Std.int(bg.height * 1.4));
 		bg.updateHitbox();
 		bg.screenCenter();
 		bg.antialiasing = true;
-		add(bg);
+		
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
@@ -98,6 +102,32 @@ class MainMenuState extends MusicBeatState
 		magenta.color = 0xFFfd719b;
 		add(magenta);
 		// magenta.scrollFactor.set();
+
+		
+		//shadow backronf used for transtistion
+
+		kontol = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		kontol.scrollFactor.x = 0;
+		kontol.scrollFactor.y = 0.15;
+		kontol.setGraphicSize(Std.int(kontol.width * 1.4), Std.int(kontol.height * 1.4));
+		kontol.updateHitbox();
+		kontol.screenCenter();
+		kontol.antialiasing = true;
+		kontol.visible = false;
+		kontol.color = 0xFFea71fd;
+		add(kontol);
+
+		bego = new FlxSprite(-80).loadGraphic(Paths.image('credits'));
+		bego.scrollFactor.x = 0;
+		bego.scrollFactor.y = 0;
+		//bego.setGraphicSize(Std.int(bego.width * 1.4), Std.int(bego.height * 1.4));
+		bego.updateHitbox();
+		bego.screenCenter();
+		bego.antialiasing = true;
+		bego.visible = false;
+		bego.color = 0xFF444444;
+		add(bego);
+		add(bg);
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
@@ -278,10 +308,12 @@ class MainMenuState extends MusicBeatState
 										}
 									});
 								case "options":
+									kontol.visible = true;
+
 									FlxTween.tween(bg, {x: -2500}, 1.5, {ease: FlxEase.expoInOut});
 									FlxTween.tween(magenta, {x: -2500}, 1.7, {ease: FlxEase.expoInOut});
 									FlxTween.tween(spr, {x: -2500}, 1.9, {ease: FlxEase.expoInOut});
-									FlxTween.tween(spr, {alpha: 0}, 1.9, {
+									FlxTween.tween(spr, {alpha: 0}, 1.5, {
 										ease: FlxEase.quadOut,
 										onComplete: function(twn:FlxTween)
 										{
@@ -289,10 +321,11 @@ class MainMenuState extends MusicBeatState
 										}
 									});
 								case "credits":
+									bego.visible = true;
 									FlxTween.tween(bg, {y: -2500}, 1.5, {ease: FlxEase.expoInOut});
 									FlxTween.tween(magenta, {y: -2500}, 1.7, {ease: FlxEase.expoInOut});
 									FlxTween.tween(spr, {y: -2500}, 1.9, {ease: FlxEase.expoInOut});
-									FlxTween.tween(spr, {alpha: 0}, 1.9, {
+									FlxTween.tween(spr, {alpha: 0}, 1.5, {
 										ease: FlxEase.quadOut,
 										onComplete: function(twn:FlxTween)
 										{
@@ -309,7 +342,7 @@ class MainMenuState extends MusicBeatState
 							{
 								case "options":
 									FlxTween.tween(spr, {x: -2500}, 1.9, {ease: FlxEase.expoInOut});
-									FlxTween.tween(spr, {alpha: 0}, 1.9, {
+									FlxTween.tween(spr, {alpha: 0}, 1.5, {
 										ease: FlxEase.quadOut,
 										onComplete: function(twn:FlxTween)
 										{
@@ -319,7 +352,7 @@ class MainMenuState extends MusicBeatState
 								case "credits":
 
 									FlxTween.tween(spr, {y: -2500}, 1.9, {ease: FlxEase.expoInOut});
-									FlxTween.tween(spr, {alpha: 0}, 1.9, {
+									FlxTween.tween(spr, {alpha: 0}, 1.5, {
 										ease: FlxEase.quadOut,
 										onComplete: function(twn:FlxTween)
 										{

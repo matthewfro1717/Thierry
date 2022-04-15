@@ -139,21 +139,6 @@ class OptionsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
-			for (item in grpControls.members)
-			{
-				
-				item.screenCenter(X);
-
-				item.alpha = 0.4;
-				// item.setGraphicSize(Std.int(item.width * 0.8));
-
-				if (item.targetY == 0)
-				{
-					item.alpha = 1;
-					// item.setGraphicSize(Std.int(item.width));
-				}
-			}
-
 			if (isCat)
 			{
 				currentDescription = currentSelectedCat.getOptions()[curSelected].getDescription();
@@ -178,25 +163,6 @@ class OptionsMenu extends MusicBeatState
 						// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 					}
 				curSelected = 0;
-			}
-			if (controls.UP_P)
-			{
-				trace(menuBG.y + "y val");
-				if (menuBG.y <= -15)
-				{
-					menuBG.y += 20;
-				}	
-				changeSelection(-1);
-			}
-				
-			if (controls.DOWN_P)
-			{
-				trace(menuBG.y + "y val");
-				if (menuBG.y >= -180)
-				{
-					menuBG.y -= 20;
-				}	
-				changeSelection(1);
 			}
 				
 			
@@ -306,7 +272,6 @@ class OptionsMenu extends MusicBeatState
 		{
 			
 			item.targetY = bullShit - curSelected;
-			item.screenCenter(X);
 			bullShit++;
 
 			item.alpha = 0.4;
