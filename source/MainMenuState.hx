@@ -1,6 +1,7 @@
 package;
 
 
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.util.FlxTimer;
 import aeroshide.StaticData;
 import flixel.math.FlxMath;
@@ -63,6 +64,8 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+		transIn = FlxTransitionableState.defaultTransIn;
+		transOut = null;
 		#if windows
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);

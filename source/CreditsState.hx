@@ -1,5 +1,6 @@
 package;
 
+import flixel.addons.transition.FlxTransitionableState;
 import aeroshide.StaticData;
 import PsychEngine.AttachedSprite;
 import PsychEngine.PsychAlphabet;
@@ -42,12 +43,15 @@ class CreditsState extends MusicBeatState
 
 	override function create()
 	{
+		transIn = null;
+		transOut = null;
+		
 		#if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Looking at the credits", null);
 		#end
 
-        FlxG.sound.playMusic(Paths.music('thanks'), 0);
+        FlxG.sound.playMusic(Paths.music('thanks'), 4);
         StaticData.fromCredits = true;
 
 		persistentUpdate = true;
@@ -173,10 +177,6 @@ class CreditsState extends MusicBeatState
 	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
-		if (FlxG.sound.music.volume < 69.7)
-		{
-			FlxG.sound.music.volume += 0.5;
-		}
 
 		if(!quitting)
 		{

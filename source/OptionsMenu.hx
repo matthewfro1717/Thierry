@@ -1,5 +1,6 @@
 package;
 
+import flixel.addons.transition.FlxTransitionableState;
 import openfl.Lib;
 import Options;
 import Controls.Control;
@@ -87,6 +88,12 @@ class OptionsMenu extends MusicBeatState
 
 	override function create()
 	{
+
+		transIn = FlxTransitionableState.defaultTransIn;
+		transOut = FlxTransitionableState.defaultTransOut;
+
+		//THERES CURRENTLY A MEMORY LEAK ISSUE, PROBABLY PRESENT IN THE V1.1 BUILD, WAS UNDISCOVERED BEFORE
+		//WOULD PROBABLY PUSH A PATCH TO MAIN ADRESSING THE MEMORY LEAK
 
 		
 
