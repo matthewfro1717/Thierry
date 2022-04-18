@@ -5,6 +5,9 @@ class KadeEngineData
 {
     public static function initSave()
     {
+		if (FlxG.save.data.safeFrames == null)
+			FlxG.save.data.safeFrames = 10;
+
         if (FlxG.save.data.newInput == null)
 			FlxG.save.data.newInput = true;
 

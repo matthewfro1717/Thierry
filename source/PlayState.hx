@@ -3331,11 +3331,11 @@ class PlayState extends MusicBeatState
 			{
 				if (memek != "N/A")
 				{
-					scoreTxt.text = ("Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Rating: " + generateWife() + " (" + truncateFloat(accuracy, 0) + "%) " + generateTimings());
+					scoreTxt.text = ("Score:" + songScore + " | Misses:" + misses + " | Rating: " + generateWife() + " (" + truncateFloat(accuracy, 0) + "%) " + generateTimings());
 				}
 				else
 				{
-					scoreTxt.text = ("Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Misses:" + misses + " | Rating: N/A");
+					scoreTxt.text = ("Score:" + songScore + " | Misses:" + misses + " | Rating: N/A");
 				}
 				
 			}
@@ -4899,7 +4899,7 @@ class PlayState extends MusicBeatState
 
 			switch(daRating)
 			{
-				case 'shit':
+				case 'shit': //I NEED TO FUCKING FIND OUT HOW TO MAKE IT ACCURATE, THERES NO WAY IM THIS GOOD
 					score = -300;
 					combo = 0;
 					misses++;
@@ -4907,14 +4907,14 @@ class PlayState extends MusicBeatState
 					ss = false;
 					shits++;
 					if (FlxG.save.data.accuracyMod == 0)
-						totalNotesHit += 0.25;
+						totalNotesHit += 0;
 				case 'bad':
 					daRating = 'bad';
 					score = 0;
 					ss = false;
 					bads++;
 					if (FlxG.save.data.accuracyMod == 0)
-						totalNotesHit += 0.50;
+						totalNotesHit += 0.25;
 				case 'good':
 					daRating = 'good';
 					score = 200;
@@ -4922,7 +4922,7 @@ class PlayState extends MusicBeatState
 					goods++;
 					health += 0.015;
 					if (FlxG.save.data.accuracyMod == 0)
-						totalNotesHit += 0.75;
+						totalNotesHit += 0.50;
 				case 'sick':
 					health += 0.023;
 					if (FlxG.save.data.accuracyMod == 0)
@@ -5539,6 +5539,7 @@ class PlayState extends MusicBeatState
 
 			if (!botPlay) 
 			{
+				totalNotesHit -= 1;
 				combo = 0;
 				misses++;
 			}

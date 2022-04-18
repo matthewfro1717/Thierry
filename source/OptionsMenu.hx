@@ -125,7 +125,7 @@ class OptionsMenu extends MusicBeatState
 
 		currentDescription = "none";
 
-		versionShit = new FlxText(5, FlxG.height - 28, 0, "Offset (Left, Right): " + FlxG.save.data.offset, 12);
+		versionShit = new FlxText(5, FlxG.height - 28, 0, "Hit WIndow (Left, Right): " + FlxG.save.data.safeFrames, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -149,6 +149,16 @@ class OptionsMenu extends MusicBeatState
 			if (isCat)
 			{
 				currentDescription = currentSelectedCat.getOptions()[curSelected].getDescription();
+			}
+
+			if (controls.UP_P)
+			{	
+				changeSelection(-1);
+			}
+				
+			if (controls.DOWN_P)
+			{
+				changeSelection(1);
 			}
 
 			
@@ -202,21 +212,22 @@ class OptionsMenu extends MusicBeatState
 				if (FlxG.keys.pressed.SHIFT)
 					{
 						if (FlxG.keys.justPressed.RIGHT)
-							FlxG.save.data.offset += 0.1;
+							FlxG.save.data.safeFrames += 1;
 						else if (FlxG.keys.justPressed.LEFT)
-							FlxG.save.data.offset -= 0.1;
+							FlxG.save.data.safeFrames -= 1;
 					}
 					else if (FlxG.keys.pressed.RIGHT)
-						FlxG.save.data.offset += 0.1;
+						FlxG.save.data.safeFrames += 1;
 					else if (FlxG.keys.pressed.LEFT)
-						FlxG.save.data.offset -= 0.1;
+						FlxG.save.data.safeFrames -= 1;
+					// this thing has no point of existing, will be replaced by the options update
 				
-				versionShit.text = "Offset (Left, Right, Shift for slow): " + truncateFloat(FlxG.save.data.offset,2);
+				versionShit.text = "Hit Window (Left, Right, Shift for slow): " + truncateFloat(FlxG.save.data.safeFrames,0);
 			}
 		
 
 			if (controls.RESET)
-					FlxG.save.data.offset = 0;
+					FlxG.save.data.safeFrames = 0;
 
 			if (controls.ACCEPT)
 			{
