@@ -2,7 +2,7 @@ class ConvertScore
 {
     public static function convertScore(noteDiff:Float):Int
     {
-        var daRating:String = Ratings.CalculateRating(noteDiff, 166);
+        var daRating:String = Ratings.CalculateRating(noteDiff);
 
         switch(daRating)
 			{

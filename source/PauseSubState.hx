@@ -24,6 +24,7 @@ class PauseSubState extends MusicBeatSubstate
 	var menuItemsToo:Array<String> = ['Resume', 'Restart Song', 'Quick Options', 'Exit to menu'];
 	var quickSettings:Array<String> = ['Note splash', 'Hitsounds', 'Ghost Tapping', 'Input System', 'Score Text', 'BACK'];
 	var curSelected:Int = 0;
+	public static var goBack:Bool = false;
 
 	var pauseMusic:FlxSound;
 	var perSongOffset:FlxText;
