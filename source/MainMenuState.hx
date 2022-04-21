@@ -64,7 +64,16 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-		transIn = FlxTransitionableState.defaultTransIn;
+		if (TitleState.firstBoot || StaticData.fromCredits)
+		{
+			transIn = FlxTransitionableState.defaultTransIn;
+			TitleState.firstBoot = false;
+		}
+		else
+		{
+			transIn = null;
+		}
+		
 		transOut = null;
 		#if windows
 		// Updating Discord Rich Presence
@@ -313,10 +322,8 @@ class MainMenuState extends MusicBeatState
 								case "options":
 									kontol.visible = true;
 
-									FlxTween.tween(bg, {x: -2500}, 1.5, {ease: FlxEase.expoInOut});
-									FlxTween.tween(magenta, {x: -2500}, 1.7, {ease: FlxEase.expoInOut});
-									FlxTween.tween(spr, {x: -2500}, 1.9, {ease: FlxEase.expoInOut});
-									FlxTween.tween(spr, {alpha: 0}, 1.5, {
+									FlxTween.tween(bg, {alpha: 0}, 0.7, {ease: FlxEase.expoInOut});
+									FlxTween.tween(spr, {alpha: 0}, 1, {
 										ease: FlxEase.quadOut,
 										onComplete: function(twn:FlxTween)
 										{
@@ -344,8 +351,7 @@ class MainMenuState extends MusicBeatState
 							switch(daChoice)
 							{
 								case "options":
-									FlxTween.tween(spr, {x: -2500}, 1.9, {ease: FlxEase.expoInOut});
-									FlxTween.tween(spr, {alpha: 0}, 1.5, {
+									FlxTween.tween(spr, {alpha: 0}, 1, {
 										ease: FlxEase.quadOut,
 										onComplete: function(twn:FlxTween)
 										{

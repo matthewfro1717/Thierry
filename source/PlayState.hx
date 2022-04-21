@@ -4573,9 +4573,9 @@ class PlayState extends MusicBeatState
 		if (SONG.validScore && !botPlay && !cheated)
 		{
 			trace("Datas flushed!");
+			Highscore.saveMisses(SONG.song, Math.round(misses),storyDifficulty);
 			Highscore.saveScore(SONG.song, Math.round(songScore), storyDifficulty);
 			Highscore.saveAcc(SONG.song, Math.round(accuracy),storyDifficulty);
-			Highscore.saveMisses(SONG.song, Math.round(misses),storyDifficulty);
 
 			Highscore.saveSicks(SONG.song, Math.round(sicks),storyDifficulty);
 			Highscore.saveGoods(SONG.song, Math.round(goods),storyDifficulty);
