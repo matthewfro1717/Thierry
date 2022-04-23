@@ -35,33 +35,17 @@ class AnimationDebug extends FlxState
 	{
 		FlxG.sound.music.stop();
 
-		var gridBG:FlxSprite = FlxGridOverlay.create(10, 10);
+		var gridBG:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
 		gridBG.scrollFactor.set(0.5, 0.5);
 		add(gridBG);
 
-		if (daAnim == 'bf')
-			isDad = false;
+		bf = new Boyfriend(0, 0);
+		bf.screenCenter();
+		bf.debugMode = true;
+		add(bf);
 
-		if (isDad)
-		{
-			dad = new Character(0, 0, daAnim);
-			dad.screenCenter();
-			dad.debugMode = true;
-			add(dad);
-
-			char = dad;
-			dad.flipX = false;
-		}
-		else
-		{
-			bf = new Boyfriend(0, 0);
-			bf.screenCenter();
-			bf.debugMode = true;
-			add(bf);
-
-			char = bf;
-			bf.flipX = false;
-		}
+		char = bf;
+		bf.flipX = false;
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
 		add(dumbTexts);
@@ -88,9 +72,9 @@ class AnimationDebug extends FlxState
 
 		for (anim => offsets in char.animOffsets)
 		{
-			var text:FlxText = new FlxText(10, 20 + (18 * daLoop), 0, anim + ": " + offsets, 15);
+			var text:FlxText = new FlxText(10, 200 + (18 * daLoop), 0, anim + ": " + offsets, 15);
 			text.scrollFactor.set();
-			text.color = FlxColor.BLUE;
+			text.color = FlxColor.CYAN;
 			dumbTexts.add(text);
 
 			if (pushList)
@@ -139,6 +123,8 @@ class AnimationDebug extends FlxState
 			camFollow.velocity.set();
 		}
 
+
+
 		if (FlxG.keys.justPressed.W)
 		{
 			curAnim -= 1;
@@ -148,6 +134,57 @@ class AnimationDebug extends FlxState
 		{
 			curAnim += 1;
 		}
+
+		if (FlxG.keys.justPressed.ONE)
+		{
+			curAnim = 1;
+		}
+		
+		if (FlxG.keys.justPressed.TWO)
+		{
+			curAnim = 2;
+		}
+
+		if (FlxG.keys.justPressed.THREE)
+		{
+			curAnim = 3;
+		}
+
+		if (FlxG.keys.justPressed.FOUR)
+		{
+			curAnim = 4;
+		}
+			
+		if (FlxG.keys.justPressed.FIVE)
+		{
+			curAnim = 5;
+		}
+	
+		if (FlxG.keys.justPressed.SIX)
+		{
+			curAnim = 6;
+		}
+
+		if (FlxG.keys.justPressed.SEVEN)
+		{
+			curAnim = 7;
+		}
+		
+		if (FlxG.keys.justPressed.EIGHT)
+		{
+			curAnim = 8;
+		}
+
+		if (FlxG.keys.justPressed.NINE)
+		{
+			curAnim = 9;
+		}
+
+		if (FlxG.keys.justPressed.ANY)
+		{
+			char.playAnim(animList[curAnim]);
+		}
+		
 
 		if (curAnim < 0)
 			curAnim = animList.length - 1;

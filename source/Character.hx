@@ -42,23 +42,23 @@ class Character extends FlxSprite
 		{
 			case '3d-bf':
 				frames = Paths.getSparrowAtlas('3D_BF');
-				animation.addByPrefix('idle', 'BF idle dance', 24, false);
-				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
-				animation.addByPrefix('singLEFT', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
+				animation.addByPrefix('idle', 'IDLE', 24, false);
+				animation.addByPrefix('singUP', 'UP', 24, false);
+				animation.addByPrefix('singLEFT', 'RIGHT', 24, false);
+				animation.addByPrefix('singRIGHT', 'LEFT', 24, false);
+				animation.addByPrefix('singDOWN', 'DOWN', 24, false);
 
-				animation.addByPrefix('singUPmiss', 'BF NOTE UP0', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN0', 24, false);
+				animation.addByPrefix('singUPmiss', 'MUP', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'MLEFT', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'MRIGHT', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'MDOWN', 24, false);
 				
 
 				addOffset('idle');
-				addOffset("singUP", 6, 10);
-				addOffset("singRIGHT", -3);
-				addOffset("singLEFT", 17);
-				addOffset("singDOWN");
+				addOffset("singUP", 86, 118);
+				addOffset("singRIGHT", -36, 16);
+				addOffset("singLEFT", 10, 16);
+				addOffset("singDOWN", 6);
 				addOffset("singUPmiss", 6, 10);
 				addOffset("singRIGHTmiss", -3);
 				addOffset("singLEFTmiss", 17);
@@ -188,6 +188,20 @@ class Character extends FlxSprite
 				addOffset("singLEFT", 0, -250);
 				addOffset("singDOWN", 0, -250);
 				flipX = true;
+			case 'mmm':
+				tex = Paths.getSparrowAtlas('cyna');
+				frames = tex;
+				animation.addByPrefix('idle', "idle", 24, false);
+				animation.addByPrefix('singUP', 'up', 24, false);
+				animation.addByPrefix('singDOWN', 'down', 24, false);
+				animation.addByPrefix('singLEFT', 'left', 24, false);
+				animation.addByPrefix('singRIGHT', 'right', 24, false);
+
+				addOffset('idle', 0,-120);
+				addOffset("singUP", 114, 106);
+				addOffset("singRIGHT", 15, -120);
+				addOffset("singLEFT", 35, -113);
+				addOffset("singDOWN", 110, -120);
 
 			case 'bob-invis':
 				tex = Paths.getSparrowAtlas('bob_invis');
@@ -662,17 +676,17 @@ class Character extends FlxSprite
 				flipX = true;
 
 			case 'bf':
-				var tex = Paths.getSparrowAtlas('BOYFRIEND','shared');
+				var tex = Paths.getSparrowAtlas('BoyFriend_Cuphead');
 				frames = tex;
-				animation.addByPrefix('idle', 'BF idle dance', 24, false);
-				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
-				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
+				animation.addByPrefix('idle', 'BF idle dance instance', 24, false);
+				animation.addByPrefix('singUP', 'BF NOTE UP instance', 24, false);
+				animation.addByPrefix('singLEFT', 'BF NOTE LEFT instance', 24, false);
+				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT instance', 24, false);
+				animation.addByPrefix('singDOWN', 'BF NOTE DOWN instance', 24, false);
+				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS instance', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS instance', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS instance', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS instance', 24, false);
 				animation.addByPrefix('hey', 'BF HEY', 24, false);
 
 				animation.addByPrefix('firstDeath', "BF dies", 24, false);
@@ -682,11 +696,11 @@ class Character extends FlxSprite
 				animation.addByPrefix('scared', 'BF idle shaking', 24);
 
 				addOffset('idle', -5);
-				addOffset("singUP", -29, 27);
-				addOffset("singRIGHT", -38, -7);
-				addOffset("singLEFT", 12, -6);
-				addOffset("singDOWN", -10, -50);
-				addOffset("singUPmiss", -29, 27);
+				addOffset("singUP", -51, 57);
+				addOffset("singRIGHT", -38, 0);
+				addOffset("singLEFT", 23, -6);
+				addOffset("singDOWN", -35, -37);
+				addOffset("singUPmiss", -51, 57);
 				addOffset("singRIGHTmiss", -30, 21);
 				addOffset("singLEFTmiss", 12, 24);
 				addOffset("singDOWNmiss", -11, -19);

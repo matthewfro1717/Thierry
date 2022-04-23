@@ -1,5 +1,6 @@
 package;
 
+import AnimationDebugDad.AnimationDebugDad;
 import mixins.AnimMixin;
 import flixel.tweens.misc.AngleTween;
 import aeroshide.StaticData;
@@ -277,7 +278,13 @@ class PlayState extends MusicBeatState
 	public var cameraAmplifierY:Int = 100;
 	
 	public var camAnchorX:Float;
-	public var camAnchorY:Float;
+	public var camAnchorY:Float;	
+
+	public var bfCameraAmplifierX:Int = 100;
+	public var bfCameraAmplifierY:Int = 100;
+	
+	public var bfCamAnchorX:Float;
+	public var bfCamAnchorY:Float;
 	
 	// Will fire once to prevent debug spam messages and broken animations
 	private var triggeredAlready:Bool = false;
@@ -1399,11 +1406,19 @@ class PlayState extends MusicBeatState
 			camPos = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
 		}
 
+		switch(boyfriend.curCharacter)
+		{
+			case 'bf':
+				bfCameraAmplifierX += 500;
+		}
+
 		switch(dad.curCharacter)
 		{
 			case 'dave':
 				cameraAmplifierY -= 150;
 			case 'dingle':
+				cameraAmplifierY -= 150;
+			case 'mmm':
 				cameraAmplifierY -= 150;
 		}
 
@@ -3680,7 +3695,17 @@ class PlayState extends MusicBeatState
 		#if debug
 		if (FlxG.keys.justPressed.EIGHT)
 		{
-			FlxG.switchState(new AnimationDebug(SONG.player2));
+			FlxG.switchState(new AnimationDebug(SONG.player1));
+			if (lua != null)
+			{
+				Lua.close(lua);
+				lua = null;
+			}
+		}
+
+		if (FlxG.keys.justPressed.NINE)
+		{
+			FlxG.switchState(new AnimationDebugDad(SONG.player2));
 			if (lua != null)
 			{
 				Lua.close(lua);
@@ -4469,19 +4494,21 @@ class PlayState extends MusicBeatState
 			if (!focusondad)
 			{
 				AnimMixin.makeOpponentIdle(SONG, dad, surgarDaddy, StaticData.whoIsSinging, false);
+				bfCamAnchorX = boyfriend.getMidpoint().x;
+				bfCamAnchorY = boyfriend.getMidpoint().y;
 	
 				switch(noteData)
 				{
 					case 0:
-						camFollow.setPosition(boyfriend.getMidpoint().x - 100 - 40, boyfriend.getMidpoint().y - 100);
+						camFollow.setPosition(bfCamAnchorX - bfCameraAmplifierX - 40, bfCamAnchorY - bfCameraAmplifierY);
 					case 1:
-						camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100 + 40);
+						camFollow.setPosition(bfCamAnchorX - bfCameraAmplifierX, bfCamAnchorY - bfCameraAmplifierY + 40);
 					case 2:
-						camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100 - 40);
+						camFollow.setPosition(bfCamAnchorX - bfCameraAmplifierX, bfCamAnchorY - bfCameraAmplifierY - 40);
 					case 3:
-						camFollow.setPosition(boyfriend.getMidpoint().x - 100 + 40, boyfriend.getMidpoint().y - 100);
+						camFollow.setPosition(bfCamAnchorX - bfCameraAmplifierX + 40, bfCamAnchorY - bfCameraAmplifierY);
 					default:
-						camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+						camFollow.setPosition(bfCamAnchorX - bfCameraAmplifierX, bfCamAnchorY - bfCameraAmplifierY);
 	
 				}
 				
