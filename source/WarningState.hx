@@ -138,13 +138,10 @@ class WarningState extends MusicBeatState
 	{
         if (FlxG.keys.pressed.ENTER)
         {
-			StaticData.didPreload = true;
-			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-            FlxG.switchState(new FreeplayBuffer());
+			FlxG.switchState(new TitleState());
         }
 		else if (FlxG.keys.pressed.SPACE)
 		{
-			StaticData.didPreload = false;
 			FlxG.switchState(new TitleState());
 		}
     }
