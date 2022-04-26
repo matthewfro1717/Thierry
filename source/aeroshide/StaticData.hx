@@ -26,6 +26,7 @@ class StaticData extends MusicBeatState
     public static var secondDadAnim:Bool = false;
     public static var whoIsSinging:Int = 0;
     public static var fromCredits:Bool = false;
+    public static var bfExists:Bool = true;
     
     public static var Optimize:Bool;
 
@@ -47,5 +48,6 @@ class StaticData extends MusicBeatState
         whoIsSinging = 0;
         secondDadAnim = false;
         fromCredits = false;
+        bfExists = true;
     }
 }
