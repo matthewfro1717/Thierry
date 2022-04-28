@@ -58,7 +58,8 @@ class ChartingState extends MusicBeatState
 	var bullshitUI:FlxGroup;
 
 	var noteType:Int = 0;
-	var styles:Array<String> = ['normal', 'phone'];
+	var styles:Array<String> = ['Normal', 'Damage'];
+	private var lastNote:Note;
 
 	var noteTypeText:FlxText = new FlxText(-200, 0, 0,'Charting: Note', 16);
 
@@ -645,7 +646,9 @@ class ChartingState extends MusicBeatState
 			}
 			if(FlxG.keys.justPressed.Z)
 			{
+				trace("note type down");
 				this.noteType--;
+				trace(this.noteType);
 				if(noteType < 0)
 				{
 					noteType = styles.length - 1;
@@ -653,7 +656,9 @@ class ChartingState extends MusicBeatState
 			}
 			if(FlxG.keys.justPressed.X)
 				{
+					trace("note type up");
 					this.noteType++;
+					trace(this.noteType);
 					if(noteType == styles.length)
 					{
 						noteType = 0;
@@ -952,7 +957,7 @@ class ChartingState extends MusicBeatState
 
 			
 
-			var note:Note = new Note(daStrumTime, daNoteInfo % 4, null, false);
+			var note:Note = new Note(daStrumTime, daNoteInfo % 4, null, false, daStyle);
 			note.sustainLength = daSus;
 			note.setGraphicSize(GRID_SIZE, GRID_SIZE);
 			note.updateHitbox();
@@ -1005,19 +1010,11 @@ class ChartingState extends MusicBeatState
 
 	function deleteNote(note:Note):Void
 		{
-			trace(_song.notes[curSection].sectionNotes);
-			for (n in 0..._song.notes[curSection].sectionNotes.length)
+			lastNote = note;
+			for (i in _song.notes[curSection].sectionNotes)
 			{
-				var i = _song.notes[curSection].sectionNotes[n];
-				if (i == null)
-					continue;
-				if ((i[0] == note.strumTime + (note.strumTime == 0 ? 0 : 1) 
-					? true : i[0] == note.strumTime) 
-					&& i[1] % 4 == note.noteData)
-					// Why does it do this?
-					// I DONT FUCKING KNOW!!!!!!!!!!!!!!
+				if (i[0] == note.strumTime && i[1] % 4 == note.noteData)
 				{
-					trace('GAMING');
 					_song.notes[curSection].sectionNotes.remove(i);
 				}
 			}
@@ -1048,6 +1045,7 @@ class ChartingState extends MusicBeatState
 		var noteData = Math.floor(FlxG.mouse.x / GRID_SIZE);
 		var noteSus = 0;
 		var noteStyle = styles[this.noteType];
+		trace(noteStyle);
 
 		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus, noteStyle]);
 
@@ -1055,7 +1053,7 @@ class ChartingState extends MusicBeatState
 
 		if (FlxG.keys.pressed.CONTROL)
 		{
-			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus]);
+			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus, noteStyle]);
 		}
 
 		trace(noteStrum);
