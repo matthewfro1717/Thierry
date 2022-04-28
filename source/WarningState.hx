@@ -54,6 +54,9 @@ class WarningState extends MusicBeatState
 
 	override public function create():Void
 	{
+		FlxG.autoPause = false;
+		transIn = FlxTransitionableState.defaultTransIn;
+		transOut = FlxTransitionableState.defaultTransOut;
         
 		/*
 		#if polymod
@@ -118,10 +121,20 @@ class WarningState extends MusicBeatState
 				StoryMenuState.weekUnlocked[0] = true;
 		}
 
-		warningBitch = new FlxSprite(-50, -50).loadGraphic(Paths.image('warning'));
-		warningBitch.setGraphicSize(1280, 720);
-		warningBitch.antialiasing = true;
-		add(warningBitch);
+		new FlxTimer().start(0.3 , function(tmr:FlxTimer)
+			{
+				FlxG.sound.play(Paths.sound('win'));
+
+				warningBitch = new FlxSprite(-300, -180).loadGraphic(Paths.image('junk'));
+				warningBitch.setGraphicSize(1280, 720);
+				warningBitch.antialiasing = true;
+				add(warningBitch);
+				new FlxTimer().start(1 , function(tmr:FlxTimer)
+					{
+						FlxG.switchState(new TitleState());
+					});
+			});
+
 
 		#if FREEPLAY
 		FlxG.switchState(new FreeplayState());
@@ -130,21 +143,6 @@ class WarningState extends MusicBeatState
 		#else
 		#end
 	}
-
-
-	
-
-	override function update(elapsed:Float)
-	{
-        if (FlxG.keys.pressed.ENTER)
-        {
-			FlxG.switchState(new TitleState());
-        }
-		else if (FlxG.keys.pressed.SPACE)
-		{
-			FlxG.switchState(new TitleState());
-		}
-    }
 
 
 
