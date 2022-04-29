@@ -69,6 +69,36 @@ class Character extends FlxSprite
 				antialiasing = false;
 
 				playAnim('idle');
+
+			case 'bf-fps':
+				frames = Paths.getSparrowAtlas('shoulder_3d_bf');
+				animation.addByPrefix('idle', 'IDLE', 24, false);
+				animation.addByPrefix('singUP', 'UP', 24, false);
+				animation.addByPrefix('singLEFT', 'RIGHT', 24, false);
+				animation.addByPrefix('singRIGHT', 'LEFT', 24, false);
+				animation.addByPrefix('singDOWN', 'DOWN', 24, false);
+
+				animation.addByPrefix('singUPmiss', 'IDLE', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'IDLE', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'IDLE', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'IDLE', 24, false);
+				
+
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+				addOffset("singUPmiss");
+				addOffset("singRIGHTmiss");
+				addOffset("singLEFTmiss");
+				addOffset("singDOWNmiss");
+
+				nativelyPlayable = flipX = true;
+
+				antialiasing = false;
+
+				playAnim('idle');
 				
 			case 'thierry-mad':
 				trace("THIERRY GLITCHED LOADED!");
@@ -420,6 +450,99 @@ class Character extends FlxSprite
 				addOffset("singLEFT", 85, -12 - ground);
 				addOffset("singDOWN", 0, -34 - ground);
 				addOffset("scared", 0, -2 - ground);
+	
+				playAnim('idle');
+
+			case 'cell':
+				// DAVE SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('Cell');
+				frames = tex;
+				animation.addByPrefix('idle', 'Idle', 24, false);
+				animation.addByPrefix('singUP', 'Up', 24, false);
+				animation.addByPrefix('singRIGHT', 'Right', 24, false);
+				animation.addByPrefix('singDOWN', 'Down', 24, false);
+				animation.addByPrefix('singLEFT', 'Left', 24, false);
+	
+				addOffset('idle');
+				addOffset("singUP", 26, 105);
+				addOffset("singRIGHT", 110);
+				addOffset("singLEFT", 150);
+				addOffset("singDOWN", 70);
+				addOffset("scared");
+	
+				playAnim('idle');
+
+			case 'cellMad':
+				// CELL MAD STAY MAD
+				tex = Paths.getSparrowAtlas('CellMad');
+				frames = tex;
+				animation.addByPrefix('idle', 'Idle', 24, false);
+				animation.addByPrefix('singUP', 'Up', 24, false);
+				animation.addByPrefix('singRIGHT', 'Right', 24, false);
+				animation.addByPrefix('singDOWN', 'Down', 24, false);
+				animation.addByPrefix('singLEFT', 'Left', 24, false);
+	
+				addOffset('idle');
+				addOffset("singUP", 206, 85);
+				addOffset("singRIGHT", 231, 54);
+				addOffset("singLEFT", 450, 106);
+				addOffset("singDOWN", 211);
+				addOffset("scared");
+	
+				playAnim('idle');
+			case 'garrett':
+				// DAVE SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('garrett');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle', 24, false);
+				animation.addByPrefix('singUP', 'up', 24, false);
+				animation.addByPrefix('singRIGHT', 'right', 24, false);
+				animation.addByPrefix('singDOWN', 'down', 24, false);
+				animation.addByPrefix('singLEFT', 'left', 24, false);
+	
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+				addOffset("scared");
+	
+				playAnim('idle');
+			case 'garrett-mad':
+				// DAVE SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('garrett_piss');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle', 24, false);
+				animation.addByPrefix('singUP', 'up', 24, false);
+				animation.addByPrefix('singRIGHT', 'right', 24, false);
+				animation.addByPrefix('singDOWN', 'down', 24, false);
+				animation.addByPrefix('singLEFT', 'left', 24, false);
+	
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+				addOffset("scared");
+	
+				playAnim('idle');
+
+			case 'entityOne':
+				// DAVE SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('algebraicaitrix');
+				frames = tex;
+				animation.addByPrefix('idle', 'IDLE', 24, false);
+				animation.addByPrefix('singUP', 'UP', 24, false);
+				animation.addByPrefix('singRIGHT', 'RIGHT', 24, false);
+				animation.addByPrefix('singDOWN', 'DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'LEFT', 24, false);
+	
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+				addOffset("scared");
 	
 				playAnim('idle');
 

@@ -129,7 +129,7 @@ class WarningState extends MusicBeatState
 				warningBitch.setGraphicSize(1280, 720);
 				warningBitch.antialiasing = true;
 				add(warningBitch);
-				new FlxTimer().start(1 , function(tmr:FlxTimer)
+				new FlxTimer().start(1.2 , function(tmr:FlxTimer)
 					{
 						FlxG.switchState(new TitleState());
 					});

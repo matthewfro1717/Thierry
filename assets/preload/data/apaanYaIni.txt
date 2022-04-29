@@ -25,6 +25,7 @@ Triple-Trouble:sart-producer-night:3:1
 Deformation:sart-producer-night:3:1
 Ferocious:bob:3:1
 Kelulusan:bob:3:1
+Captivity:someone:3:1
 
 
 
