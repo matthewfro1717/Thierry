@@ -109,15 +109,17 @@ class KeyBinds
 			FlxG.save.data.muteBind = "ZERO";
 			trace("No MUTE");
 		}
-		if (FlxG.save.data.volumeUpKeys == null)
+		if (FlxG.save.data.volUpBind == null)
 		{
-			FlxG.save.data.volumeUpKeys = ["PLUS"];
+			FlxG.save.data.volUpBind = "PLUS";
 			trace("No VOLUP");
+			trace(FlxG.save.data.volUpBind);
 		}
-		if (FlxG.save.data.volumeDownKeys == null)
+		if (FlxG.save.data.volDownBind == null)
 		{
-			FlxG.save.data.volumeDownKeys = ["MINUS"];
+			FlxG.save.data.volDownBind = "MINUS";
 			trace("No VOLDOWN");
+			trace(FlxG.save.data.volDownBind);
 		}
 		if (FlxG.save.data.fullscreenBind == null)
 		{

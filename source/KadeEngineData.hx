@@ -7,6 +7,9 @@ class KadeEngineData
 {
 	public static function initSave()
 	{
+		if (FlxG.save.data.safeFrames == null)
+			FlxG.save.data.safeFrames = 10;
+
 		if (FlxG.save.data.weekUnlocked == null)
 			FlxG.save.data.weekUnlocked = 7;
 
@@ -23,7 +26,7 @@ class KadeEngineData
 			FlxG.save.data.missSounds = true;
 
 		if (FlxG.save.data.dfjk == null)
-			FlxG.save.data.dfjk = false;
+			FlxG.save.data.dfjk = true;
 
 		if (FlxG.save.data.accuracyDisplay == null)
 			FlxG.save.data.accuracyDisplay = true;
@@ -32,10 +35,10 @@ class KadeEngineData
 			FlxG.save.data.offset = 0;
 
 		if (FlxG.save.data.songPosition == null)
-			FlxG.save.data.songPosition = false;
+			FlxG.save.data.songPosition = true;
 
 		if (FlxG.save.data.fps == null)
-			FlxG.save.data.fps = false;
+			FlxG.save.data.fps = true;
 
 		if (FlxG.save.data.changedHit == null)
 		{
@@ -51,22 +54,22 @@ class KadeEngineData
 			FlxG.save.data.fpsCap = 120;
 
 		if (FlxG.save.data.fpsCap > 340 || FlxG.save.data.fpsCap < 60)
-			FlxG.save.data.fpsCap = 120; // baby proof so you can't hard lock ur copy of kade engine
+			FlxG.save.data.fpsCap = 160; // baby proof so you can't hard lock ur copy of kade engine
 
 		if (FlxG.save.data.scrollSpeed == null)
 			FlxG.save.data.scrollSpeed = 1;
 
 		if (FlxG.save.data.npsDisplay == null)
-			FlxG.save.data.npsDisplay = false;
+			FlxG.save.data.npsDisplay = true;
 
 		if (FlxG.save.data.frames == null)
 			FlxG.save.data.frames = 10;
 
 		if (FlxG.save.data.accuracyMod == null)
-			FlxG.save.data.accuracyMod = 1;
+			FlxG.save.data.accuracyMod = 0;
 
 		if (FlxG.save.data.watermark == null)
-			FlxG.save.data.watermark = true;
+			FlxG.save.data.watermark = false;
 
 		if (FlxG.save.data.ghost == null)
 			FlxG.save.data.ghost = true;
@@ -147,6 +150,9 @@ class KadeEngineData
 
 		if (FlxG.save.data.sickMs == null)
 			FlxG.save.data.sickMs = 45.0;
+
+		if (FlxG.save.data.epico == null)
+			FlxG.save.data.epico = false;
 
 		Ratings.timingWindows = [
 			FlxG.save.data.shitMs,

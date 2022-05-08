@@ -243,6 +243,7 @@ class KeyBindMenu extends FlxSubState
 					else if (FlxG.keys.justPressed.ANY)
 					{
 						addKey(FlxG.keys.getIsDown()[0].ID.toString());
+						trace(FlxG.keys.getIsDown()[0].ID.toString());
 						save();
 						state = "select";
 					}
