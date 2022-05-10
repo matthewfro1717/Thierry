@@ -1035,6 +1035,31 @@ class PlayState extends MusicBeatState
 
 			}
 
+			case 'ticking': 
+			{
+				curStage = 'idunno';
+		
+				defaultCamZoom = 0.5;
+				var bg:FlxSprite = new FlxSprite(200, 200).loadGraphic(Paths.image('dna/gunkk'));
+				bg.antialiasing = true;
+				bg.scrollFactor.set(0.9, 0.9);
+				bg.active = false;
+				bg.scale.set(2.4, 2.4);
+				add(bg);
+
+				bego = new FlxSprite(200, 150);
+				bego.frames = Paths.getSparrowAtlas('dna/ticking_tunnel');
+				bego.animation.addByPrefix('spin', 'TUNNEL');
+				bego.antialiasing = true;
+				bego.scrollFactor.set(0.9, 0.9);
+				bego.active = false;
+				bego.scale.set(2, 2);
+				add(bego);
+				bego.animation.play('spin', true);
+				
+
+			}
+
 			case 'roasting' | 'gerselo' | 'cut2': 
 			{
 				curStage = 'sekolahTapiBeda';
@@ -1463,6 +1488,8 @@ class PlayState extends MusicBeatState
 
 		switch(dad.curCharacter)
 		{
+			case 'Fsby':
+				cameraAmplifierX -= 75;
 			case 'dave':
 				cameraAmplifierY -= 150;
 			case 'cell':
@@ -1474,7 +1501,7 @@ class PlayState extends MusicBeatState
 		}
 
 
-		if (StaticData.using3DEngine || maniaSong)
+		if (StaticData.using3DEngine || maniaSong || SONG.song == 'Ticking')
 		{
 			trace('event called, gf is deleted');
 			gf.visible = false;
@@ -1566,6 +1593,8 @@ class PlayState extends MusicBeatState
 		// REPOSITIONING PER STAGE
 		switch (curStage)
 		{
+			case 'idunno':
+				boyfriend.x += 600;
 			case 'dumbshit':
 				boyfriend.y -= 120;
 			case 'limo':
@@ -4549,15 +4578,13 @@ class PlayState extends MusicBeatState
 					switch(noteData)
 					{
 						case 0:
-							if (dad.curCharacter != 'Fsby')
-								camFollow.setPosition(camAnchorX + cameraAmplifierX - 40, camAnchorY - cameraAmplifierY);
+							camFollow.setPosition(camAnchorX + cameraAmplifierX - 40, camAnchorY - cameraAmplifierY);
 						case 1:
 							camFollow.setPosition(camAnchorX + cameraAmplifierX, camAnchorY - cameraAmplifierY + 40);
 						case 2:
 							camFollow.setPosition(camAnchorX + cameraAmplifierX, camAnchorY - cameraAmplifierY - 40);
 						case 3:
-							if (dad.curCharacter != 'Fsby')
-								camFollow.setPosition(camAnchorX + cameraAmplifierX + 40, camAnchorY - cameraAmplifierY);
+							camFollow.setPosition(camAnchorX + cameraAmplifierX + 40, camAnchorY - cameraAmplifierY);
 						default:
 							camFollow.setPosition(camAnchorX + cameraAmplifierX, camAnchorY - cameraAmplifierY);
 	
@@ -5245,6 +5272,7 @@ class PlayState extends MusicBeatState
 
 		var controlArray:Array<Bool> = [leftP, downP, upP, rightP];
 
+		/*
 		if (botPlay)
 		{
 			controlArray = [false, false, false, false];
@@ -5264,6 +5292,7 @@ class PlayState extends MusicBeatState
 			downR = false;
 			leftR = false;
 		}
+		/****/
 
 		
 
@@ -5384,46 +5413,12 @@ class PlayState extends MusicBeatState
 						else
 							noteCheck(controlArray, daNote);
 					}
-					/* 
-						if (controlArray[daNote.noteData])
-							goodNoteHit(daNote);
-					 */
-					// trace(daNote.noteData);
-					/* 
-						switch (daNote.noteData)
-						{
-							case 2: // NOTES YOU JUST PRESSED
-								if (upP || rightP || downP || leftP)
-									noteCheck(upP, daNote);
-							case 3:
-								if (upP || rightP || downP || leftP)
-									noteCheck(rightP, daNote);
-							case 1:
-								if (upP || rightP || downP || leftP)
-									noteCheck(downP, daNote);
-							case 0:
-								if (upP || rightP || downP || leftP)
-									noteCheck(leftP, daNote);
-						}
-					 */
 					if (daNote.wasGoodHit)
 					{
 						daNote.kill();
 						notes.remove(daNote, true);
 						daNote.destroy();
 					}
-				}
-				else if (!susussamongus)
-				{
-					if (FlxG.save.data.epico)
-					{
-						trace("miss eh");
-						health -= 0.04; //miss bruh
-						misses++;
-						songScore -= 10;
-						FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
-					}
-
 				}
 			}
 	
@@ -5468,102 +5463,67 @@ class PlayState extends MusicBeatState
 					switch (spr.ID)
 					{
 						case 2:
-							
-							if (loadRep)
+							if (upP && spr.animation.curAnim.name != 'confirm' && !botPlay)
 							{
-								/*if (upP)
-								{
-									spr.animation.play('pressed');
-									new FlxTimer().start(Math.abs(rep.replay.keyPresses[repReleases].time - Conductor.songPosition) + 10, function(tmr:FlxTimer)
-										{
-											spr.animation.play('static');
-											repReleases++;
-										});
-								}*/
+								spr.animation.play('pressed');
+								trace('play');
+								
+								if (FlxG.save.data.epico && songStarted)
+									{
+										noteMiss(spr.ID, null);
+									}
 							}
-							else
+							if (upR)
 							{
-								if (upP && spr.animation.curAnim.name != 'confirm' && !loadRep)
-								{
-									spr.animation.play('pressed');
-									trace('play');
-								}
-								if (upR)
-								{
-									spr.animation.play('static'); //input handler stuff veru coal
-									repReleases++;
+								spr.animation.play('static'); //input handler stuff veru coal
+								repReleases++;
 									
 									
-								}
 							}
 						case 3:
-							if (loadRep)
-								{
-								/*if (upP)
-								{
-									spr.animation.play('pressed');
-									new FlxTimer().start(Math.abs(rep.replay.keyPresses[repReleases].time - Conductor.songPosition) + 10, function(tmr:FlxTimer)
-										{
-											spr.animation.play('static');
-											repReleases++;
-										});
-								}*/
-								}
-							else
+							if (rightP && spr.animation.curAnim.name != 'confirm' && !botPlay)
 							{
-								if (rightP && spr.animation.curAnim.name != 'confirm' && !loadRep)
-									spr.animation.play('pressed');
-								if (rightR)
-								{
-									spr.animation.play('static');
-									repReleases++;
-								}
-							}	
+								if (FlxG.save.data.epico && songStarted)
+									{
+										noteMiss(spr.ID, null);
+									}
+								spr.animation.play('pressed');
+							}
+								
+							if (rightR)
+							{
+								spr.animation.play('static');
+								repReleases++;
+							}
+								
 						case 1:
-							if (loadRep)
-								{
-								/*if (upP)
-								{
-									spr.animation.play('pressed');
-									new FlxTimer().start(Math.abs(rep.replay.keyPresses[repReleases].time - Conductor.songPosition) + 10, function(tmr:FlxTimer)
-										{
-											spr.animation.play('static');
-											repReleases++;
-										});
-								}*/
-								}
-							else
+							if (downP && spr.animation.curAnim.name != 'confirm' && !botPlay)
 							{
-								if (downP && spr.animation.curAnim.name != 'confirm' && !loadRep)
-									spr.animation.play('pressed');
-								if (downR)
-								{
-									spr.animation.play('static');
-									repReleases++;
-								}
+								if (FlxG.save.data.epico && songStarted)
+									{
+										noteMiss(spr.ID, null);
+									}
+								spr.animation.play('pressed');
+							}
+								
+							if (downR)
+							{
+								spr.animation.play('static');
+								repReleases++;
 							}
 						case 0:
-							if (loadRep)
-								{
-								/*if (upP)
-								{
-									spr.animation.play('pressed');
-									new FlxTimer().start(Math.abs(rep.replay.keyPresses[repReleases].time - Conductor.songPosition) + 10, function(tmr:FlxTimer)
-										{
-											spr.animation.play('static');
-											repReleases++;
-										});
-								}*/
-								}
-							else
+							if (leftP && spr.animation.curAnim.name != 'confirm' && !botPlay)
 							{
-								if (leftP && spr.animation.curAnim.name != 'confirm' && !loadRep)
-									spr.animation.play('pressed');
-								if (leftR)
-								{
-									spr.animation.play('static');
-									repReleases++;
-								}
+								if (FlxG.save.data.epico && songStarted)
+									{
+										noteMiss(spr.ID, null);
+									}
+								spr.animation.play('pressed');
+							}
+							if (leftR)
+							{
+								spr.animation.play('static');
+								repReleases++;
 							}
 					}
 					
@@ -5626,7 +5586,7 @@ class PlayState extends MusicBeatState
 			}
 
 
-			noteDiff = Math.abs(daNote.strumTime - Conductor.songPosition);
+			//noteDiff = Math.abs(daNote.strumTime - Conductor.songPosition);
 			var wife:Float = EtternaFunctions.wife3(noteDiff, FlxG.save.data.etternaMode ? 1 : 1.7);
 
 			if (FlxG.save.data.accuracyMod == 1)

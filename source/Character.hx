@@ -508,6 +508,25 @@ class Character extends FlxSprite
 				addOffset("scared");
 	
 				playAnim('idle');
+
+			case 'ticking':
+				// DAVE SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('ticking_dude');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle', 24, false);
+				animation.addByPrefix('singUP', 'up', 24, false);
+				animation.addByPrefix('singRIGHT', 'right', 24, false);
+				animation.addByPrefix('singDOWN', 'down', 24, false);
+				animation.addByPrefix('singLEFT', 'left', 24, false);
+	
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+				addOffset("scared");
+	
+				playAnim('idle');
 			case 'garrett-mad':
 				// DAVE SHITE ANIMATION LOADING CODE
 				tex = Paths.getSparrowAtlas('garrett_piss');
