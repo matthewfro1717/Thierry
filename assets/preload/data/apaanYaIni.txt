@@ -27,6 +27,7 @@ Ferocious:bob:3:1
 Kelulusan:bob:3:1
 Captivity:someone:3:1
 Ticking:ticking:3:1
+Lacuna:later:3:1
 
 
 

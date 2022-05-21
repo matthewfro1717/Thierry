@@ -1671,6 +1671,22 @@ class PlayState extends MusicBeatState
 
 		generateSong(SONG.song);
 
+		if (FlxG.sound.music.time != 0)
+			{
+				var toBeRemoved = [];
+				for (i in 0...unspawnNotes.length)
+				{
+					var dunceNote:Note = unspawnNotes[i];
+	
+					if (dunceNote.strumTime <= FlxG.sound.music.time)
+						toBeRemoved.push(dunceNote);
+				}
+	
+				for (i in toBeRemoved)
+					unspawnNotes.remove(i);
+	
+			}
+
 		// add(strumLine);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
@@ -2504,6 +2520,10 @@ class PlayState extends MusicBeatState
 		// Updating Discord Rich Presence (with Time Left)
 		DiscordClient.changePresence(detailsText + " " + SONG.song + " (" + storyDifficultyText + ") " + generateRanking(), "\nAcc: " + truncateFloat(accuracy, 2) + "% | Score: " + songScore + " | Misses: " + misses  , iconRPC);
 		#end
+
+		for(i in 0...unspawnNotes.length)
+			if (unspawnNotes[i].strumTime < FlxG.sound.music.time)
+				unspawnNotes.remove(unspawnNotes[i]);
 	}
 
 	var debugNum:Int = 0;
@@ -3052,6 +3072,18 @@ class PlayState extends MusicBeatState
 		#if !debug
 		FlxG.save.data.kebal = false;
 		#end
+
+		if (unspawnNotes[0] != null)
+		{
+			if (unspawnNotes[0].strumTime - Conductor.songPosition < 15000) 
+			{
+				var dunceNote:Note = unspawnNotes[0];
+				notes.add(dunceNote);
+	
+				var index:Int = unspawnNotes.indexOf(dunceNote);
+				unspawnNotes.splice(index, 1);
+			}
+		}
 
 		judgementCounter.visible = StaticData.debugMenu;
 		judgementCounter.text = 'Alpha 1.1 - Aeroshide Engine (KadeEngine 1.4.2/Modded)\nRendered notes : ${notes.length}\n\n\n\nTotal Notes Hit: ${totalNotesHit}\nHit Combo: ${combo}\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits} 
@@ -4128,18 +4160,6 @@ class PlayState extends MusicBeatState
 			
 		}
 
-		if (unspawnNotes[0] != null)
-		{
-			if (unspawnNotes[0].strumTime - Conductor.songPosition < 1500)
-			{
-				var dunceNote:Note = unspawnNotes[0];
-				notes.add(dunceNote);
-
-				var index:Int = unspawnNotes.indexOf(dunceNote);
-				unspawnNotes.splice(index, 1);
-			}
-		}
-
 		if (generatedMusic)
 			{
 				notes.forEachAlive(function(daNote:Note)
@@ -4532,12 +4552,9 @@ class PlayState extends MusicBeatState
 				AnimMixin.makeOpponentIdle(SONG, dad, surgarDaddy, StaticData.whoIsSinging, true);
 				notes.forEachAlive(function(daNote:Note)
 				{
-					if (!bfplaying)
+					if (!bfplaying && daNote.isBoyfriendNote)
 					{
-						if (daNote.mustPress)
-						{
-							bfplaying = true;
-						}
+						bfplaying = true;
 					}
 				});
 				if (UsingNewCam && bfplaying)
@@ -5927,6 +5944,7 @@ class PlayState extends MusicBeatState
 
 	override function stepHit()
 	{
+
 		if (SONG.song == 'Ascension')
 			{
 				healthBarBG.visible = false;
@@ -6075,11 +6093,6 @@ class PlayState extends MusicBeatState
 		}
 		
 		
-
-		if (generatedMusic)
-		{
-			notes.sort(FlxSort.byY, FlxSort.DESCENDING);
-		}
 
 		if (executeModchart && lua != null)
 		{

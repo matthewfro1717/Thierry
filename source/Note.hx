@@ -26,6 +26,7 @@ class Note extends FlxSprite
 	public var modifiedByLua:Bool = false;
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
+	public var isBoyfriendNote:Bool = false;
 	public var noteType:String = 'Normal';
 
 	public var noteScore:Float = 1;
@@ -258,5 +259,20 @@ class Note extends FlxSprite
 			if (alpha > 0.3)
 				alpha = 0.3;
 		}
+
+		//boyfriend note chekcer
+
+		if (mustPress)
+			{
+				if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
+					&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 2))
+					isBoyfriendNote = true;
+				else
+					isBoyfriendNote = false;
+			}
+			else
+			{
+				isBoyfriendNote = false;
+			}
 	}
 }

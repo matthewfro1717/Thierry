@@ -2,3 +2,33 @@ OKAY SO, ITS VERY COMPLICATED, BUT NOTES ARENT GETTING REGISTERED IF KEYBINDINGS
 BUT WORKS WITH THE OLD SYSTEM, SO THE ONLY WAY YOU COULD GET IT WORKING IS BY COMPILING COMMIT 721c0aa THEN COMPILE LATEST
 
 THIS ISSUE HAS BEEN OVERLOOKED FOR A WHOLE MONTH AND IT IS FATAL, IM WORKING ON NEW OPTIONS MENU BEFORE DOING ANYTHING ELSE.
+
+the issue that coused "rendering overlaod" is not from playstate. ive tested it, next to look for is: note.hx
+search has been conducted within 1.6.1 -> 1.6.2 PRE-RELEASE 1 commits
+
+bro i couldnt find anything, the source wre just pretty laggy man, i give up for now, waiting for light...
+
+WE GOT SOME NEWS!!, I MIGHTVE GETTING IT WORKING PAUSEMAN, ITS UNDER FINAL TESTING!!. though even if it works i still have to adress
+the lag issue by either preloading or something else idk (preloader is probably gonna be back)
+
+IT WORKS!!!, NOW JUST NEED TO ADRESS THE LAG DURING SONG LOAD ISSUE
+
+dude... i dont know man... my effort just pays off at the end... :)) im speechless... it just works....
+
+okay some thig to note, camera broke (idk the fuck how), it still "rendering overload" but only in a very extreme case, low priority for now.
+
+okay so, idk how the hell animation broke but, we have to do the rendering notes thingy AGAIN LMAO, without breaking animation this time.
+this was probably caused because i copy pasted bloated kade engine code because i was clueless about the problem, now that i mastered it
+ill redo it better later, probably tomorrow
+
+alright, i still have no idea why animation broke, but i improved animation code so it runs smoother (without render patch), ill figure out
+how to match both of them together.
+
+lmfao my better animation code unknowingly has a side effect that fixed the animation x better rendering bug lmao, okay CASE CLOSED FOR ONCE!!!
+i litterally thought that this issue was unfixable, thank god for giving me the determination to fic this problem.
+
+okay with all of that fix, lacuna still cant be played flawlessly though :(, so this feature is currently useless... but might be useful
+for future songs, woulve been useful if purgatory still exist but its probably just an optimization to engine i guess.. anyway the reason
+it cant play lacuna propperly even with the numbers really high up is that it would get really laggy and thus making the change just doesnt
+have any effect beyond 15k, so the next thing is the actual engine performance, since its kade engine y'know itll get pretty tricky
+but nonetheless, im pretty happy with the result, i wouldnt have thought i would actually fix the problem, but i did so yeah.
