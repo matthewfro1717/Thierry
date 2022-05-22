@@ -2,7 +2,7 @@
 	"song": {
 		"songName": "Root",
 		"songId": "Root",
-		"player1": "bf",
+		"player1": "ron",
 		"notes": [
 			{
 				"endTime": 800,
@@ -12210,7 +12210,7 @@
 				"mustHitSection": true
 			}
 		],
-		"player2": "bob",
+		"player2": "bob-real-omg",
 		"mania": 0,
 		"player3": "gf",
 		"offset": 0,

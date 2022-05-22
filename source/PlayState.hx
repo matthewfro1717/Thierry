@@ -271,6 +271,7 @@ class PlayState extends MusicBeatState
 	var blackScreen:FlxSprite;
 	public static var repReleases:Int = 0;
 	public var mati:Bool;
+	public var accStatus:Int = 0;
 
 	public var noteDiff:Float;
 
@@ -1587,7 +1588,13 @@ class PlayState extends MusicBeatState
 		}
 
 
-		
+		// REPOSITIONING PER SOMEONE
+		switch (boyfriend.curCharacter)
+		{
+			case 'ron':
+				boyfriend.y -= 100;
+				boyfriend.x += 150;
+		}
 		
 
 		// REPOSITIONING PER STAGE
@@ -2925,6 +2932,7 @@ class PlayState extends MusicBeatState
 
 			var wifeConditions:Array<Bool> = [
 				accuracy >= 99.9935, // Perfect!! (Aimed for 100%)
+				accuracy > 99.50,
 				accuracy >= 90, // Sick! (self explanatory)
 				accuracy >= 85, // Great
 				accuracy >= 80, // Good
@@ -2942,18 +2950,28 @@ class PlayState extends MusicBeatState
 					{
 						case 0:
 							wife = "Perfect!!";
+							accStatus = 0;
 						case 1:
 							wife = "Sick!";
+							accStatus = 2;
 						case 2:
-							wife = "Great";
+							wife = "Sick!";
+							accStatus = 0;
 						case 3:
-							wife = "Good";
+							wife = "Great";
+							accStatus = 0;
 						case 4:
-							wife = "Okay";
+							wife = "Good";
+							accStatus = 0;
 						case 5:
-							wife = "Goblok";
+							wife = "Okay";
+							accStatus = 0;
 						case 6:
+							wife = "Goblok";
+							accStatus = 0;
+						case 7:
 							wife = "Skill Issue";
+							accStatus = 0;
 					}
 					break;
 				}
@@ -3486,7 +3504,7 @@ class PlayState extends MusicBeatState
 			{
 				if (memek != "N/A")
 				{
-					scoreTxt.text = ("Score:" + songScore + " | Misses:" + misses + " | Rating: " + generateWife() + " (" + truncateFloat(accuracy, 0) + "%) " + generateTimings());
+					scoreTxt.text = ("Score:" + songScore + " | Misses:" + misses + " | Rating: " + generateWife() + " (" + truncateFloat(accuracy, accStatus) + "%) " + generateTimings());
 				}
 				else
 				{
@@ -5076,14 +5094,14 @@ class PlayState extends MusicBeatState
 					ss = false;
 					shits++;
 					if (FlxG.save.data.accuracyMod == 0)
-						totalNotesHit += 0;
+						totalNotesHit += 0.25;
 				case 'bad':
 					daRating = 'bad';
 					score = 0;
 					ss = false;
 					bads++;
 					if (FlxG.save.data.accuracyMod == 0)
-						totalNotesHit += 0.25;
+						totalNotesHit += 0.50;
 				case 'good':
 					daRating = 'good';
 					score = 200;
@@ -5091,7 +5109,7 @@ class PlayState extends MusicBeatState
 					goods++;
 					health += 0.015;
 					if (FlxG.save.data.accuracyMod == 0)
-						totalNotesHit += 0.50;
+						totalNotesHit += 0.75;
 				case 'sick':
 					health += 0.023;
 					if (FlxG.save.data.accuracyMod == 0)
