@@ -3074,16 +3074,18 @@ class PlayState extends MusicBeatState
 		#end
 
 		if (unspawnNotes[0] != null)
-		{
-			if (unspawnNotes[0].strumTime - Conductor.songPosition < 15000) 
 			{
-				var dunceNote:Note = unspawnNotes[0];
-				notes.add(dunceNote);
+				var time:Float = 3000;//shit be werid on 4:3 // pogger
 	
-				var index:Int = unspawnNotes.indexOf(dunceNote);
-				unspawnNotes.splice(index, 1);
+				while (unspawnNotes.length > 0 && unspawnNotes[0].strumTime - Conductor.songPosition < time)
+				{
+					var dunceNote:Note = unspawnNotes[0];
+					notes.insert(0, dunceNote);
+	
+					var index:Int = unspawnNotes.indexOf(dunceNote);
+					unspawnNotes.splice(index, 1);
+				}
 			}
-		}
 
 		judgementCounter.visible = StaticData.debugMenu;
 		judgementCounter.text = 'Alpha 1.1 - Aeroshide Engine (KadeEngine 1.4.2/Modded)\nRendered notes : ${notes.length}\n\n\n\nTotal Notes Hit: ${totalNotesHit}\nHit Combo: ${combo}\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits} 
