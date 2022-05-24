@@ -652,7 +652,7 @@ class PlayState extends MusicBeatState
 
 		switch(SONG.song.toLowerCase())
 		{
-			case 'cheat-blitar' | 'purgatory' | 'nether' | 'brutal' | 'hellbreaker':
+			case 'cheat-blitar' | 'purgatory' | 'nether' | 'brutal' | 'hellbreaker' | 'lacuna':
 				difficultSong = true;
 		}
 		//NEW CAM IS NOW MANDATORY AS LEGACY CAM IS NO LONGER SUPPORTED
@@ -912,6 +912,27 @@ class PlayState extends MusicBeatState
 				curbg = bg;
 			}
 
+			case 'cuberoot': 
+			{
+				curStage = 'sekolahDPButCool'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
+		
+				defaultCamZoom = 0.9;
+				bego = new FlxSprite(-700, -200).loadGraphic(Paths.image('cuberoot'));
+				bego.antialiasing = true;
+				bego.scrollFactor.set(0.9, 0.9);
+				bego.active = true;
+				add(bego);
+				//UsingNewCam = true;
+
+				//LMAO LITTERALLY STOLEN CODE FROM VSDAVE
+				testshader = new Shaders.GlitchEffect();
+				testshader.waveAmplitude = 0.1;
+				testshader.waveFrequency = 4;
+				testshader.waveSpeed = 2;
+				bego.shader = testshader.shader;
+				curbg = bego;
+			}
+
 			case 'ascension': 
 			{
 				curStage = 'Heaven'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
@@ -1128,6 +1149,23 @@ class PlayState extends MusicBeatState
 					add(raditz);
 					add(gw);
 				}
+
+			}
+			case 'ferocious': 
+			{
+				curStage = 'sekolahTapiFO';
+			
+				defaultCamZoom = 0.8;
+				var bg:FlxSprite = new FlxSprite(-450, -250).loadGraphic(Paths.image('ferocious/FO'));
+				bg.antialiasing = true;
+				bg.scrollFactor.set(1, 1);
+				bg.active = false;
+				bg.scale.set(1.4 ,1.4);
+				bg.updateHitbox();
+				add(bg);
+
+				
+				
 
 			}
 			case 'pico' | 'blammed' | 'philly': 
@@ -1502,7 +1540,7 @@ class PlayState extends MusicBeatState
 		}
 
 
-		if (StaticData.using3DEngine || maniaSong || SONG.song == 'Ticking')
+		if (StaticData.using3DEngine || maniaSong || SONG.song == 'Ticking' || SONG.song == 'Cuberoot')
 		{
 			trace('event called, gf is deleted');
 			gf.visible = false;
@@ -1533,6 +1571,8 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.player2)
 		{
+			case 'garrett':
+				dad.x -= 300;
 			case 'cell':
 				dad.y += 390;
 				dad.x -= 40;
@@ -1752,7 +1792,7 @@ class PlayState extends MusicBeatState
 		add(healthBar);
 			
 		// Aeroshide engine watermark for segitiga
-		aeroEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,SONG.song + " " + "3 DIMENSION" + (Main.watermarks ? " - Aeroshide Engine (3D ENGINE)" + MainMenuState.kadeEngineVer : ""), 16);
+		aeroEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,SONG.song + " " + "" + (Main.watermarks ? " - Aeroshide Engine (3D ENGINE)" + MainMenuState.kadeEngineVer : ""), 16);
 		aeroEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		aeroEngineWatermark.scrollFactor.set();		
 		// Add Kade Engine watermark
@@ -3273,7 +3313,7 @@ class PlayState extends MusicBeatState
 		}
 
 
-		if(SONG.song == 'segitiga' && jancok || SONG.song == 'chaos' && jancok || SONG.song == 'disarray' && jancok || SONG.song == 'serpent')
+		if(SONG.song == 'segitiga' && jancok || SONG.song == 'chaos' && jancok || SONG.song == 'disarray' && jancok || SONG.song == 'serpent' || SONG.song == 'Cuberoot')
 		{
 			dad.y += (Math.sin(elapsedtime) * 0.72);
 		}
@@ -6094,6 +6134,16 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
+
+		/*
+		if (SONG.song == 'Cuberoot' && curBeat % 4 == 0)
+		{
+			var random:Float = FlxG.random.float(0, 1);
+
+			bego.alpha = random;
+			trace("randomized! " + random + " " + bego.alpha);
+		}
+		/****/
 
 		if (FlxG.save.data.memoryTrace)
 		{
