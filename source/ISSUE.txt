@@ -32,3 +32,12 @@ for future songs, woulve been useful if purgatory still exist but its probably j
 it cant play lacuna propperly even with the numbers really high up is that it would get really laggy and thus making the change just doesnt
 have any effect beyond 15k, so the next thing is the actual engine performance, since its kade engine y'know itll get pretty tricky
 but nonetheless, im pretty happy with the result, i wouldnt have thought i would actually fix the problem, but i did so yeah.
+
+
+
+ALRIGHT BOYS NEW TODO:
+
+OPTIONS REFACTOR AND PORT (partially) ENGINE FEATURES FROM KE 1.8
+THEN MAKE DOWNSCROLL WORK (prob p ez, i wrote the botplay code lol)
+
+were doing the mod stuff later, since assets is not done

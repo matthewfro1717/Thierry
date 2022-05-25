@@ -506,6 +506,49 @@ class Character extends FlxSprite
 				addOffset("scared");
 	
 				playAnim('idle');
+			case 'gay':
+				// DAD ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('shaggy');
+				frames = tex;
+				animation.addByPrefix('idle', 'shaggy_idle', 24);
+				animation.addByPrefix('idle2', 'shaggy_idle2', 24);
+				animation.addByPrefix('singUP', 'shaggy_up', 20);
+				animation.addByPrefix('singRIGHT', 'shaggy_right', 20);
+				animation.addByPrefix('singDOWN', 'shaggy_down', 24);
+				animation.addByPrefix('singLEFT', 'shaggy_left', 24);
+				animation.addByPrefix('catch', 'shaggy_catch', 30);
+				animation.addByPrefix('hold', 'shaggy_hold', 30);
+				animation.addByPrefix('h_half', 'shaggy_h_half', 30);
+				animation.addByPrefix('fall', 'shaggy_fall', 30);
+				animation.addByPrefix('kneel', 'shaggy_half_ground', 30);
+
+				animation.addByPrefix('power', 'shaggy_powerup', 30);
+				animation.addByPrefix('idle_s', 'shaggy_super_idle', 24);
+				animation.addByPrefix('singUP_s', 'shaggy_sup2', 20);
+				animation.addByPrefix('singRIGHT_s', 'shaggy_sright', 20);
+				animation.addByPrefix('singDOWN_s', 'shaggy_sdown', 24);
+				animation.addByPrefix('singLEFT_s', 'shaggy_sleft', 24);
+
+				addOffset('idle');
+				addOffset('idle2');
+				addOffset("singUP", -6, 0);
+				addOffset("singRIGHT", -20, -40);
+				addOffset("singLEFT", 100, -120);
+				addOffset("singDOWN", 0, -170);
+				addOffset("catch", 140, 90);
+				addOffset("hold", 90, 100);
+				addOffset("h_half", 90, 0);
+				addOffset("fall", 130, 0);
+				addOffset("kneel", 110, -123);
+
+				addOffset('idle_s');
+				addOffset('power', 10, 0);
+				addOffset("singUP_s", -6, 0);
+				addOffset("singRIGHT_s", -20, -40);
+				addOffset("singLEFT_s", 100, -120);
+				addOffset("singDOWN_s", 0, -170);
+
+				playAnim('idle');
 			case 'garrett':
 				// DAVE SHITE ANIMATION LOADING CODE
 				tex = Paths.getSparrowAtlas('garrett');

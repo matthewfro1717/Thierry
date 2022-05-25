@@ -1519,7 +1519,7 @@ class PlayState extends MusicBeatState
 			camPos = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
 		}
 
-		switch(boyfriend.curCharacter)
+		switch(boyfriend.curCharacter) // for camera offsets
 		{
 			case 'bf':
 				bfCameraAmplifierX += 500;
@@ -1527,6 +1527,8 @@ class PlayState extends MusicBeatState
 
 		switch(dad.curCharacter)
 		{
+			case 'gay':
+				cameraAmplifierX -= 300;
 			case 'Fsby':
 				cameraAmplifierX -= 75;
 			case 'dave':
@@ -5129,10 +5131,9 @@ class PlayState extends MusicBeatState
 				case 'shit': //I NEED TO FUCKING FIND OUT HOW TO MAKE IT ACCURATE, THERES NO WAY IM THIS GOOD
 					score = -300;
 					combo = 0;
-					misses++;
 					health -= 0.2;
 					ss = false;
-					shits++;
+					if (!botPlay) {shits++; misses++;}
 					if (FlxG.save.data.accuracyMod == 0)
 						totalNotesHit += 0.25;
 				case 'bad':
@@ -5657,7 +5658,6 @@ class PlayState extends MusicBeatState
 
 			if (!botPlay) 
 			{
-				totalNotesHit -= 1;
 				combo = 0;
 				misses++;
 			}
