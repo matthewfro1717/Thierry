@@ -843,7 +843,7 @@ class PlayState extends MusicBeatState
 
 			}
 
-			case 'cheat-blitar' | 'segitiga': 
+			case 'cheat-blitar': 
 			{
 				curStage = 'sekolahDP'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 		
@@ -852,6 +852,28 @@ class PlayState extends MusicBeatState
 				bg.antialiasing = true;
 				bg.scrollFactor.set(0.9, 0.9);
 				bg.active = true;
+				add(bg);
+				//UsingNewCam = true;
+
+				//LMAO LITTERALLY STOLEN CODE FROM VSDAVE
+				testshader = new Shaders.GlitchEffect();
+				testshader.waveAmplitude = 0.1;
+				testshader.waveFrequency = 4;
+				testshader.waveSpeed = 2;
+				bg.shader = testshader.shader;
+				curbg = bg;
+			}
+
+			case 'segitiga': 
+			{
+				curStage = 'sekolahSky'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
+		
+				defaultCamZoom = 0.9;
+				var bg:FlxSprite = new FlxSprite(-200, 0).loadGraphic(Paths.image('langit'));
+				bg.antialiasing = true;
+				bg.scrollFactor.set(0.9, 0.9);
+				bg.active = true;
+				bg.scale.set(1.4, 1.4);
 				add(bg);
 				//UsingNewCam = true;
 
@@ -1523,6 +1545,9 @@ class PlayState extends MusicBeatState
 		{
 			case 'bf':
 				bfCameraAmplifierX += 500;
+			case 'tunnel-bf':
+				bfCameraAmplifierY += 250;
+				bfCameraAmplifierY -= 250;
 		}
 
 		switch(dad.curCharacter)
@@ -1636,6 +1661,9 @@ class PlayState extends MusicBeatState
 			case 'ron':
 				boyfriend.y -= 100;
 				boyfriend.x += 150;
+			case 'tunnel-bf':
+				boyfriend.y -= 250;
+				boyfriend.x += 250;
 		}
 		
 
@@ -3285,17 +3313,19 @@ class PlayState extends MusicBeatState
 			dad.x += (Math.sin(elapsedtime) * 1.72);
 		}
 
+		/* DISABLED TEMPORARILY
+
 		if(SONG.song.toLowerCase() == 'segitiga' || SONG.song.toLowerCase() == 'trigometry')
 		{
 			if (shouldMuter)
 			{
 				playerStrums.forEach(function(spr:FlxSprite)
 					{
-						spr.angle += (Math.sin(elapsedtime * 2.5) + 1) * 6;
+						spr.angle += (Math.sin(elapsedtime * 1.5) + 1) * 2;
 					});
 					dadStrums.forEach(function(spr:FlxSprite)
 					{
-						spr.angle += (Math.sin(elapsedtime * 2.5) + 1) * 6;
+						spr.angle += (Math.sin(elapsedtime * 1.5) + 1) * 2;
 					});
 					for(note in notes)
 					{
@@ -3313,6 +3343,7 @@ class PlayState extends MusicBeatState
 			}
 			
 		}
+		/****/
 
 
 		if(SONG.song == 'segitiga' && jancok || SONG.song == 'chaos' && jancok || SONG.song == 'disarray' && jancok || SONG.song == 'serpent' || SONG.song == 'Cuberoot')
@@ -4370,32 +4401,6 @@ class PlayState extends MusicBeatState
 
 							case 2:
 								ZoomCam(true, 2);
-								if(SONG.song == 'segitiga')
-								{
-									FlxG.camera.shake(0.0050, 0.1);
-									camHUD.shake(0.0057, 0.1);
-									if (health >= 1.8)
-									{
-										health -= 0.02;
-									}
-									if (health >= 1.5)
-									{
-										health -= 0.02;
-									}
-									if (health >= 1)
-									{
-										health -= 0.02;
-									}
-									if (health >= 0.5)
-									{
-										health -= 0.02;
-									}
-									if (health >= 0.03)
-									{
-										health -= 0.02;
-									}
-									
-								}
 								if (StaticData.whoIsSinging == 0)
 								{
 									dad.playAnim('singUP' + altAnim, true);
@@ -6920,7 +6925,7 @@ class PlayState extends MusicBeatState
 			gf.dance();
 		}
 
-		if (!boyfriend.animation.curAnim.name.startsWith("sing") || SONG.song == 'segitiga' && curBeat % 4 == 0)
+		if (!boyfriend.animation.curAnim.name.startsWith("sing"))
 		{
 			boyfriend.playAnim('idle');
 		}
