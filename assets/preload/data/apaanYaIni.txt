@@ -23,12 +23,12 @@ Supplanted:pico:3:1
 Ranova:bob:3:1
 Triple-Trouble:sart-producer-night:3:1
 Deformation:sart-producer-night:3:1
-Ferocious:bob:3:1
+Ferocious:gerald:3:1
 Kelulusan:bob:3:1
 Captivity:someone:3:1
 Ticking:ticking:3:1
 Lacuna:later:3:1
-Cuberoot:daveandbambi:3:1
+Cuberoot:insanidave:3:1
 
 
 

@@ -3810,13 +3810,17 @@ class PlayState extends MusicBeatState
 
 		}
 
-		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-		iconP1.scale.set(mult, mult);
-		iconP1.updateHitbox();
+		if (SONG.song != 'Cuberoot') //lmfao will be replaced later (yes icon bounce will be varied)
+		{
+			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+			iconP1.scale.set(mult, mult);
+			iconP1.updateHitbox();
+	
+			var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+			iconP2.scale.set(mult, mult);
+			iconP2.updateHitbox();
+		}
 
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-		iconP2.scale.set(mult, mult);
-		iconP2.updateHitbox();
 
 		if (SONG.song == 'gerlad')
 		{
@@ -3883,6 +3887,8 @@ class PlayState extends MusicBeatState
 		else if (healthBar.percent < 20)
 		{
 			iconP1.animation.curAnim.curFrame = 1;
+
+			
 		}
 		else if (healthBar.percent > 80)
 		{
