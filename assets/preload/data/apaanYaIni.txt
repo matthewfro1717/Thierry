@@ -29,6 +29,8 @@ Captivity:someone:3:1
 Ticking:ticking:3:1
 Lacuna:later:3:1
 Cuberoot:insanidave:3:1
+Combi-Combo:3:1
+Dethroned:3:1
 
 
 

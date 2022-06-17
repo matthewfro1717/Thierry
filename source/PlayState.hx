@@ -1482,6 +1482,10 @@ class PlayState extends MusicBeatState
 			{
 					//UsingNewCam = true;
 					defaultCamZoom = 0.9;
+					if (SONG.song.toLowerCase() == 'mix-up')
+					{
+						defaultCamZoom = 0.6;
+					}
 					curStage = 'stage';
 					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
 					bg.antialiasing = true;
@@ -2676,29 +2680,22 @@ class PlayState extends MusicBeatState
 		// Per song offset check
 		#if desktop
 			var songPath = 'assets/data/' + PlayState.SONG.song.toLowerCase() + '/';
-			if (GlitchedMainMenu.fromCheaterEnding)
-			{
-				// no
-			}
-			else
-			{
-				for(file in sys.FileSystem.readDirectory(songPath))
+			for(file in sys.FileSystem.readDirectory(songPath))
+				{
+					var path = haxe.io.Path.join([songPath, file]);
+					if(!sys.FileSystem.isDirectory(path))
 					{
-						var path = haxe.io.Path.join([songPath, file]);
-						if(!sys.FileSystem.isDirectory(path))
+						if(path.endsWith('.offset'))
 						{
-							if(path.endsWith('.offset'))
-							{
-								trace('Found offset file: ' + path);
-								songOffset = Std.parseFloat(file.substring(0, file.indexOf('.off')));
-								break;
-							}else {
-								trace('Offset file not found. Creating one @: ' + songPath);
-								sys.io.File.saveContent(songPath + songOffset + '.offset', '');
-							}
+							trace('Found offset file: ' + path);
+							songOffset = Std.parseFloat(file.substring(0, file.indexOf('.off')));
+							break;
+						}else {
+							trace('Offset file not found. Creating one @: ' + songPath);
+							sys.io.File.saveContent(songPath + songOffset + '.offset', '');
 						}
 					}
-			}
+				}
 			
 		#end
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
@@ -3810,7 +3807,7 @@ class PlayState extends MusicBeatState
 
 		}
 
-		if (SONG.song != 'Cuberoot') //lmfao will be replaced later (yes icon bounce will be varied)
+		/*if (SONG.song != 'Cuberoot') //lmfao will be replaced later (yes icon bounce will be varied)
 		{
 			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
 			iconP1.scale.set(mult, mult);
@@ -3820,6 +3817,7 @@ class PlayState extends MusicBeatState
 			iconP2.scale.set(mult, mult);
 			iconP2.updateHitbox();
 		}
+		/****/
 
 
 		if (SONG.song == 'gerlad')
@@ -3902,7 +3900,7 @@ class PlayState extends MusicBeatState
 				iconP2.animation.curAnim.curFrame = 1;
 			}
 			
-			iconP1.animation.curAnim.curFrame = 2;
+			//iconP1.animation.curAnim.curFrame = 2;
 			if (SONG.song == 'gerlad')
 			{
 				iconP2.angle += 2;
@@ -6218,7 +6216,7 @@ class PlayState extends MusicBeatState
 		//i agree it is epic
 		//I MADE IT EVEN EPICER!!!
 
-		if (SONG.song != 'Cuberoot')
+		if (SONG.song != 'Mix-up')
 		{
 			if (curBeat % gfSpeed == 0) {
 				curBeat % (gfSpeed * 2) == 0 ? {
@@ -6244,8 +6242,8 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			iconP1.scale.set(1.2, 1.2);
-			iconP2.scale.set(1.2, 1.2);
+			iconP1.scale.set(1.2, 1);
+			iconP2.scale.set(1.2, 1);
 	
 			iconP1.updateHitbox();
 			iconP2.updateHitbox();

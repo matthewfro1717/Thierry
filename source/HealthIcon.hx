@@ -15,6 +15,7 @@ class HealthIcon extends FlxSprite
 	public var sprTracker:FlxSprite;
 	public var char:String;
 	public var isPlayer:Bool;
+	
 
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
@@ -61,11 +62,25 @@ class HealthIcon extends FlxSprite
 		if(this.char != char) 
 		{
 			var name:String = 'icons/' + char;
-			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/placeholder'; //Prevents crash from missing icon
+			var legacyIcon:Bool = false;
+			if(!Paths.fileExists('images/' + name + '.png', IMAGE))
+			{
+				name = 'icons/legacy-' + char; //2 frames animations icons
+				legacyIcon = true;
+			} 
+
+			if(!Paths.fileExists('images/' + name + '.png', IMAGE) && !Paths.fileExists('images/legacy-' + name + '.png', IMAGE))
+			{
+				name = 'icons/placeholder'; //Prevents crash from missing icon
+				legacyIcon = false;
+			} 
 			var file:Dynamic = Paths.image(name);
 
+			var frames:Int = 3;
+			if (legacyIcon) frames = 2;
+
 			loadGraphic(file); //Load stupidly first for getting the file size
-			loadGraphic(file, true, Math.floor(width / 3), Math.floor(height)); //Then load it fr
+			loadGraphic(file, true, Math.floor(width / frames), Math.floor(height)); //Then load it fr
 			iconOffsets[0] = (width - 150) / 2;
 			iconOffsets[1] = (width - 150) / 2;
 			updateHitbox();

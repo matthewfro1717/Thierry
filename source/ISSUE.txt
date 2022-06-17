@@ -46,4 +46,5 @@ do better score screen on song selection
 make arrow follow receptor instead of certain y position (high priority, idk what causes this)
 
 
-- were doing the mod stuff later, since assets is not done
+- were doing the mod stuff later, since assets is not done (the mods stuff is flooding in, engine is not done fuuck)
+also, this is sad but i think im burnt out.
