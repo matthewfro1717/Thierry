@@ -24,13 +24,14 @@ Ranova:bob:3:1
 Triple-Trouble:sart-producer-night:3:1
 Deformation:sart-producer-night:3:1
 Ferocious:gerald:3:1
-Kelulusan:bob:3:1
-Captivity:someone:3:1
+Kelulusan:mmm:3:1
+Captivity:cell:3:1
 Ticking:ticking:3:1
 Lacuna:later:3:1
 Cuberoot:insanidave:3:1
-Combi-Combo:3:1
-Dethroned:3:1
+Combi-Combo:L:3:1
+Dethroned:expunged::3:1
+Stardust:Void:3:1
 
 
 

@@ -265,7 +265,7 @@ class Note extends FlxSprite
 		if (mustPress)
 			{
 				if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-					&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 2))
+					&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 6))
 					isBoyfriendNote = true;
 				else
 					isBoyfriendNote = false;

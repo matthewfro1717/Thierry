@@ -219,19 +219,19 @@ class Character extends FlxSprite
 				addOffset("singDOWN", 0, -250);
 				flipX = true;
 			case 'mmm':
-				tex = Paths.getSparrowAtlas('cyna');
+				tex = Paths.getSparrowAtlas('Meri_assets');
 				frames = tex;
-				animation.addByPrefix('idle', "idle", 24, false);
-				animation.addByPrefix('singUP', 'up', 24, false);
-				animation.addByPrefix('singDOWN', 'down', 24, false);
-				animation.addByPrefix('singLEFT', 'left', 24, false);
-				animation.addByPrefix('singRIGHT', 'right', 24, false);
+				animation.addByPrefix('idle', "Meri Idle", 24, false);
+				animation.addByPrefix('singUP', 'Meri Up', 24, false);
+				animation.addByPrefix('singDOWN', 'Meri Down', 24, false);
+				animation.addByPrefix('singLEFT', 'Meri Left', 24, false);
+				animation.addByPrefix('singRIGHT', 'Meri Right', 24, false);
 
-				addOffset('idle', 0,-120);
-				addOffset("singUP", 114, 106);
-				addOffset("singRIGHT", 15, -120);
-				addOffset("singLEFT", 35, -113);
-				addOffset("singDOWN", 110, -120);
+				addOffset('idle', 0, 0);
+				addOffset("singUP", -12, 3);
+				addOffset("singRIGHT", 25, -24);
+				addOffset("singLEFT", -7, 6);
+				addOffset("singDOWN", 0, -26);
 
 			case 'bob-invis':
 				tex = Paths.getSparrowAtlas('bob_invis');

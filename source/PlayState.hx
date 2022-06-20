@@ -1190,6 +1190,20 @@ class PlayState extends MusicBeatState
 				
 
 			}
+			case 'kelulusan':
+			{
+				curStage = 'bukanSekolahLagi';
+			
+				defaultCamZoom = 0.8;
+				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
+				bg.antialiasing = true;
+				bg.scrollFactor.set(0.9, 0.9);
+				bg.active = false;
+				add(bg);
+
+				// dude i have no clue what to add next, but im planning for it to like change scenery
+				// and make it cool but idk, havent came across my mind yet
+			}
 			case 'pico' | 'blammed' | 'philly': 
 					{
 					curStage = 'philly';
@@ -1556,6 +1570,8 @@ class PlayState extends MusicBeatState
 
 		switch(dad.curCharacter)
 		{
+			case 'mmm':
+				cameraAmplifierY -= 5;
 			case 'gay':
 				cameraAmplifierX -= 300;
 			case 'Fsby':
@@ -1566,12 +1582,10 @@ class PlayState extends MusicBeatState
 				cameraAmplifierY += 150;
 			case 'dingle':
 				cameraAmplifierY -= 150;
-			case 'mmm':
-				cameraAmplifierY -= 150;
 		}
 
 
-		if (StaticData.using3DEngine || maniaSong || SONG.song == 'Ticking' || SONG.song == 'Cuberoot')
+		if (StaticData.using3DEngine || maniaSong || SONG.song == 'Ticking' || SONG.song == 'Cuberoot' || SONG.song == 'Kelulusan')
 		{
 			trace('event called, gf is deleted');
 			gf.visible = false;
@@ -1602,6 +1616,8 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.player2)
 		{
+			case 'mmm':
+				dad.y += 210;
 			case 'garrett':
 				dad.x -= 300;
 			case 'cell':
@@ -3524,13 +3540,6 @@ class PlayState extends MusicBeatState
 		else
 			currentFrames++;
 
-		if (FlxG.keys.justPressed.NINE)
-		{
-			if (iconP1.animation.curAnim.name == 'bf-old')
-				iconP1.animation.play(SONG.player1);
-			else
-				iconP1.animation.play('bf-old');
-		}
 
 		if (FlxG.keys.justPressed.F3)
 		{
@@ -3807,7 +3816,7 @@ class PlayState extends MusicBeatState
 
 		}
 
-		/*if (SONG.song != 'Cuberoot') //lmfao will be replaced later (yes icon bounce will be varied)
+		if (SONG.song == 'Mix-up') //lmfao will be replaced later (yes icon bounce will be varied)
 		{
 			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
 			iconP1.scale.set(mult, mult);
@@ -3817,7 +3826,6 @@ class PlayState extends MusicBeatState
 			iconP2.scale.set(mult, mult);
 			iconP2.updateHitbox();
 		}
-		/****/
 
 
 		if (SONG.song == 'gerlad')
@@ -6436,6 +6444,7 @@ class PlayState extends MusicBeatState
 					FlxG.camera.flash(FlxColor.RED, 2);
 					vignetteShader.visible = true;
 					changeDad('cellMad', dad.x, dad.y);
+					//iconP2 = new HealthIcon(dad.curCharacter, false);
 					mati = true;
 					//figure out how to change icon mid song with new icon system lul
 					//icons were not even done yet so doesnt matter lol

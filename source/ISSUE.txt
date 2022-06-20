@@ -39,7 +39,7 @@ ALRIGHT BOYS NEW TODO:
 
 OPTIONS REFACTOR AND PORT (partially) ENGINE FEATURES FROM KE 1.8
 THEN MAKE DOWNSCROLL WORK (prob p ez, i wrote the botplay code lol)
-i completely forgot about icons lmao
+i completely forgot about icons lmao - what im doing
 make moving camera not so intense (amkes me dizzy lol)
 do better score screen on song selection
 
