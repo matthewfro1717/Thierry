@@ -32,6 +32,7 @@ Cuberoot:insanidave:3:1
 Combi-Combo:L:3:1
 Dethroned:expunged::3:1
 Stardust:Void:3:1
+Alternate:David:3:1
 
 
 

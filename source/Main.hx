@@ -2,6 +2,7 @@ package;
 
 import aeroshide.MemoryCounter;
 import aeroshide.FPSCounter;
+import openfl.system.Capabilities;
 import openfl.display.BlendMode;
 import openfl.text.TextFormat;
 import openfl.display.Application;
@@ -27,6 +28,7 @@ class Main extends Sprite
 	public static var watermarks = true; // Whether to put Kade Engine liteartly anywhere
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
+	// i disagree, i need to write something over here
 
 	public static function main():Void
 	{

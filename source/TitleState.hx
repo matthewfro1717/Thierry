@@ -1,6 +1,7 @@
 package;
 
 import aeroshide.StaticData;
+import openfl.system.Capabilities;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -536,8 +537,8 @@ class TitleState extends MusicBeatState
 			}
 			
 		}
-
-		trace("if program crashed, heres error code " + characters);
+		
+		//trace(Capabilities.os);
 		
 		//characters.animation.play('dance');
 		logoBl.animation.play('bump');

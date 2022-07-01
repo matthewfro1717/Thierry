@@ -469,6 +469,11 @@ class Character extends FlxSprite
 	
 				playAnim('idle');
 
+			case 'david':
+				// DAVE SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('david');
+
+
 			case 'cell':
 				// DAVE SHITE ANIMATION LOADING CODE
 				tex = Paths.getSparrowAtlas('Cell');
@@ -1143,6 +1148,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 		}
+
 
 		dance();
 
