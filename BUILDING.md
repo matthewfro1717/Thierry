@@ -1,4 +1,4 @@
-﻿# Building Friday Night Funkin': Kade Engine
+﻿# Building Friday Night Funkin': Oxygen Engine
 
 **Please note**: these instructions are for compiling/building the game. If you just want to play Kade Engine, **play in your browser or download a build instead**: **[play in browser](https://funkin.puyo.xyz) ⋅ [latest stable release](https://github.com/KadeDev/Kade-Engine/releases/latest) ⋅ [latest development build (windows)](https://ci.appveyor.com/project/KadeDev/kade-engine-windows/build/artifacts) ⋅ [latest development build (linux)](https://ci.appveyor.com/project/daniel11420/kade-engine-linux/build/artifacts)**. If you want to build the game yourself, continue reading.
 
@@ -26,7 +26,7 @@
 	 - `haxelib install newgrounds`
 	 - `haxelib install linc_luajit`
 	 - `haxelib git faxe https://github.com/uhrobots/faxe`
-	 - `haxelib git polymod https://github.com/larsiusprime/polymod.git`
+	 - `haxelib install polymod 1.3.1`
 	 - `haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc`
 ### Windows-only dependencies (only for building *to* Windows. Building html5 on Windows does not require this)
 If you are planning to build for Windows, you also need to install **Visual Studio Code 2019**. While installing it, *don't click on any of the options to install workloads*. Instead, go to the **individual components** tab and choose the following:
