@@ -136,7 +136,7 @@ class PlayState extends MusicBeatState
 
 	private var strumLine:FlxSprite;
 	private var curSection:Int = 0;
-	public var UsingNewCam:Bool = false;
+	public var UsingNewCam:Bool = true;
 	var focusOnDadGlobal:Bool = true;
 	private var camZooming:Bool = false;
 
@@ -656,7 +656,7 @@ class PlayState extends MusicBeatState
 				difficultSong = true;
 		}
 		//NEW CAM IS NOW MANDATORY AS LEGACY CAM IS NO LONGER SUPPORTED
-		UsingNewCam = FlxG.save.data.cameraMov;
+		//UsingNewCam = FlxG.save.data.cameraMov;
 
 		switch(SONG.song.toLowerCase())
 		{
@@ -913,12 +913,13 @@ class PlayState extends MusicBeatState
 				curbg = bg;
 			}
 
-			case 'trigometry' | 'wraith' | 'serpent': 
+			case 'trigometry' | 'wraith' | 'serpent' | 'exploitation': 
 			{
 				curStage = 'sekolahDPButCool'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 		
-				defaultCamZoom = 0.9;
+				defaultCamZoom = 0.5;
 				var bg:FlxSprite = new FlxSprite(-700, -200).loadGraphic(Paths.image('redsky'));
+				bg.scale.set(2, 2);
 				bg.antialiasing = true;
 				bg.scrollFactor.set(0.9, 0.9);
 				bg.active = true;
@@ -1585,7 +1586,7 @@ class PlayState extends MusicBeatState
 		}
 
 
-		if (StaticData.using3DEngine || maniaSong || SONG.song == 'Ticking' || SONG.song == 'Cuberoot' || SONG.song == 'Kelulusan')
+		if (StaticData.using3DEngine || maniaSong || SONG.song == 'Ticking' || SONG.song == 'Cuberoot' || SONG.song == 'Kelulusan' || SONG.song == 'Exploitation')
 		{
 			trace('event called, gf is deleted');
 			gf.visible = false;
@@ -1616,6 +1617,9 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.player2)
 		{
+			case 'expunged':
+				dad.x -= 821;
+				dad.y += 210;
 			case 'mmm':
 				dad.y += 210;
 			case 'garrett':
@@ -3189,8 +3193,18 @@ class PlayState extends MusicBeatState
 			}
 
 		judgementCounter.visible = StaticData.debugMenu;
+		var funny1:Float = (healthBar.percent * 0.002) + 0.002;
+		var unfunny1:Float = ((125 - healthBar.percent) * 0.003) + 0.003;
+
+		var propUnFunny1:Float = iconP2.scale.x + (2.5 * unfunny1);
+		var propUnFunny2:Float = iconP2.scale.y - unfunny1;
+
+		var propFunny1:Float = iconP1.scale.x + funny1;
+		var propFunny2:Float = iconP1.scale.y - funny1;
+
 		judgementCounter.text = 'Alpha 1.1 - Aeroshide Engine (KadeEngine 1.4.2/Modded)\nRendered notes : ${notes.length}\n\n\n\nTotal Notes Hit: ${totalNotesHit}\nHit Combo: ${combo}\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits} 
-		\n\nInput nodes : ${left} ${down} ${up} ${right}\n\n\nBeat : ${curBeat}\nStep : ${curStep}\nBPM : ${Conductor.bpm}\n\n\n\n\n';
+		\n\nInput nodes : ${left} ${down} ${up} ${right}\n\n\nBeat : ${curBeat}\nStep : ${curStep}\nBPM : ${Conductor.bpm}\n\nIcon bounce intensity : ${funny1}, ${unfunny1}\nIcon bounce porperty : BF:${propFunny1}, ${propFunny2} OP: ${propUnFunny1}, ${propUnFunny2}\n
+		Health : ${healthBar.percent}\n\n';
 
 		if (StaticData.tunnelOpen && width <= 2048 && height <= 2048)
 		{
@@ -3546,6 +3560,11 @@ class PlayState extends MusicBeatState
 			StaticData.debugMenu = !StaticData.debugMenu;
 		}
 
+		if (FlxG.keys.justPressed.F4)
+		{
+			FlxG.save.data.kebal = !FlxG.save.data.kebal;
+		}
+
 		if (FlxG.keys.justPressed.F1)
 		{
 			botPlay = !botPlay;
@@ -3816,16 +3835,6 @@ class PlayState extends MusicBeatState
 
 		}
 
-		if (SONG.song == 'Mix-up') //lmfao will be replaced later (yes icon bounce will be varied)
-		{
-			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-			iconP1.scale.set(mult, mult);
-			iconP1.updateHitbox();
-	
-			var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-			iconP2.scale.set(mult, mult);
-			iconP2.updateHitbox();
-		}
 
 
 		if (SONG.song == 'gerlad')
@@ -3842,7 +3851,24 @@ class PlayState extends MusicBeatState
 		}
 		 //PLACEW HERE YOU EDIT BEAT OR SOMETHING YES
 
+		/*
+		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.8)),Std.int(FlxMath.lerp(150, iconP1.height, 0.8)));
+		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8)));
+
 		iconP1.updateHitbox();
+		iconP2.updateHitbox();
+		/****/
+
+		// a = inital value, b = idk what it means but i think its important
+
+		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		var mult2:Float = FlxMath.lerp(1, iconP1.scale.y, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		iconP1.scale.set(mult, mult2);
+		iconP1.updateHitbox();
+
+		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		var mult2:Float = FlxMath.lerp(1, iconP2.scale.y, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		iconP2.scale.set(mult, mult2);
 		iconP2.updateHitbox();
 
 		var iconOffset:Int = 26;
@@ -4304,41 +4330,15 @@ class PlayState extends MusicBeatState
 								altAnim = '-alt';
 						}
 
-						if (SONG.song == 'ded' && health > 0.015|| SONG.song == 'get-out' && health > 0.015 || SONG.song == 'run' && health > 0.015)
+						if (SONG.song == 'ded' || SONG.song == 'get-out' || SONG.song == 'run' || SONG.song == 'anjing' || SONG.song == 'revenge' || SONG.song == 'brutal' && healthDrainBool || SONG.song == 'Torment' || SONG.song == 'cheat-blitar' || SONG.song == 'latihan' || SONG.song == 'Captivity' && mati || SONG.song == 'Exploitation')
 						{
-							health -= 0.014;
+							healthDrainBool = true;
 						}
-						if (SONG.song == 'anjing' && health > 0.015)
-						{
-							health -= 0.0074;
-						}
+
 						/*if (SONG.song == 'latihan' && health > 0.025) //HIGH DAMAGE NOT KILLING
 						{
 							health -= 0.02;
 						}/****/
-						if (SONG.song == 'revenge' && health > 0.015 || SONG.song == 'brutal' && healthDrainBool && health > 0.015 || SONG.song == 'Torment' && health > 0.015 || SONG.song == 'cheat-blitar' && health > 0.015 || SONG.song == 'latihan' && health > 0.025) //LOW DAMAGE NOT KILLING
-						{
-							health -= 0.014;
-						}
-
-						if (SONG.song == 'Captivity' && health > 0.025 && mati)
-						{
-							health -= 0.025;
-						}
-
-						if (SONG.song == 'Purgatory' && health > 0.015)
-						{
-							if (health > 2) //HAVING HP MORE THAN 2 IS ABILITY LOL
-							{
-								health -= 0.001;
-							}
-							else
-							{
-								health -= 0.007;
-							}
-							
-						}
-
 						if (SONG.song == 'Torment')
 						{
 							FlxG.camera.shake(0.010, 0.1);
@@ -4354,9 +4354,9 @@ class PlayState extends MusicBeatState
 							Lib.application.window.move(Lib.application.window.x + FlxG.random.int( -15, 15),Lib.application.window.y + FlxG.random.int( -12, 12));
 						}
 
-						if (SONG.song == 'meninggal' && healthDrainBool && health > 0.015)
+						if (healthDrainBool && health > 0.015)
 						{
-							health -= 0.008;
+							health -= 0.008 * health ;
 						}
 
 						if (SONG.song == 'AppleCore' && healthDrainBool && health > 0.015)
@@ -6200,7 +6200,14 @@ class PlayState extends MusicBeatState
 
 			// Dad doesnt interupt his own notes
 			if (SONG.notes[Math.floor(curStep / 16)].mustHitSection)
-				dad.dance();
+			{
+				new FlxTimer().start(0.5, function(tmr:FlxTimer)
+					{
+						dad.dance();
+					});
+			}
+
+
 		}
 		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
 		wiggleShit.update(Conductor.crochet);
@@ -6223,39 +6230,28 @@ class PlayState extends MusicBeatState
 		//health icon bounce but epic
 		//i agree it is epic
 		//I MADE IT EVEN EPICER!!!
+		/*
+		
 
-		if (SONG.song != 'Mix-up')
-		{
-			if (curBeat % gfSpeed == 0) {
-				curBeat % (gfSpeed * 2) == 0 ? {
-					iconP1.scale.set(1.1, 0.8);
-					iconP2.scale.set(1.1, 1.3);
+			//health icon bounce but epic
+		iconP1.setGraphicSize(Std.int(iconP1.width + (50 * funny)),Std.int(iconP2.height - (25 * funny)));
+		iconP2.setGraphicSize(Std.int(iconP2.width + (50 * (funny))),Std.int(iconP2.height - (25 * funny)));
+		
 	
-					FlxTween.angle(iconP1, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
-					FlxTween.angle(iconP2, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
-				} : {
-					iconP1.scale.set(1.1, 1.3);
-					iconP2.scale.set(1.1, 0.8);
+		iconP1.updateHitbox();
+		iconP2.updateHitbox();
+		/****/
+
+		//HOLY SHIT FINNALY, I GOT THE ICON BOUNCE WORKING, IM SO HAPPY!!!
+
+		var funny:Float = (healthBar.percent * 0.002) + 0.002;
+		var unfunny:Float = ((140 - healthBar.percent) * 0.003) + 0.003;
+
+		iconP1.scale.set(iconP1.scale.x + (funny * 1.6), iconP1.scale.y - (funny));
+		iconP2.scale.set(iconP2.scale.x + (unfunny * 1.2), iconP2.scale.y - (unfunny / 2));
 	
-					FlxTween.angle(iconP2, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
-					FlxTween.angle(iconP1, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
-				}
-	
-				FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
-				FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
-	
-				iconP1.updateHitbox();
-				iconP2.updateHitbox();
-			}
-		}
-		else
-		{
-			iconP1.scale.set(1.2, 1);
-			iconP2.scale.set(1.2, 1);
-	
-			iconP1.updateHitbox();
-			iconP2.updateHitbox();
-		}
+		iconP1.updateHitbox();
+		iconP2.updateHitbox();
 
 		if(curBeat % 2 == 0)
 		{

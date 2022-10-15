@@ -22,7 +22,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
 
@@ -47,6 +46,7 @@ class TitleState extends MusicBeatState
 	var ngSpr:FlxSprite;
 	var logoHasBeenAdded:Bool = false;
 	var bumpin:Bool = true;
+	var canPressEnter:Bool = false;
 
 	var curWacky:Array<String> = [];
 	var twoWacky:Array<String> = [];
@@ -56,6 +56,8 @@ class TitleState extends MusicBeatState
 	var wackyImage:FlxSprite;
 	var characters:FlxSprite;
 	public static var firstBoot:Bool = true;
+
+	var pressedEnter:Bool;
 
 	override public function create():Void
 	{
@@ -117,13 +119,6 @@ class TitleState extends MusicBeatState
 		// DEBUG BULLSHIT
 
 		super.create();
-
-		// NGio.noLogin(APIStuff.API);
-
-		#if ng
-		var ng:NGio = new NGio(APIStuff.API, APIStuff.EncKey);
-		trace('NEWGROUNDS LOL');
-		#end
 
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 
@@ -198,7 +193,7 @@ class TitleState extends MusicBeatState
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
 
-		Conductor.changeBPM(150);
+		Conductor.changeBPM(215);
 		persistentUpdate = true;
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuStuff/beg'));
@@ -356,6 +351,7 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		FlxG.mouse.visible = true;
 
 		if (logoHasBeenAdded)
 		{
@@ -375,18 +371,23 @@ class TitleState extends MusicBeatState
 
 
 
+
+
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
+		/* fullscreen implkrementation late
 		if (FlxG.keys.justPressed.F)
 		{
 			FlxG.fullscreen = !FlxG.fullscreen;
 		}
+		/****/
 
-		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
+		
+		pressedEnter = FlxG.keys.justPressed.ENTER || FlxG.mouse.justPressed;
 
-		#if mobile
+		#if mobiles
 		for (touch in FlxG.touches.list)
 		{
 			if (touch.justPressed)
@@ -398,17 +399,6 @@ class TitleState extends MusicBeatState
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
-		if (gamepad != null)
-		{
-			if (gamepad.justPressed.START)
-				pressedEnter = true;
-
-			#if switch
-			if (gamepad.justPressed.B)
-				pressedEnter = true;
-			#end
-		}
-
 
 
 		if (pressedEnter && !transitioning && skippedIntro)
@@ -419,6 +409,7 @@ class TitleState extends MusicBeatState
 
 			// If it's Friday according to da clock
 			if (Date.now().getDay() == 5)
+
 			#end
 
 			titleText.animation.play('press');
@@ -573,6 +564,7 @@ class TitleState extends MusicBeatState
 			// credTextShit.addText();
 			case 4:
 				deleteCoolText();
+				canPressEnter = true;
 			// credTextShit.visible = false;
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();

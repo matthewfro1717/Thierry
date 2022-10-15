@@ -511,6 +511,24 @@ class Character extends FlxSprite
 				addOffset("scared");
 	
 				playAnim('idle');
+			case 'expunged':
+				// CELL MAD STAY MAD
+				tex = Paths.getSparrowAtlas('ExpungedFinal');
+				frames = tex;
+				animation.addByPrefix('idle', 'Idle', 24, false);
+				animation.addByPrefix('singUP', 'Up', 24, false);
+				animation.addByPrefix('singRIGHT', 'Right', 24, false);
+				animation.addByPrefix('singDOWN', 'Down', 24, false);
+				animation.addByPrefix('singLEFT', 'Left', 24, false);
+	
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+				addOffset("scared");
+	
+				playAnim('idle');
 			case 'gay':
 				// DAD ANIMATION LOADING CODE
 				tex = Paths.getSparrowAtlas('shaggy');

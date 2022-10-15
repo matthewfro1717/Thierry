@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.PlacementHelper;
 import flixel.FlxCamera;
 import flixel.FlxSubState;
 import flixel.input.gamepad.FlxGamepad;
@@ -17,6 +18,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import aeroshide.PlacementHelper.move;
 
 class OptionCata extends FlxSprite
 {
@@ -28,6 +30,8 @@ class OptionCata extends FlxSprite
 	public var titleObject:FlxText;
 
 	public var middle:Bool = false;
+
+
 
 	public function new(x:Float, y:Float, _title:String, _options:Array<Option>, middleType:Bool = false)
 	{
@@ -116,6 +120,7 @@ class OptionsMenu extends FlxSubState
 
 	override function create()
 	{
+
 		options = [
 			new OptionCata(50, 40, "Gameplay", [
 				new ScrollSpeedOption("Change your scroll speed. (1 = Chart dependent)"),
@@ -184,6 +189,8 @@ class OptionsMenu extends FlxSubState
 
 		shownStuff = new FlxTypedGroup<FlxText>();
 
+
+
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.4), Std.int(menuBG.height * 1.4));
@@ -202,6 +209,8 @@ class OptionsMenu extends FlxSubState
 		descBack.alpha = 0.3;
 		descBack.scrollFactor.set();
 		menu.add(descBack);
+
+
 		
 
 		if (isInPause)
@@ -343,6 +352,19 @@ class OptionsMenu extends FlxSubState
 
 	override function update(elapsed:Float)
 	{
+
+
+		//this is memory leak lol
+		var gameplay:FlxSprite = new FlxSprite().makeGraphic(275, 100, FlxColor.BLACK);
+
+		var appearence:FlxSprite = new FlxSprite().makeGraphic(275, 100, FlxColor.BLACK);
+		var misc:FlxSprite = new FlxSprite().makeGraphic(275, 100, FlxColor.BLACK);
+		var saves:FlxSprite = new FlxSprite().makeGraphic(275, 100, FlxColor.BLACK);
+
+
+		move(50, 40, gameplay);
+		add(gameplay);
+
 		super.update(elapsed);
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -363,6 +385,11 @@ class OptionsMenu extends FlxSubState
 
 		any = FlxG.keys.justPressed.ANY || (gamepad != null ? gamepad.justPressed.ANY : false);
 		escape = FlxG.keys.justPressed.ESCAPE || (gamepad != null ? gamepad.justPressed.B : false);
+
+		if (FlxG.mouse.overlaps(gameplay))
+		{
+			console.Log.info("very nice lllolll");
+		}
 
 		if (selectedCat != null && !isInCat)
 		{

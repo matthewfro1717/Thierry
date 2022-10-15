@@ -5,41 +5,59 @@ import flixel.FlxG;
 
 class KadeEngineData
 {
+	/*
+	YOU KNOW WHAT
+	IM REWORKING ALL OPTIONS SAVE DATA
+	SO IT WOULDNT OVERLAP WITH THE OLD ENGINE
+	BECAUSE WE ARE STILL USING THE OLD CODEBASE
+	/****/
 	public static function initSave()
 	{
+		//timing windows
 		if (FlxG.save.data.safeFrames == null)
 			FlxG.save.data.safeFrames = 10;
 
+		//not important, but here for the sake of fnf's backends
 		if (FlxG.save.data.weekUnlocked == null)
 			FlxG.save.data.weekUnlocked = 7;
 
+		//ghost tapping im pretty sure??
 		if (FlxG.save.data.newInput == null)
 			FlxG.save.data.newInput = true;
 
+		//downscroll
 		if (FlxG.save.data.downscroll == null)
 			FlxG.save.data.downscroll = false;
 
+		//antialiasing, using flixel's antialiasing
 		if (FlxG.save.data.antialiasing == null)
 			FlxG.save.data.antialiasing = true;
 
+		//miss sounds
 		if (FlxG.save.data.missSounds == null)
 			FlxG.save.data.missSounds = true;
 
+		//deprecated option.
 		if (FlxG.save.data.dfjk == null)
 			FlxG.save.data.dfjk = true;
 
+		//this is used for a different option, i forgot, ill update this when i rember
 		if (FlxG.save.data.accuracyDisplay == null)
 			FlxG.save.data.accuracyDisplay = true;
 
+		//note offset
 		if (FlxG.save.data.offset == null)
 			FlxG.save.data.offset = 0;
 
+		//progress bar
 		if (FlxG.save.data.songPosition == null)
 			FlxG.save.data.songPosition = true;
 
+		//show fps
 		if (FlxG.save.data.fps == null)
 			FlxG.save.data.fps = true;
 
+		//i dont know what this is
 		if (FlxG.save.data.changedHit == null)
 		{
 			FlxG.save.data.changedHitX = -1;
@@ -47,18 +65,23 @@ class KadeEngineData
 			FlxG.save.data.changedHit = false;
 		}
 
+		//idk
 		if (FlxG.save.data.fpsRain == null)
 			FlxG.save.data.fpsRain = false;
 
+		//fps cap
 		if (FlxG.save.data.fpsCap == null)
 			FlxG.save.data.fpsCap = 120;
 
+		//checking illegal values of fps cap i think?
 		if (FlxG.save.data.fpsCap > 340 || FlxG.save.data.fpsCap < 60)
-			FlxG.save.data.fpsCap = 160; // baby proof so you can't hard lock ur copy of kade engine
+			FlxG.save.data.fpsCap = 120;
 
+		//scroll speed
 		if (FlxG.save.data.scrollSpeed == null)
 			FlxG.save.data.scrollSpeed = 1;
 
+		//also reporposed im pretty sure
 		if (FlxG.save.data.npsDisplay == null)
 			FlxG.save.data.npsDisplay = true;
 
