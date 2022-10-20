@@ -18,18 +18,22 @@ class Note extends FlxSprite
 	public var strumTime:Float = 0;
 
 	public var mustPress:Bool = false;
+	private var InPlayState:Bool = false;
 	public var noteData:Int = 0;
 	public var canBeHit:Bool = false;
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
 	public var modifiedByLua:Bool = false;
+	public var LocalScrollSpeed:Float = 1;
 	public var sustainLength:Float = 0;
+	private var notetolookfor = 0;
 	public var isSustainNote:Bool = false;
 	public var isBoyfriendNote:Bool = false;
 	public var noteType:String = 'Normal';
 
 	public var noteScore:Float = 1;
+	public var MyStrum:FlxSprite;
 
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
@@ -159,14 +163,18 @@ class Note extends FlxSprite
 		{
 			case 0:
 				x += swagWidth * 0;
+				notetolookfor = 0;
 				animation.play('purpleScroll');
 			case 1:
+				notetolookfor = 1;
 				x += swagWidth * 1;
 				animation.play('blueScroll');
 			case 2:
+				notetolookfor = 2;
 				x += swagWidth * 2;
 				animation.play('greenScroll');
 			case 3:
+				notetolookfor = 3;
 				x += swagWidth * 3;
 				animation.play('redScroll');
 		}
@@ -176,6 +184,39 @@ class Note extends FlxSprite
 		// we make sure its downscroll and its a SUSTAIN NOTE (aka a trail, not a note)
 		// and flip it so it doesn't look weird.
 		// THIS DOESN'T FUCKING FLIP THE NOTE, CONTRIBUTERS DON'T JUST COMMENT THIS OUT JESUS
+
+		switch (PlayState.SONG.song.toLowerCase())
+		{
+			case 'applecore' | 'unfairness':
+				if (Type.getClassName(Type.getClass(FlxG.state)).contains("PlayState"))
+				{
+					var state:PlayState = cast(FlxG.state,PlayState);
+					InPlayState = true;
+					if (mustPress)
+					{
+						state.playerStrums.forEach(function(spr:FlxSprite)
+						{
+							if (spr.ID == notetolookfor)
+							{
+								x = spr.x;
+								MyStrum = spr;
+							}
+						});
+					}
+					else
+					{
+						state.dadStrums.forEach(function(spr:FlxSprite)
+						{
+							if (spr.ID == notetolookfor)
+							{
+									x = spr.x;
+									MyStrum = spr;
+								}
+							});
+					}
+				}
+		}
+
 		if (FlxG.save.data.downscroll && sustainNote) 
 			flipY = true;
 
@@ -233,6 +274,40 @@ class Note extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		if (MyStrum != null)
+		{
+			x = MyStrum.x + (isSustainNote ? width : 0);
+		}
+		else
+		{
+			if (InPlayState)
+			{
+				var state:PlayState = cast(FlxG.state,PlayState);
+				if (mustPress)
+					{
+						state.playerStrums.forEach(function(spr:FlxSprite)
+						{
+							if (spr.ID == notetolookfor)
+							{
+								x = spr.x;
+								MyStrum = spr;
+							}
+						});
+					}
+					else
+					{
+						state.dadStrums.forEach(function(spr:FlxSprite)
+							{
+								if (spr.ID == notetolookfor)
+								{
+									x = spr.x;
+									MyStrum = spr;
+								}
+							});
+					}
+			}
+		}
 
 		if (mustPress)
 		{

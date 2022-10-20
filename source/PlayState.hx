@@ -145,13 +145,14 @@ class PlayState extends MusicBeatState
 	private static var prevCamFollow:FlxObject;
 
 	private var strumLineNotes:FlxTypedGroup<FlxSprite>;
-	private var playerStrums:FlxTypedGroup<FlxSprite>;
+	public var playerStrums:FlxTypedGroup<FlxSprite>;
 	public var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 	var segitigaBG:FlxTypedGroup<FlxSprite> = new FlxTypedGroup<FlxSprite>();
 
 	public var pressedSEVEN:Bool;
 	private var curSong:String = "";
 	public var testshader:Shaders.GlitchEffect;
+	public static var chartshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
 
 	var up:Bool;
 	var right:Bool;
@@ -203,6 +204,7 @@ class PlayState extends MusicBeatState
 	private var iconP1:HealthIcon;
 	private var iconP2:HealthIcon;
 	private var camHUD:FlxCamera;
+	private var camStrum:FlxCamera;
 	private var camGame:FlxCamera;
 
 	public static var offsetTesting:Bool = false;
@@ -425,7 +427,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function getActorByName(id:String):Dynamic
+	function defaultStrumgetActorByName(id:String):Dynamic
 	{
 		// pre defined names
 		switch(id)
@@ -566,11 +568,16 @@ class PlayState extends MusicBeatState
 
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
+		camStrum = new FlxCamera();
 		camHUD = new FlxCamera();
+		
 		camHUD.bgColor.alpha = 0;
+		camStrum.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camStrum);
 		FlxG.cameras.add(camHUD);
+		
 
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
@@ -913,7 +920,7 @@ class PlayState extends MusicBeatState
 				curbg = bg;
 			}
 
-			case 'trigometry' | 'wraith' | 'serpent' | 'exploitation': 
+			case 'trigometry' | 'wraith' | 'serpent' | 'exploitation' | 'dethroned': 
 			{
 				curStage = 'sekolahDPButCool'; //ADD JANGKRIK SOUND AMBIENCE FOR LIKE CHANGING SCENES, UDE THWAW AWESOME!! EXCEPT FOR THE FIRST ONE, KEEP IT AS AMOGUS
 		
@@ -1814,9 +1821,10 @@ class PlayState extends MusicBeatState
 
 		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.image('healthBar'));
 		if (FlxG.save.data.downscroll)
-			healthBarBG.y = 80;
+			healthBarBG.y = 50;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
+		healthBarBG.antialiasing = true;
 		add(healthBarBG);
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
@@ -1843,7 +1851,7 @@ class PlayState extends MusicBeatState
 		}
 		healthBar.createFilledBar(dadHealthBar, bfHealthBar); //the magic shit
 		// healthBar
-		add(healthBar);
+		insert(members.indexOf(healthBarBG), healthBar);
 			
 		// Aeroshide engine watermark for segitiga
 		aeroEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,SONG.song + " " + "" + (Main.watermarks ? " - Aeroshide Engine (3D ENGINE)" + MainMenuState.kadeEngineVer : ""), 16);
@@ -1929,16 +1937,30 @@ class PlayState extends MusicBeatState
 		add(scoreTxt);
 
 
-		strumLineNotes.cameras = [camHUD];
-		grpNoteSplashes.cameras = [camHUD];
+		strumLineNotes.cameras = [camStrum];
+		grpNoteSplashes.cameras = [camStrum];
 		judgementCounter.cameras = [camHUD];
-		notes.cameras = [camHUD];
+		notes.cameras = [camStrum];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
+
+		//shader modchart pog
+		if (SONG.song.toLowerCase() == 'exploitation') //i desperately wanted it so if you use downscroll it switches it to upscroll and flips the entire hud upside down but i never got to it
+		{
+			chartshader.waveAmplitude = 0.036;
+			chartshader.waveFrequency = 7;
+			chartshader.waveSpeed = 3;
+	
+			//camStrum.angle = 190;
+			//camStrum.y = camStrum.y + 300;
+			camStrum.setFilters([new ShaderFilter(chartshader.shader)]);
+		}
+
+
 		if (StaticData.using3DEngine)
 		{
 			// Aeroshide engine watermark for segitiga
@@ -2277,7 +2299,7 @@ class PlayState extends MusicBeatState
 					notes.members[id].scale.y = scale;
 				}));
 
-				/****/
+				
 	
 				trace(Lua_helper.add_callback(lua,"setActorX", function(x:Int,id:String) {
 					getActorByName(id).x = x;
@@ -2364,6 +2386,8 @@ class PlayState extends MusicBeatState
 				Lua_helper.add_callback(lua,"tweenFadeOut", function(id:String, toAlpha:Int, time:Float, onComplete:String) {
 					FlxTween.tween(getActorByName(id), {alpha: toAlpha}, time, {ease: FlxEase.circOut, onComplete: function(flxTween:FlxTween) { if (onComplete != '' && onComplete != null) {callLua(onComplete,[id]);}}});
 				});
+
+				/****/
 	
 				for (i in 0...strumLineNotes.length) {
 					var member = strumLineNotes.members[i];
@@ -3173,6 +3197,8 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		chartshader.shader.uTime.value[0] += elapsed;
+
 		FlxG.mouse.visible = false;
 		#if !debug
 		FlxG.save.data.kebal = false;
@@ -3411,44 +3437,81 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if (SONG.song.toLowerCase() == 'exploitation' ) // fuck you
+			{
+			if (shouldMuter && shouldMuterKeras)
+			{
+				playerStrums.forEach(function(spr:FlxSprite)
+					{
+						spr.x += (spr.ID == 1 ? 0.5 : 1) * Math.sin(elapsedtime) * ((spr.ID % 3) == 0 ? 1 : -1);
+						spr.x -= (spr.ID == 1 ? 0.5 : 1) * Math.sin(elapsedtime) * ((spr.ID / 3) + 1.2);
+					});
+					dadStrums.forEach(function(spr:FlxSprite)
+					{
+						spr.x -= (spr.ID == 1 ? 0.5 : 1) * Math.sin(elapsedtime) * ((spr.ID % 3) == 0 ? 1 : -1);
+						spr.x += (spr.ID == 1 ? 0.5 : 1) * Math.sin(elapsedtime) * ((spr.ID / 3) + 1.2);
+					});
+			}
+			if (shouldMuterKeras && shouldMuter)
+			{
+				playerStrums.forEach(function(spr:FlxSprite)
+				{
+					spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin(elapsedtime + (spr.ID)) * 300);
+					spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos(elapsedtime + (spr.ID)) * 300);
+				});
+				dadStrums.forEach(function(spr:FlxSprite)
+				{
+					spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin((elapsedtime + (spr.ID )) * 2) * 300);
+					spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos((elapsedtime + (spr.ID)) * 2) * 300);
+				});
+			}
+			}
+
 		if (SONG.song.toLowerCase() == 'applecore') // fuck you
 		{
 			if (shouldMuter)
 			{
 				playerStrums.forEach(function(spr:FlxSprite)
-				{
-					spr.x = ((FlxG.width / 12) - (spr.width / 7)) + (Math.sin(elapsedtime + (spr.ID)) * 500);
-					spr.x += 500; 
-					spr.y += Math.sin(elapsedtime) * Math.random();
-					spr.y -= Math.sin(elapsedtime) * 1.3;
-				});
-				dadStrums.forEach(function(spr:FlxSprite)
-				{
-					spr.x = ((FlxG.width / 12) - (spr.width / 7)) + (Math.sin((elapsedtime + (spr.ID )) * 2) * 500);
-					spr.x += 500; 
-					spr.y += Math.sin(elapsedtime) * Math.random();
-					spr.y -= Math.sin(elapsedtime) * 1.3;
-				});
+					{
+						spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin(elapsedtime + (spr.ID)) * 300);
+						spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos(elapsedtime + (spr.ID)) * 300);
+					});
+					dadStrums.forEach(function(spr:FlxSprite)
+					{
+						spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin((elapsedtime + (spr.ID )) * 2) * 300);
+						spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos((elapsedtime + (spr.ID)) * 2) * 300);
+					});
 			}
 			if (shouldMuterKeras)
 			{
 				playerStrums.forEach(function(spr:FlxSprite)
-					{
-						spr.x = ((FlxG.width / 12) - (spr.width / 7)) + (Math.sin(elapsedtime + (spr.ID)) * 500);
-						spr.x += 500; 
-						spr.y += Math.sin(elapsedtime) * Math.random();
-						spr.y -= Math.sin(elapsedtime) * 1.3;
-					});
-					dadStrums.forEach(function(spr:FlxSprite)
-					{
-						spr.x = ((FlxG.width / 12) - (spr.width / 7)) + (Math.sin((elapsedtime + (spr.ID )) * 2) * 500);
-						spr.x += 500; 
-						spr.y += Math.sin(elapsedtime) * Math.random();
-						spr.y -= Math.sin(elapsedtime) * 1.3;
-					});
+				{
+					spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin(elapsedtime + (spr.ID)) * 300);
+					spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos(elapsedtime + (spr.ID)) * 300);
+				});
+				dadStrums.forEach(function(spr:FlxSprite)
+				{
+					spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin((elapsedtime + (spr.ID )) * 2) * 300);
+					spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos((elapsedtime + (spr.ID)) * 2) * 300);
+				});
 			}
 
 		}
+
+		if (SONG.song.toLowerCase() == 'hellbreaker') // fuck you
+			{
+				playerStrums.forEach(function(spr:FlxSprite)
+					{
+						spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin(elapsedtime + (spr.ID)) * 300);
+						spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos(elapsedtime + (spr.ID)) * 300);
+					});
+					dadStrums.forEach(function(spr:FlxSprite)
+					{
+						spr.x = ((FlxG.width / 2) - (spr.width / 2)) + (Math.sin((elapsedtime + (spr.ID )) * 2) * 300);
+						spr.y = ((FlxG.height / 2) - (spr.height / 2)) + (Math.cos((elapsedtime + (spr.ID)) * 2) * 300);
+					});
+	
+			}
 			
 		/**if (SONG.song.toLowerCase() == 'cheat-blitar') // fuck you
 		{
@@ -4492,6 +4555,13 @@ class PlayState extends MusicBeatState
 						daNote.destroy();
 					}
 	
+					if (SONG.song == 'Hellbreaker')
+					{
+						if (daNote.MyStrum != null)
+						{
+							daNote.y = (daNote.MyStrum.y - (Conductor.songPosition - daNote.strumTime) * (-0.45 * FlxMath.roundDecimal(SONG.speed * daNote.LocalScrollSpeed, 2)));
+						}
+					}
 					if (FlxG.save.data.downscroll)
 						daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (-0.45 * FlxMath.roundDecimal(FlxG.save.data.scrollSpeed == 1 ? SONG.speed : FlxG.save.data.scrollSpeed, 2)));
 					else
@@ -4524,7 +4594,9 @@ class PlayState extends MusicBeatState
 					// WIP interpolation shit? Need to fix the pause issue
 					// daNote.y = (strumLine.y - (songTime - daNote.strumTime) * (0.45 * PlayState.SONG.speed));
 	
-					if ((daNote.y < -daNote.height && !FlxG.save.data.downscroll || daNote.y >= strumLine.y + 106 && FlxG.save.data.downscroll) && daNote.mustPress)
+					var strumliney = daNote.MyStrum != null ? daNote.MyStrum.y : strumLine.y;
+					
+					if (daNote.y >= strumliney + 106 && (FlxG.save.data.downscroll || SONG.song.toLowerCase() == "hellbreaker") || daNote.y < -daNote.height && (!FlxG.save.data.downscroll && SONG.song.toLowerCase() != "hellbreaker"))
 					{
 						if (daNote.isSustainNote && daNote.wasGoodHit)
 						{
@@ -6598,6 +6670,18 @@ class PlayState extends MusicBeatState
 						//REST OF THE CODES ARE WRITTEN IN MODCHART
 				}
 		}
+
+		if (SONG.song == 'Exploitation')
+			{
+				switch(curBeat)
+					{
+						case 144:
+							shouldMuter = true;
+						case 320:
+							shouldMuter = false;
+							shouldMuterKeras = true;
+					}
+			}
 
 		if (SONG.song == 'Ferocious')
 		{
