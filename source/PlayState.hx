@@ -152,7 +152,7 @@ class PlayState extends MusicBeatState
 	public var pressedSEVEN:Bool;
 	private var curSong:String = "";
 	public var testshader:Shaders.GlitchEffect;
-	public static var chartshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
+	public static var chartshader:Shaders.AltGlitchEffect = new Shaders.AltGlitchEffect();
 
 	var up:Bool;
 	var right:Bool;
@@ -205,6 +205,7 @@ class PlayState extends MusicBeatState
 	private var iconP2:HealthIcon;
 	private var camHUD:FlxCamera;
 	private var camStrum:FlxCamera;
+	private var camNotes:FlxCamera;
 	private var camGame:FlxCamera;
 
 	public static var offsetTesting:Bool = false;
@@ -569,13 +570,16 @@ class PlayState extends MusicBeatState
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
 		camStrum = new FlxCamera();
+		camNotes = new FlxCamera();
 		camHUD = new FlxCamera();
 		
+		camNotes.bgColor.alpha = 0;
 		camHUD.bgColor.alpha = 0;
 		camStrum.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camStrum);
+		FlxG.cameras.add(camNotes);
 		FlxG.cameras.add(camHUD);
 		
 
@@ -1940,7 +1944,7 @@ class PlayState extends MusicBeatState
 		strumLineNotes.cameras = [camStrum];
 		grpNoteSplashes.cameras = [camStrum];
 		judgementCounter.cameras = [camHUD];
-		notes.cameras = [camStrum];
+		notes.cameras = [camNotes];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
@@ -1951,13 +1955,13 @@ class PlayState extends MusicBeatState
 		//shader modchart pog
 		if (SONG.song.toLowerCase() == 'exploitation') //i desperately wanted it so if you use downscroll it switches it to upscroll and flips the entire hud upside down but i never got to it
 		{
-			chartshader.waveAmplitude = 0.036;
-			chartshader.waveFrequency = 7;
-			chartshader.waveSpeed = 3;
+			chartshader.waveAmplitude = 0.03;
+			chartshader.waveFrequency = 14;
+			chartshader.waveSpeed = 7;
 	
 			//camStrum.angle = 190;
 			//camStrum.y = camStrum.y + 300;
-			camStrum.setFilters([new ShaderFilter(chartshader.shader)]);
+			camNotes.setFilters([new ShaderFilter(chartshader.shader)]);
 		}
 
 
@@ -2665,10 +2669,7 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.song;
 
-		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
-		else
-			vocals = new FlxSound();
+		vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
 
 		FlxG.sound.list.add(vocals);
 
@@ -4628,7 +4629,7 @@ class PlayState extends MusicBeatState
 					}
 
 
-					if ((daNote.y < (-daNote.height + 182) && !FlxG.save.data.downscroll && botPlay || daNote.y >= strumLine.y + 106 && FlxG.save.data.downscroll) && daNote.mustPress)
+					if ((daNote.y < (-daNote.height + 182) && !FlxG.save.data.downscroll && botPlay || daNote.y >= strumLine.y + 32 && FlxG.save.data.downscroll) && daNote.mustPress && botPlay)
 					{
 						goodNoteHit(daNote);
 						daNote.kill();
@@ -6285,6 +6286,8 @@ class PlayState extends MusicBeatState
 		wiggleShit.update(Conductor.crochet);
 
 		// HARDCODING FOR MILF ZOOMS!
+
+		/*
 		if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200 && camZooming && FlxG.camera.zoom < 1.35)
 		{
 			FlxG.camera.zoom += 0.015;
@@ -6296,6 +6299,7 @@ class PlayState extends MusicBeatState
 			FlxG.camera.zoom += 0.015;
 			camHUD.zoom += 0.03;
 		}
+		/****/
 
 		//var funny:Float = (healthBar.percent * 0.02) + 0.02;
 
