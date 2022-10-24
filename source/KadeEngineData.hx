@@ -75,7 +75,7 @@ class KadeEngineData
 
 		//checking illegal values of fps cap i think?
 		if (FlxG.save.data.fpsCap > 340 || FlxG.save.data.fpsCap < 60)
-			FlxG.save.data.fpsCap = 120;
+			FlxG.save.data.fpsCap = 140;
 
 		//scroll speed
 		if (FlxG.save.data.scrollSpeed == null)
