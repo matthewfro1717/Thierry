@@ -321,7 +321,8 @@ class TitleState extends MusicBeatState
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
-		FlxG.mouse.visible = false;
+		FlxG.mouse.visible = true;
+		FlxG.mouse.useSystemCursor = true;
 
 		if (initialized)
 			skipIntro();
@@ -351,7 +352,7 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		FlxG.mouse.visible = true;
+
 
 		if (logoHasBeenAdded)
 		{

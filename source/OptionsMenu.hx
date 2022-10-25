@@ -117,6 +117,11 @@ class OptionsMenu extends FlxSubState
 
 	public var descText:FlxText;
 	public var descBack:FlxSprite;
+	public	var gameplay:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
+
+	public var appearence:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
+	public var misc:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
+	public var saves:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
 
 	override function create()
 	{
@@ -256,6 +261,18 @@ class OptionsMenu extends FlxSubState
 
 		selectedOption = selectedCat.options[0];
 
+
+		var initX:Int = 50;
+		var initY:Int = 30;
+
+		var gap:Int = Math.round(gameplay.width);
+	
+		move(initX, initY, gameplay);
+		move(initX+(gap*1), initY, appearence);
+		move(initX+(gap*2), initY, misc);
+		move(initX+(gap*3), initY, saves);
+
+
 		super.create();
 	}
 
@@ -350,20 +367,12 @@ class OptionsMenu extends FlxSubState
 		}
 	}
 
+
+
 	override function update(elapsed:Float)
 	{
 
-
 		//this is memory leak lol
-		var gameplay:FlxSprite = new FlxSprite().makeGraphic(275, 100, FlxColor.BLACK);
-
-		var appearence:FlxSprite = new FlxSprite().makeGraphic(275, 100, FlxColor.BLACK);
-		var misc:FlxSprite = new FlxSprite().makeGraphic(275, 100, FlxColor.BLACK);
-		var saves:FlxSprite = new FlxSprite().makeGraphic(275, 100, FlxColor.BLACK);
-
-
-		move(50, 40, gameplay);
-		add(gameplay);
 
 		super.update(elapsed);
 
@@ -377,19 +386,85 @@ class OptionsMenu extends FlxSubState
 		var any = false;
 		var escape = false;
 
-		accept = FlxG.keys.justPressed.ENTER || (gamepad != null ? gamepad.justPressed.A : false);
-		right = FlxG.keys.justPressed.RIGHT || (gamepad != null ? gamepad.justPressed.DPAD_RIGHT : false);
-		left = FlxG.keys.justPressed.LEFT || (gamepad != null ? gamepad.justPressed.DPAD_LEFT : false);
-		up = FlxG.keys.justPressed.UP || (gamepad != null ? gamepad.justPressed.DPAD_UP : false);
-		down = FlxG.keys.justPressed.DOWN || (gamepad != null ? gamepad.justPressed.DPAD_DOWN : false);
+		var wheelStatus:Int = Math.round(FlxG.mouse.wheel);
+
+		accept = FlxG.keys.justPressed.ENTER || FlxG.mouse.justPressed || (gamepad != null ? gamepad.justPressed.A : false);
+		right = FlxG.keys.justPressed.RIGHT || (FlxG.mouse.justPressed && !isInCat) || (gamepad != null ? gamepad.justPressed.DPAD_RIGHT : false);
+		left = FlxG.keys.justPressed.LEFT || (FlxG.mouse.justPressedRight && !isInCat) || (gamepad != null ? gamepad.justPressed.DPAD_LEFT : false);
+		up = FlxG.keys.justPressed.UP || (wheelStatus > 0) || (gamepad != null ? gamepad.justPressed.DPAD_UP : false);
+		down = FlxG.keys.justPressed.DOWN || (wheelStatus < 0) || (gamepad != null ? gamepad.justPressed.DPAD_DOWN : false);
 
 		any = FlxG.keys.justPressed.ANY || (gamepad != null ? gamepad.justPressed.ANY : false);
 		escape = FlxG.keys.justPressed.ESCAPE || (gamepad != null ? gamepad.justPressed.B : false);
 
+
 		if (FlxG.mouse.overlaps(gameplay))
 		{
-			console.Log.info("very nice lllolll");
+			if (selectedCatIndex != 0 && !isInCat)
+			{
+				selectedCatIndex = 0;
+				switchCat(options[selectedCatIndex]);
+				escape = true;
+			}
+			else if (selectedCatIndex != 0)
+			{
+				selectedCatIndex = 0;
+				switchCat(options[selectedCatIndex]);
+				
+			}
+
 		}
+
+		if (FlxG.mouse.overlaps(appearence))
+		{
+			if (selectedCatIndex != 1 && !isInCat)
+			{
+				selectedCatIndex = 1;
+				switchCat(options[selectedCatIndex]);
+				escape = true;
+			}
+			else if (selectedCatIndex != 1)
+			{
+				selectedCatIndex = 1;
+				switchCat(options[selectedCatIndex]);
+			}
+
+
+		}
+
+		if (FlxG.mouse.overlaps(misc))
+		{
+			if (selectedCatIndex != 2 && !isInCat)
+			{
+				selectedCatIndex = 2;
+				switchCat(options[selectedCatIndex]);
+				escape = true;
+			}
+			else if (selectedCatIndex != 2)
+			{
+				selectedCatIndex = 2;
+				switchCat(options[selectedCatIndex]);
+			}
+
+		}
+
+		if (FlxG.mouse.overlaps(saves))
+		{
+			if (selectedCatIndex != 3 && !isInCat)
+			{
+				selectedCatIndex = 3;
+				switchCat(options[selectedCatIndex]);
+				escape = true;
+			}
+			else if (selectedCatIndex != 3)
+			{
+				selectedCatIndex = 3;
+				switchCat(options[selectedCatIndex]);
+			}
+
+		}
+		
+
 
 		if (selectedCat != null && !isInCat)
 		{

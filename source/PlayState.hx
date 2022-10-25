@@ -2543,6 +2543,7 @@ class PlayState extends MusicBeatState
 		songStarted = true;
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
+		FlxG.mouse.visible = false;
 
 		if (SONG.song == 'meninggal')
 		{
@@ -3200,7 +3201,7 @@ class PlayState extends MusicBeatState
 	{
 		chartshader.shader.uTime.value[0] += elapsed;
 
-		FlxG.mouse.visible = false;
+		
 		#if !debug
 		FlxG.save.data.kebal = false;
 		#end
@@ -4847,10 +4848,12 @@ class PlayState extends MusicBeatState
 	
 	function endSong():Void
 	{
+		FlxG.mouse.visible = true;
 		if (SONG.song == 'Tutorial')
 		{
 			FlxG.switchState(new MainMenuState());
 		}
+		
 
 		if (SONG.song == 'cheat-blitar')
 		{

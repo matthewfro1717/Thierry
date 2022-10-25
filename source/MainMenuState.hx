@@ -150,18 +150,22 @@ class MainMenuState extends MusicBeatState
 
 		storymenu.x = -590;
 		storymenu.y = -270;
+		storymenu.visible = false;
 		add(storymenu);
 
 		freeplay.x = -590;
 		freeplay.y = -120;
+		freeplay.visible = false;
 		add(freeplay);
 
 		credits.x = -590;
 		credits.y = 30;
+		credits.visible = false;
 		add(credits);
 
 		options.x = -590;
 		options.y = 180;
+		options.visible = false;
 		add(options);
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
@@ -279,7 +283,6 @@ class MainMenuState extends MusicBeatState
 
 			if (FlxG.mouse.overlaps(storymenu))
 			{
-				console.Log.info("very nice lllolll");
 				curSelected = 0;
 				menuItems.forEach(function(spr:FlxSprite)
 				{
@@ -296,7 +299,6 @@ class MainMenuState extends MusicBeatState
 			}
 			else if (FlxG.mouse.overlaps(freeplay))
 			{
-				console.Log.info("yeah very nice lllolll");
 				curSelected = 1;
 				menuItems.forEach(function(spr:FlxSprite)
 				{
@@ -313,7 +315,6 @@ class MainMenuState extends MusicBeatState
 			}
 			else if (FlxG.mouse.overlaps(credits))
 			{
-				console.Log.info("yeah very nice lllolll");
 				curSelected = 2;
 				menuItems.forEach(function(spr:FlxSprite)
 				{
@@ -330,7 +331,7 @@ class MainMenuState extends MusicBeatState
 			}
 			else if (FlxG.mouse.overlaps(options))
 				{
-					console.Log.info("yeah very nice lllolll");
+
 					curSelected = 3;
 					menuItems.forEach(function(spr:FlxSprite)
 					{
