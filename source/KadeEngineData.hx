@@ -195,6 +195,9 @@ class KadeEngineData
 
 		KeyBinds.gamepad = gamepad != null;
 
+		FlxG.sound.volume = FlxG.save.data.volume;
+		trace(FlxG.save.data.volume, FlxG.sound.volume);
+
 		Conductor.recalculateTimings();
 		PlayerSettings.player1.controls.loadKeyBinds();
 		KeyBinds.keyCheck();

@@ -111,7 +111,7 @@ class FlxSoundTray extends Sprite
 		}
 		else if (y > -height)
 		{
-			y -= (MS / 1000) * FlxG.height * 2;
+			y -= (MS / 1000) / 2 * FlxG.height * 1.1;
 
 			if (y <= -height)
 			{
@@ -122,6 +122,8 @@ class FlxSoundTray extends Sprite
 				FlxG.save.data.mute = FlxG.sound.muted;
 				FlxG.save.data.volume = FlxG.sound.volume;
 				FlxG.save.flush();
+
+				trace(FlxG.save.data.volume);
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 package;
 
-import aeroshide.PlacementHelper;
+import aeroshide.EngineUtils.PlacementHelper.move;
 import flixel.FlxCamera;
 import flixel.FlxSubState;
 import flixel.input.gamepad.FlxGamepad;
@@ -18,7 +18,6 @@ import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import aeroshide.PlacementHelper.move;
 
 class OptionCata extends FlxSprite
 {
@@ -130,47 +129,32 @@ class OptionsMenu extends FlxSubState
 			new OptionCata(50, 40, "Gameplay", [
 				new ScrollSpeedOption("Change your scroll speed. (1 = Chart dependent)"),
 				new OffsetThing("Change the note audio offset (how many milliseconds a note is offset in a chart)"),
-				new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
 				new GhostTapOption("Toggle counting pressing a directional input when no arrow is there as a miss."),
 				new DownscrollOption("Toggle making the notes scroll down rather than up."),
-				new BotPlay("A bot plays for you!"),
+				new BotPlay("Toggles a bot to play the game for you (F1 to toggle mid game)"),
 				#if desktop new FPSCapOption("Change your FPS Cap."),
 				#end
-				new ResetButtonOption("Toggle pressing R to gameover."),
-				new InstantRespawn("Toggle if you instantly respawn after dying."),
-				new CamZoomOption("Toggle the camera zoom in-game."),
-				// new OffsetMenu("Get a note offset based off of your inputs!"),
+				new ResetButtonOption("Toggle pressing R to gameover."), // note : needs to be implemented
+				new InstantRespawn("Toggle if you instantly respawn after dying."), // note : needs to be implemented
 				new DFJKOption(),
 				new Judgement("Create a custom judgement preset"),
-				new CustomizeGameplay("Drag and drop gameplay modules to your prefered positions!")
 			]),
-			new OptionCata(345, 40, "Appearance", [
-				//new NoteskinOption("Change your current noteskin"), new EditorRes("Not showing the editor grid will greatly increase editor performance"),
-				new DistractionsAndEffectsOption("Toggle stage distractions that can hinder your gameplay."),
-				new MiddleScrollOption("Put your lane in the center or on the right."), new HealthBarOption("Toggles health bar visibility"),
-				new JudgementCounter("Show your judgements that you've gotten in the song"),
-				new LaneUnderlayOption("How transparent your lane is, higher = more visible."),
-				new StepManiaOption("Sets the colors of the arrows depending on quantization instead of direction."),
-				new AccuracyOption("Display accuracy information on the info bar."),
+			new OptionCata(345, 40, "Appearence", [
+				new GPUOption("Toggle shaders distractions that can hinder your gameplay. (Turn off if laggy)"), // note : needs to be implemented
+				new NoteSplashes("Toggle a note splash whenever you hit a SICK timing (like in FNF week 7 update)."), 
+				new JudgementCounter("Show your judgements that you've gotten in the song"), // note : needs to be implemented
+				new AccuracyOption("Toggles between Psych Engine type of display or Kade Engine's"),
 				new SongPositionOption("Show the song's current position as a scrolling bar."),
-				new Colour("The color behind icons now fit with their theme. (e.g. Pico = green)"),
-				new NPSDisplayOption("Shows your current Notes Per Second on the info bar."),
-				new RainbowFPSOption("Make the FPS Counter flicker through rainbow colors."),
-				new CpuStrums("Toggle the CPU's strumline lighting up when it hits a note."),
-			]),
-			new OptionCata(640, 40, "Misc", [
-				new FPSOption("Toggle the FPS Counter"),
-				new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
-				new WatermarkOption("Enable and disable all watermarks from the engine."),
-				new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
 				new MissSoundsOption("Toggle miss sounds playing when you don't hit a note."),
-				new ScoreScreen("Show the score screen after the end of a song"),
-				new ShowInput("Display every single input on the score screen."),
+			]),
+			new OptionCata(640, 40, "Engine", [
+				new FPSOption("Toggle the FPS Counter"),
+				new RainbowFPSOption("Make the FPS Counter flicker through rainbow colors."),
+				new MemOption("Toggle the Memory counter (the memory that the game is using)"),
+				new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
+				
 			]),
 			new OptionCata(935, 40, "Saves", [
-				#if desktop // new ReplayOption("View saved song replays."),
-				#end
-				//new ResetScoreOption("Reset your score on all songs and weeks. This is irreversible!"),
 				new LockWeeksOption("Reset your story mode progress. This is irreversible!"),
 				new ResetSettings("Reset ALL your settings. This is irreversible!")
 			]),
@@ -387,10 +371,11 @@ class OptionsMenu extends FlxSubState
 		var escape = false;
 
 		var wheelStatus:Int = Math.round(FlxG.mouse.wheel);
+		var hoveringOnMenus:Bool = FlxG.mouse.overlaps(gameplay) || FlxG.mouse.overlaps(appearence) || FlxG.mouse.overlaps(misc) || FlxG.mouse.overlaps(saves);
 
 		accept = FlxG.keys.justPressed.ENTER || FlxG.mouse.justPressed || (gamepad != null ? gamepad.justPressed.A : false);
-		right = FlxG.keys.justPressed.RIGHT || (FlxG.mouse.justPressed && !isInCat) || (gamepad != null ? gamepad.justPressed.DPAD_RIGHT : false);
-		left = FlxG.keys.justPressed.LEFT || (FlxG.mouse.justPressedRight && !isInCat) || (gamepad != null ? gamepad.justPressed.DPAD_LEFT : false);
+		right = FlxG.keys.justPressed.RIGHT || (FlxG.mouse.justPressedRight && !isInCat) || (gamepad != null ? gamepad.justPressed.DPAD_RIGHT : false);
+		left = FlxG.keys.justPressed.LEFT || (FlxG.mouse.justPressed && !isInCat && !hoveringOnMenus) || (gamepad != null ? gamepad.justPressed.DPAD_LEFT : false);
 		up = FlxG.keys.justPressed.UP || (wheelStatus > 0) || (gamepad != null ? gamepad.justPressed.DPAD_UP : false);
 		down = FlxG.keys.justPressed.DOWN || (wheelStatus < 0) || (gamepad != null ? gamepad.justPressed.DPAD_DOWN : false);
 
@@ -398,71 +383,90 @@ class OptionsMenu extends FlxSubState
 		escape = FlxG.keys.justPressed.ESCAPE || (gamepad != null ? gamepad.justPressed.B : false);
 
 
-		if (FlxG.mouse.overlaps(gameplay))
+		if (isInCat)
 		{
-			if (selectedCatIndex != 0 && !isInCat)
+			if (FlxG.mouse.overlaps(gameplay))
 			{
-				selectedCatIndex = 0;
-				switchCat(options[selectedCatIndex]);
-				escape = true;
+				if (selectedCatIndex != 0)
+				{
+					selectedCatIndex = 0;
+					switchCat(options[selectedCatIndex]);
+						
+				}
+		
 			}
-			else if (selectedCatIndex != 0)
+		
+			if (FlxG.mouse.overlaps(appearence))
 			{
-				selectedCatIndex = 0;
-				switchCat(options[selectedCatIndex]);
+				if (selectedCatIndex != 1)
+				{
+					selectedCatIndex = 1;
+					switchCat(options[selectedCatIndex]);
+				}
+			}
+
+			if (FlxG.mouse.overlaps(misc))
+			{
+				if (selectedCatIndex != 2)
+				{
+					selectedCatIndex = 2;
+					switchCat(options[selectedCatIndex]);
+				}
+
+			}
+
+			if (FlxG.mouse.overlaps(saves))
+			{
+				if (selectedCatIndex != 3)
+				{
+					selectedCatIndex = 3;
+					switchCat(options[selectedCatIndex]);
+				}
+
+			}
 				
-			}
-
 		}
-
-		if (FlxG.mouse.overlaps(appearence))
+		else
 		{
-			if (selectedCatIndex != 1 && !isInCat)
+			if (FlxG.mouse.overlaps(gameplay) && accept)
 			{
-				selectedCatIndex = 1;
-				switchCat(options[selectedCatIndex]);
-				escape = true;
-			}
-			else if (selectedCatIndex != 1)
-			{
-				selectedCatIndex = 1;
-				switchCat(options[selectedCatIndex]);
+				if (selectedCatIndex != 0)
+				{
+					selectedCatIndex = 0;
+					switchCat(options[selectedCatIndex]);
+				}
 			}
 
+			if (FlxG.mouse.overlaps(appearence) && accept)
+			{
+				if (selectedCatIndex != 1)
+				{
+					selectedCatIndex = 1;
+					switchCat(options[selectedCatIndex]);
+				}
+			}
 
+			if (FlxG.mouse.overlaps(misc) && accept)
+			{
+				if (selectedCatIndex != 2)
+				{
+					selectedCatIndex = 2;
+					switchCat(options[selectedCatIndex]);
+				}
+			}
+
+			if (FlxG.mouse.overlaps(saves) && accept)
+			{
+				if (selectedCatIndex != 3)
+				{
+					selectedCatIndex = 3;
+					switchCat(options[selectedCatIndex]);
+				}
+			}
 		}
+		
 
-		if (FlxG.mouse.overlaps(misc))
-		{
-			if (selectedCatIndex != 2 && !isInCat)
-			{
-				selectedCatIndex = 2;
-				switchCat(options[selectedCatIndex]);
-				escape = true;
-			}
-			else if (selectedCatIndex != 2)
-			{
-				selectedCatIndex = 2;
-				switchCat(options[selectedCatIndex]);
-			}
 
-		}
-
-		if (FlxG.mouse.overlaps(saves))
-		{
-			if (selectedCatIndex != 3 && !isInCat)
-			{
-				selectedCatIndex = 3;
-				switchCat(options[selectedCatIndex]);
-				escape = true;
-			}
-			else if (selectedCatIndex != 3)
-			{
-				selectedCatIndex = 3;
-				switchCat(options[selectedCatIndex]);
-			}
-
-		}
 		
 
 
@@ -590,23 +594,7 @@ class OptionsMenu extends FlxSubState
 
 						if (selectedOptionIndex > options[selectedCatIndex].options.length - 1)
 						{
-							for (i in 0...selectedCat.options.length)
-							{
-								var opt = selectedCat.optionObjects.members[i];
-								opt.y = selectedCat.titleObject.y + 54 + (46 * i);
-							}
 							selectedOptionIndex = 0;
-						}
-
-						if (selectedOptionIndex != 0
-							&& selectedOptionIndex != options[selectedCatIndex].options.length - 1
-							&& options[selectedCatIndex].options.length > 6)
-						{
-							if (selectedOptionIndex >= (options[selectedCatIndex].options.length - 1) / 2)
-								for (i in selectedCat.optionObjects.members)
-								{
-									i.y -= 46;
-								}
 						}
 
 						selectOption(options[selectedCatIndex].options[selectedOptionIndex]);
@@ -624,30 +612,6 @@ class OptionsMenu extends FlxSubState
 						if (selectedOptionIndex < 0)
 						{
 							selectedOptionIndex = options[selectedCatIndex].options.length - 1;
-
-							if (options[selectedCatIndex].options.length > 6)
-								for (i in selectedCat.optionObjects.members)
-								{
-									i.y -= (46 * ((options[selectedCatIndex].options.length - 1) / 2));
-								}
-						}
-
-						if (selectedOptionIndex != 0 && options[selectedCatIndex].options.length > 6)
-						{
-							if (selectedOptionIndex >= (options[selectedCatIndex].options.length - 1) / 2)
-								for (i in selectedCat.optionObjects.members)
-								{
-									i.y += 46;
-								}
-						}
-
-						if (selectedOptionIndex < (options[selectedCatIndex].options.length - 1) / 2)
-						{
-							for (i in 0...selectedCat.options.length)
-							{
-								var opt = selectedCat.optionObjects.members[i];
-								opt.y = selectedCat.titleObject.y + 54 + (46 * i);
-							}
 						}
 
 						selectOption(options[selectedCatIndex].options[selectedOptionIndex]);

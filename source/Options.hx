@@ -1,5 +1,6 @@
 package;
 
+import Discord.DiscordClient;
 import aeroshide.Maths;
 import lime.app.Application;
 import lime.system.DisplayMode;
@@ -655,7 +656,7 @@ class DownscrollOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Scroll: < " + (FlxG.save.data.downscroll ? "Downscroll" : "Upscroll") + " >";
+		return "Note Scroll: < " + (FlxG.save.data.downscroll ? "Downscroll" : "Upscroll") + " >";
 	}
 }
 
@@ -669,7 +670,7 @@ class GhostTapOption extends Option
 
 	public override function left():Bool
 	{
-		FlxG.save.data.ghost = !FlxG.save.data.ghost;
+		FlxG.save.data.epico = !FlxG.save.data.epico;
 		display = updateDisplay();
 		return true;
 	}
@@ -682,10 +683,38 @@ class GhostTapOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Ghost Tapping: < " + (FlxG.save.data.ghost ? "Enabled" : "Disabled") + " >";
+		return "Ghost Tapping: < " + (FlxG.save.data.epico ? "Enabled" : "Disabled") + " >";
 	}
 }
 
+class DiscordRPC extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.discordRPC = !FlxG.save.data.discordRPC;
+		display = updateDisplay();
+		if (FlxG.save.data.discordRPC)
+		{
+			DiscordClient.initialize();
+		}
+		else
+		{
+			DiscordClient.shutdown();
+		}
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Discord RPC " + (!FlxG.save.data.discordRPC ? "Hide" : "Show");
+	}
+}
 class AccuracyOption extends Option
 {
 	public function new(desc:String)
@@ -714,7 +743,7 @@ class AccuracyOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Accuracy Display < " + (!FlxG.save.data.accuracyDisplay ? "off" : "on") + " >";
+		return "Accuracy Display < " + (!FlxG.save.data.accuracyDisplay ? "Simplified" : "Competitive") + " >";
 	}
 }
 
@@ -1066,6 +1095,81 @@ class FPSOption extends Option
 	}
 }
 
+class NoteSplashes extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.spong = !FlxG.save.data.spong;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Note Splash: < " + (!FlxG.save.data.spong ? "off" : "on") + " >";
+	}
+}
+
+class MemOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		FlxG.save.data.memUsage = !FlxG.save.data.memUsage;
+		(cast(Lib.current.getChildAt(0), Main)).toggleRamUsage(FlxG.save.data.memUsage);
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Memory Usage Counter: < " + (!FlxG.save.data.memUsage ? "off" : "on") + " >";
+	}
+}
+
+class GPUOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		FlxG.save.data.shadersEnabled = !FlxG.save.data.shadersEnabled;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Shaders Modchart: < " + (!FlxG.save.data.shadersEnabled ? "off" : "on") + " >";
+	}
+}
 class ScoreScreen extends Option
 {
 	public function new(desc:String)
@@ -1349,7 +1453,7 @@ class OffsetMenu extends Option
 		PlayState.isStoryMode = false;
 		PlayState.storyDifficulty = 0;
 		PlayState.storyWeek = 0;
-		PlayState.offsetTesting = true;
+		//PlayState.offsetTesting = true;
 		trace('CUR WEEK' + PlayState.storyWeek);
 		LoadingState.loadAndSwitchState(new PlayState());
 		return false;

@@ -54,9 +54,14 @@ class WarningState extends MusicBeatState
 
 	override public function create():Void
 	{
+		FlxG.mouse.useSystemCursor = true;
+		StaticData.resetStaticData();
 		FlxG.autoPause = false;
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
+
+
+		// load options ho lee sheet
         
 		/*
 		#if polymod

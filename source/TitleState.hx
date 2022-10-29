@@ -62,7 +62,7 @@ class TitleState extends MusicBeatState
 	override public function create():Void
 	{
 
-		StaticData.resetStaticData();
+		
 		//FlxG.save.data.kebal = false;
 
 		/*
@@ -76,40 +76,14 @@ class TitleState extends MusicBeatState
 
 		/****/
 
-		
-
-		FlxG.autoPause = false;
-
 		/*
 		#if polymod
 		polymod.Polymod.init({modRoot: "mods", dirs: ['introMod']});
 		#end
 		/****/
 		
-		#if sys
-		if (!sys.FileSystem.exists(Sys.getCwd() + "/assets/replays"))
-			sys.FileSystem.createDirectory(Sys.getCwd() + "/assets/replays");
-		#end
-
-		@:privateAccess
-		{
-			trace("Loaded " + openfl.Assets.getLibrary("default").assetsLoaded + " assets (DEFAULT)");
-		}
 		
 		PlayerSettings.init();
-
-		#if windows
-		if (FlxG.save.data.discordRPC)
-		{
-			DiscordClient.initialize();
-		}
-		
-
-		Application.current.onExit.add (function (exitCode) {
-			DiscordClient.shutdown();
-		 });
-		 
-		#end
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 		twoWacky = FlxG.random.getObject(getIntroTextShit());

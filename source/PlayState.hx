@@ -292,6 +292,8 @@ class PlayState extends MusicBeatState
 	
 	public var bfCamAnchorX:Float;
 	public var bfCamAnchorY:Float;
+
+	public var diffMult:Int = 1;
 	
 	// Will fire once to prevent debug spam messages and broken animations
 	private var triggeredAlready:Bool = false;
@@ -3944,7 +3946,7 @@ class PlayState extends MusicBeatState
 
 		
 
-		if (health > 2)
+		if (health > 2.1)
 		{
 			if (SONG.song == 'segitiga' && healthDrainBool)
 			{
@@ -3956,7 +3958,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				health = 2;
+				health = 2.1;
 			}
 		}
 
@@ -4613,9 +4615,10 @@ class PlayState extends MusicBeatState
 
 							}
 							else
-							{
-								health -= 0.075;
-								vocals.volume = 0;
+							{ // 
+								health -= 0.032 * diffMult;
+								if (FlxG.save.data.missSounds)
+									vocals.volume = 0;
 								if (theFunne)
 									noteMiss(daNote.noteData, daNote);
 							}
@@ -5225,7 +5228,6 @@ class PlayState extends MusicBeatState
 				case 'shit': //I NEED TO FUCKING FIND OUT HOW TO MAKE IT ACCURATE, THERES NO WAY IM THIS GOOD
 					score = -300;
 					combo = 0;
-					health -= 0.2;
 					ss = false;
 					if (!botPlay) {shits++; misses++;}
 					if (FlxG.save.data.accuracyMod == 0)
@@ -5734,14 +5736,7 @@ class PlayState extends MusicBeatState
 		{
 			if (!botPlay) 
 			{
-				if (SONG.song == 'Purgatory')
-					{
-						health -= 0.01;
-					}
-					else
-					{
-						health -= 0.04;
-					}
+			//	health -= 0.00000001;
 			}
 
 			
@@ -5765,7 +5760,7 @@ class PlayState extends MusicBeatState
 
 			songScore -= 10;
 
-			if (!botPlay) {FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));}
+			if (!botPlay && FlxG.save.data.missSounds) {FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));}
 			
 			// FlxG.sound.play(Paths.sound('missnote1'), 1, false);
 			// FlxG.log.add('played imss note');
@@ -5889,7 +5884,6 @@ class PlayState extends MusicBeatState
 							playerStrums.members[1].animation.play('static');
 							playerStrums.members[2].animation.play('static');
 							playerStrums.members[3].animation.play('static');
-							health -= 0.1;
 						}
 						// this is bad but fuck you
 						
@@ -5941,7 +5935,7 @@ class PlayState extends MusicBeatState
 				{
 					if (note.isSustainNote)
 					{
-						health += 0.004;
+						health += 0.008;
 					}
 						
 

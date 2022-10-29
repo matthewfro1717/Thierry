@@ -209,18 +209,7 @@ class PauseSubState extends MusicBeatSubstate
 					regenMenu();
 				case "Exit to menu":
 					PlayState.loadRep = false;
-					if (PlayState.lua != null)
-					{
-						Lua.close(PlayState.lua);
-						PlayState.lua = null;
-					}
-					if (PlayState.offsetTesting)
-					{
-						PlayState.offsetTesting = false;
-						FlxG.switchState(new OptionsMenu());
-					}
-					else
-						FlxG.switchState(new MainMenuState());
+					FlxG.switchState(new MainMenuState());
 				//QUICK SETTINGS SHIT
 				case "Note splash":
 					FlxG.save.data.spong = !FlxG.save.data.spong;
