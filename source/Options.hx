@@ -712,7 +712,7 @@ class DiscordRPC extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Discord RPC " + (!FlxG.save.data.discordRPC ? "Hide" : "Show");
+		return "Discord RPC: < " + (!FlxG.save.data.discordRPC ? "Hide" : "Show") + " >";
 	}
 }
 class AccuracyOption extends Option

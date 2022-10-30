@@ -2545,7 +2545,6 @@ class PlayState extends MusicBeatState
 		songStarted = true;
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
-		FlxG.mouse.visible = false;
 
 		if (SONG.song == 'meninggal')
 		{
@@ -3207,6 +3206,11 @@ class PlayState extends MusicBeatState
 		#if !debug
 		FlxG.save.data.kebal = false;
 		#end
+
+		if (FlxG.keys.justPressed.R && FlxG.save.data.resetButton)
+		{
+			health = -1;
+		}
 
 		if (unspawnNotes[0] != null)
 			{
@@ -5280,50 +5284,55 @@ class PlayState extends MusicBeatState
 				pixelShitPart2 = '-pixel';
 			}
 	
-			rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
-			//rating.cameras = [camHUD];
-			rating.screenCenter();
-			rating.x = coolText.x - 40;
-			rating.y -= 60;
-			rating.acceleration.y = 550;
-			rating.velocity.y -= FlxG.random.int(140, 175);
-			rating.velocity.x -= FlxG.random.int(0, 10);
-			
-			if (FlxG.save.data.changedHit)
-			{
-				rating.x = FlxG.save.data.changedHitX;
-				rating.y = FlxG.save.data.changedHitY;
-			}
-			rating.acceleration.y = 550;
-			rating.velocity.y -= FlxG.random.int(140, 175);
-			rating.velocity.x -= FlxG.random.int(0, 10);
-
 			var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
-			//comboSpr.cameras = [camHUD];
-			comboSpr.screenCenter();
-			comboSpr.x = coolText.x;
-			comboSpr.acceleration.y = 600;
-			comboSpr.velocity.y -= 150;
-	
-	
-			comboSpr.velocity.x += FlxG.random.int(1, 10);
-	
-			add(rating);
-	
-			if (!curStage.startsWith('school'))
+			if (FlxG.save.data.judgementCounter)
 			{
-				rating.setGraphicSize(Std.int(rating.width * 0.7));
-				rating.antialiasing = true;
-				comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
-				comboSpr.antialiasing = true;
+				rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
+				// rating.cameras = [camHUD];
+				rating.screenCenter();
+				rating.x = coolText.x - 40;
+				rating.y -= 60;
+				rating.acceleration.y = 550;
+				rating.velocity.y -= FlxG.random.int(140, 175);
+				rating.velocity.x -= FlxG.random.int(0, 10);
+
+				if (FlxG.save.data.changedHit)
+				{
+					rating.x = FlxG.save.data.changedHitX;
+					rating.y = FlxG.save.data.changedHitY;
+				}
+				rating.acceleration.y = 550;
+				rating.velocity.y -= FlxG.random.int(140, 175);
+				rating.velocity.x -= FlxG.random.int(0, 10);
+
+				
+
+				// comboSpr.cameras = [camHUD];
+				comboSpr.screenCenter();
+				comboSpr.x = coolText.x;
+				comboSpr.acceleration.y = 600;
+				comboSpr.velocity.y -= 150;
+
+				comboSpr.velocity.x += FlxG.random.int(1, 10);
+
+				add(rating);
+
+				if (!curStage.startsWith('school'))
+				{
+					rating.setGraphicSize(Std.int(rating.width * 0.7));
+					rating.antialiasing = true;
+					comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
+					comboSpr.antialiasing = true;
+				}
+				else
+				{
+					rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.7));
+					comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.7));
+				}
+				comboSpr.updateHitbox();
+				rating.updateHitbox();
 			}
-			else
-			{
-				rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.7));
-				comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.7));
-			}
-			comboSpr.updateHitbox();
-			rating.updateHitbox();
+
 
 			//comboSpr.cameras = [camHUD];
 			//rating.cameras = [camHUD];

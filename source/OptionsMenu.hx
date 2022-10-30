@@ -134,8 +134,8 @@ class OptionsMenu extends FlxSubState
 				new BotPlay("Toggles a bot to play the game for you (F1 to toggle mid game)"),
 				#if desktop new FPSCapOption("Change your FPS Cap."),
 				#end
-				new ResetButtonOption("Toggle pressing R to gameover."), // note : needs to be implemented
-				new InstantRespawn("Toggle if you instantly respawn after dying."), // note : needs to be implemented
+				new ResetButtonOption("Toggle pressing R to gameover."),
+				new InstantRespawn("Toggle if you instantly respawn after dying."),
 				new DFJKOption(),
 				new Judgement("Create a custom judgement preset"),
 			]),
@@ -151,6 +151,7 @@ class OptionsMenu extends FlxSubState
 				new FPSOption("Toggle the FPS Counter"),
 				new RainbowFPSOption("Make the FPS Counter flicker through rainbow colors."),
 				new MemOption("Toggle the Memory counter (the memory that the game is using)"),
+				new DiscordRPC("Shows your current detailed play status on Discord for everyone to see"),
 				new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
 				
 			]),

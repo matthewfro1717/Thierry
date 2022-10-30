@@ -55,7 +55,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		super.update(elapsed);
 
-		if (controls.ACCEPT)
+		if (controls.ACCEPT || FlxG.save.data.InstantRespawn)
 		{
 			endBullshit();
 		}
