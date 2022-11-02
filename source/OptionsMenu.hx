@@ -145,6 +145,8 @@ class OptionsMenu extends FlxSubState
 				new JudgementCounter("Show your judgements that you've gotten in the song"), // note : needs to be implemented
 				new AccuracyOption("Toggles between Psych Engine type of display or Kade Engine's"),
 				new SongPositionOption("Show the song's current position as a scrolling bar."),
+				new HitSounds("You would hear a TICK, if you hit a note to better time your presses."),
+				new IconBounceMode("Choose between icon bounce animations."),
 				new MissSoundsOption("Toggle miss sounds playing when you don't hit a note."),
 			]),
 			new OptionCata(640, 40, "Engine", [

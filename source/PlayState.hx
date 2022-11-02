@@ -2594,23 +2594,28 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.save.data.songPosition)
 		{
-			songPosBG = new FlxSprite(0, 10).loadGraphic(Paths.image('healthBar'));
+			songPosBG = new FlxSprite(0, 25).loadGraphic(Paths.image('healthBar'));
 			if (FlxG.save.data.downscroll)
 				songPosBG.y = FlxG.height * 0.9 + 45; 
 
+			songPosBG.scale.x = 0.68;
 			songPosBG.screenCenter(X);
 			songPosBG.scrollFactor.set();
-			songPosBar = new FlxBar(690 - (Std.int(songPosBG.width - 100) / 2), songPosBG.y + 6, LEFT_TO_RIGHT, Std.int(songPosBG.width - 200),
+			
+			add(songPosBG);
+
+			songPosBar = new FlxBar(690 - (Std.int(songPosBG.width - 100) / 2) + 1, songPosBG.y + 0.5, LEFT_TO_RIGHT, Std.int(songPosBG.width - 201),
 			Std.int(songPosBG.height - 2), this, 'songPositionBar', 0, songLength);
 			songPosBar.scrollFactor.set();
-			songPosBar.createFilledBar(FlxColor.BLACK, FlxColor.fromRGB(255, 255, 255));
-			add(songPosBar);
+			//songPosBar.createFilledBar(FlxColor.fromRGB(13, 144, 13), FlxColor.fromRGB(39, 232, 39));
+			songPosBar.createFilledBar(FlxColor.GRAY, FlxColor.WHITE);
+			insert(members.indexOf(songPosBG), songPosBar);
 
-			bar = new FlxSprite(songPosBar.x, songPosBar.y).makeGraphic(Math.floor(songPosBar.width), Math.floor(songPosBar.height), FlxColor.TRANSPARENT);
+			//bar = new FlxSprite(songPosBar.x, songPosBar.y).makeGraphic(Math.floor(songPosBar.width), Math.floor(songPosBar.height), FlxColor.TRANSPARENT);
 
-			add(bar);
+			//add(bar);
 
-			FlxSpriteUtil.drawRect(bar, 0, 0, songPosBar.width, songPosBar.height, FlxColor.TRANSPARENT, {thickness: 6, color: FlxColor.BLACK});
+			//FlxSpriteUtil.drawRect(bar, 0, 0, songPosBar.width, songPosBar.height, FlxColor.TRANSPARENT, {thickness: 6, color: FlxColor.BLACK});
 
 			songPosBG.width = songPosBar.width;
 
@@ -2619,7 +2624,7 @@ class PlayState extends MusicBeatState
 			songName.scrollFactor.set();
 
 			songName.text = FlxStringUtil.formatTime(songLength, false);
-			songName.y = songPosBG.y + ((songPosBG.height / 32) - 4);
+			songName.y = songPosBG.y - 9;
 
 			add(songName);
 
@@ -2627,7 +2632,7 @@ class PlayState extends MusicBeatState
 			//songName.x += 15;
 
 			songPosBG.cameras = [camHUD];
-			bar.cameras = [camHUD];
+			//bar.cameras = [camHUD];
 			songPosBar.cameras = [camHUD];
 			songName.cameras = [camHUD];
 		}
@@ -3276,7 +3281,7 @@ class PlayState extends MusicBeatState
 
 		if (startingSong)
 		{
-			ZoomCam(focusOnDadGlobal, 4);
+			UpdateCamera(focusOnDadGlobal, 4);
 		}
 
 		if (SONG.song.toLowerCase() == 'torment') // fuck you
@@ -4372,9 +4377,9 @@ class PlayState extends MusicBeatState
 						focusOnDadGlobal = true;
 						if (startingSong)
 						{
-							ZoomCam(focusOnDadGlobal, 4);
+							UpdateCamera(focusOnDadGlobal, 4);
 						}
-						//ZoomCam(true);
+						//UpdateCamera(true);
 					}
 
 					if (daNote.y > FlxG.height)
@@ -4484,7 +4489,7 @@ class PlayState extends MusicBeatState
 						{
 
 							case 2:
-								ZoomCam(true, 2);
+								UpdateCamera(true, 2);
 								if (StaticData.whoIsSinging == 0)
 								{
 									dad.playAnim('singUP' + altAnim, true);
@@ -4500,7 +4505,7 @@ class PlayState extends MusicBeatState
 								}
 								
 							case 3:
-								ZoomCam(true, 3);
+								UpdateCamera(true, 3);
 								if (StaticData.whoIsSinging == 0)
 									{
 										dad.playAnim('singRIGHT' + altAnim, true);
@@ -4516,7 +4521,7 @@ class PlayState extends MusicBeatState
 								}
 								
 							case 1:
-								ZoomCam(true, 1);
+								UpdateCamera(true, 1);
 								if (StaticData.whoIsSinging == 0)
 									{
 										dad.playAnim('singDOWN' + altAnim, true);
@@ -4532,7 +4537,7 @@ class PlayState extends MusicBeatState
 								}
 								
 							case 0:
-								ZoomCam(true, 0);
+								UpdateCamera(true, 0);
 								if (StaticData.whoIsSinging == 0)
 									{
 										dad.playAnim('singLEFT' + altAnim, true);
@@ -4698,12 +4703,17 @@ class PlayState extends MusicBeatState
 
 		if (startingSong)
 		{
-			ZoomCam(focusOnDadGlobal, 4);
+			UpdateCamera(focusOnDadGlobal, 4);
 		}
 		
 	}
 
-	function ZoomCam(focusondad:Bool, noteData:Int):Void
+	/* 
+	   AEROSHIDE'S IMPLEMENTATION OF A LESS ANNOYING CAMERA SYSTEM
+	   IT DETECTS IF ITS A BOTFRIEND NOTE OR NOT AND ALSO CAMERA MOVEMENTS
+	   BASED ON ARROW
+	/****/
+	function UpdateCamera(focusondad:Bool, noteData:Int):Void
 	{
 		if (UsingNewCam && !maniaSong)
 		{
@@ -5923,7 +5933,7 @@ class PlayState extends MusicBeatState
 				if (UsingNewCam)
 				{
 					focusOnDadGlobal = false;
-					//ZoomCam(false, 4);
+					//UpdateCamera(false, 4);
 				}
 
 				//do note checks later on, this is still WIP, also disable hitsounds + notesplashes later aswell
@@ -5961,16 +5971,16 @@ class PlayState extends MusicBeatState
 					switch (note.noteData)
 					{
 						case 2:
-							ZoomCam(false, 2);
+							UpdateCamera(false, 2);
 							boyfriend.playAnim('singUP', true);
 						case 3:
-							ZoomCam(false, 3);
+							UpdateCamera(false, 3);
 							boyfriend.playAnim('singRIGHT', true);
 						case 1:
-							ZoomCam(false, 1);
+							UpdateCamera(false, 1);
 							boyfriend.playAnim('singDOWN', true);
 						case 0:
-							ZoomCam(false, 0);
+							UpdateCamera(false, 0);
 							boyfriend.playAnim('singLEFT', true);
 					}
 		
@@ -6221,13 +6231,13 @@ class PlayState extends MusicBeatState
 				if (!PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 				{
 					focusOnDadGlobal = true;
-					ZoomCam(true, 4);
+					UpdateCamera(true, 4);
 				}
 
 				if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 				{
 					focusOnDadGlobal = false;
-					ZoomCam(false, 4);
+					UpdateCamera(false, 4);
 				}
 			}
 		}
@@ -6326,14 +6336,56 @@ class PlayState extends MusicBeatState
 
 		//HOLY SHIT FINNALY, I GOT THE ICON BOUNCE WORKING, IM SO HAPPY!!!
 
-		var funny:Float = (healthBar.percent * 0.002) + 0.002;
-		var unfunny:Float = ((140 - healthBar.percent) * 0.003) + 0.003;
+		if (FlxG.save.data.iconBounceMode == 0)
+		{
+			var funny:Float = (healthBar.percent * 0.002) + 0.002;
+			var unfunny:Float = ((140 - healthBar.percent) * 0.003) + 0.003;
 
-		iconP1.scale.set(iconP1.scale.x + (funny * 1.6), iconP1.scale.y - (funny));
-		iconP2.scale.set(iconP2.scale.x + (unfunny * 1.2), iconP2.scale.y - (unfunny / 2));
-	
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
+			iconP1.scale.set(iconP1.scale.x + (funny * 1.6), iconP1.scale.y - (funny));
+			iconP2.scale.set(iconP2.scale.x + (unfunny * 1.2), iconP2.scale.y - (unfunny / 2));
+		
+			iconP1.updateHitbox();
+			iconP2.updateHitbox();
+		}
+		else if (FlxG.save.data.iconBounceMode == 1)
+		{
+			if (curBeat % gfSpeed == 0)
+			{
+				curBeat % (gfSpeed * 2) == 0 ? {
+					iconP1.scale.set(1.1, 0.8);
+					iconP2.scale.set(1.1, 1.3);
+
+					FlxTween.angle(iconP1, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+					FlxTween.angle(iconP2, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+				} : {
+					iconP1.scale.set(1.1, 1.3);
+					iconP2.scale.set(1.1, 0.8);
+
+					FlxTween.angle(iconP2, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+					FlxTween.angle(iconP1, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+					}
+
+				FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
+				FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
+
+				iconP1.updateHitbox();
+				iconP2.updateHitbox();
+			}
+		}
+		else
+		{
+			var funny:Float = (healthBar.percent * 0.002) + 0.002;
+			var unfunny:Float = ((140 - healthBar.percent) * 0.003) + 0.003;
+
+			iconP1.scale.set(iconP1.scale.x + (funny * 1.6), iconP1.scale.y - (funny));
+			iconP2.scale.set(iconP2.scale.x + (unfunny * 1.2), iconP2.scale.y - (unfunny / 2));
+
+			iconP1.updateHitbox();
+			iconP2.updateHitbox();
+		}
+
+
+
 
 		if(curBeat % 2 == 0)
 		{
@@ -6721,7 +6773,7 @@ class PlayState extends MusicBeatState
 						add(surgarDaddy);
 						iconP2.animation.play("bamburg", true);
 						StaticData.whoIsSinging = 1;
-						ZoomCam(true, 1);
+						UpdateCamera(true, 1);
 						StaticData.secondDadAnim = true;
 					case 336:
 						StaticData.secondDadAnim = false;

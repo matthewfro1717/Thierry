@@ -1563,6 +1563,75 @@ class CamZoomOption extends Option
 	}
 }
 
+class IconBounceMode extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function right():Bool
+	{
+		if (FlxG.save.data.iconBounceMode >= 2)
+		{
+			FlxG.save.data.iconBounceMode = 0;
+		}
+		else
+			FlxG.save.data.iconBounceMode = FlxG.save.data.iconBounceMode + 1;
+
+		return true;
+	}
+
+	override function left():Bool
+	{
+		if (FlxG.save.data.iconBounceMode <= 0)
+		{
+			FlxG.save.data.iconBounceMode = 2;
+		}
+		else
+			FlxG.save.data.iconBounceMode = FlxG.save.data.iconBounceMode - 1;
+
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		var foatText:String = "";
+		switch (FlxG.save.data.iconBounceMode)
+		{
+			case 0:
+				foatText = "Lerp";
+			case 1:
+				foatText = "Tween";
+			case 2:
+				foatText = "Adaptive";
+		}
+		return "Icon Bounce Animation: < " + foatText + " >";
+	}
+}
+
+class HitSounds extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.hitSounds = !FlxG.save.data.hitSounds;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Hitsounds: < " + (FlxG.save.data.hitSounds ? "Enabled" : "Disabled") + " >";
+	}
+}
+
 class JudgementCounter extends Option
 {
 	public function new(desc:String)

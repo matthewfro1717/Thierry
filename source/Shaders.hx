@@ -14,6 +14,17 @@ import flixel.system.FlxAssets.FlxShader;
         We are not trying to bully macOS users to "download other os" with this.
         These are things we are can't fix.
         Sorry for any inconvenience.
+
+    yo, an added line of clarification for anyone who is searching for "their code being stolen"
+    yeah i expect you to come from github code search.
+
+    yes i did just yoink the code from dave engine without permission but hear me out.
+
+    I dont think its necesarry to ask for a permission for a personal project that wouldnt be
+    played by anyone else besides me and a couple of friends. yes this fnf mod that i make is just for me to express my boredom
+    so please, i want your understanding, leave me alone and dont tell anyone that this mod exists.
+
+    All i want is peace. trust me.
 */
 
 class GlitchEffect
