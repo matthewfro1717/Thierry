@@ -82,7 +82,7 @@ class Main extends Sprite
 
 		addChild(game);
 
-		#if !mobile
+		//no longer checks for mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
@@ -90,8 +90,6 @@ class Main extends Sprite
 		memoryCounter = new MemoryCounter(10, 3, 0xffffff);
 		addChild(memoryCounter);
 		toggleRamUsage(FlxG.save.data.memUsage);
-
-		#end
 	}
 
 	var game:FlxGame;
