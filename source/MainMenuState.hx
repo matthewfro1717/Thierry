@@ -1,6 +1,9 @@
 package;
 
 
+import lime.ui.Window;
+import aeroshide.EngineUtils.PlacementHelper.move;
+import flixel.addons.display.FlxBackdrop;
 import console.Log;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.util.FlxTimer;
@@ -66,6 +69,7 @@ class MainMenuState extends MusicBeatState
 	public var whichonetobouncelol:Bool = true; //TRUE IS LEFT
 	var daChoice:String;
 	var bg:FlxSprite;
+	var bg2:FlxSprite;
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -98,13 +102,18 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		bg = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
-		bg.scrollFactor.x = 0.15;
-		bg.scrollFactor.y = 0.15;
-		bg.setGraphicSize(Std.int(bg.width * 1.4), Std.int(bg.height * 1.4));
-		bg.updateHitbox();
-		bg.screenCenter();
+		bg2 = new FlxSprite().makeGraphic(FlxG.width * 16, FlxG.height * 16, FlxColor.YELLOW);
+		move(-650, -550, bg2);
+		bg2.antialiasing = true;
+		bg2.alpha = 0.7;
+		add(bg2);
+
+		bg = new FlxBackdrop(Paths.image('ui/checkeredBG', 'preload'), 1, 1, true, true, 1, 1);
 		bg.antialiasing = true;
+		bg.color = 0xFFFFD000;
+		add(bg);
+
+
 		
 
 		camFollow = new FlxObject(0, 0, 1, 1);
@@ -119,7 +128,7 @@ class MainMenuState extends MusicBeatState
 		magenta.visible = false;
 		magenta.antialiasing = true;
 		magenta.color = 0xFFfd719b;
-		add(magenta);
+		//add(magenta);
 		// magenta.scrollFactor.set();
 
 		
@@ -134,7 +143,7 @@ class MainMenuState extends MusicBeatState
 		kontol.antialiasing = true;
 		kontol.visible = false;
 		kontol.color = 0xFFea71fd;
-		add(kontol);
+		//add(kontol);
 
 		bego = new FlxSprite(-80).loadGraphic(Paths.image('credits'));
 		bego.scrollFactor.x = 0;
@@ -145,8 +154,8 @@ class MainMenuState extends MusicBeatState
 		bego.antialiasing = true;
 		bego.visible = false;
 		bego.color = 0xFF444444;
-		add(bego);
-		add(bg);
+		//add(bego);
+		//add(bg);
 
 		storymenu.x = -590;
 		storymenu.y = -270;
@@ -235,7 +244,9 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-
+		var scrollSpeed:Float = 50;
+		bg.x -= scrollSpeed * elapsed;
+		bg.y -= scrollSpeed * elapsed;
 		if (FlxG.keys.pressed.SEVEN)
 		{
 			FlxG.switchState(new IconBounceState());
@@ -378,7 +389,6 @@ class MainMenuState extends MusicBeatState
 									FlxTween.tween(FlxG.camera, {zoom: 5}, 0.8, {ease: FlxEase.expoIn});
 									FlxTween.tween(bg, {angle: 45}, 0.8, {ease: FlxEase.expoIn});
 									FlxTween.tween(magenta, {angle: 45}, 0.8, {ease: FlxEase.expoIn});
-									FlxTween.tween(bg, {alpha: 0}, 0.8, {ease: FlxEase.expoIn});
 									FlxTween.tween(magenta, {alpha: 0}, 0.8, {ease: FlxEase.expoIn});
 									FlxTween.tween(spr, {alpha: 0}, 0.4, {
 										ease: FlxEase.quadOut,
@@ -390,7 +400,6 @@ class MainMenuState extends MusicBeatState
 								case "options":
 									kontol.visible = true;
 
-									FlxTween.tween(bg, {alpha: 0}, 0.7, {ease: FlxEase.expoInOut});
 									FlxTween.tween(spr, {alpha: 0}, 1, {
 										ease: FlxEase.quadOut,
 										onComplete: function(twn:FlxTween)
@@ -449,7 +458,7 @@ class MainMenuState extends MusicBeatState
 										FlxG.switchState(new StoryMenuState());
 										trace("Story Menu Selected");
 									case 'freeplay':
-										FlxG.switchState(new CoolMenuState());
+										FlxG.switchState(new FreeplaySelect());
 
 										trace("Freeplay Menu Selected");
 

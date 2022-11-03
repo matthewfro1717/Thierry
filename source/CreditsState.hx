@@ -1,7 +1,9 @@
 package;
 
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.transition.FlxTransitionableState;
 import aeroshide.StaticData;
+import aeroshide.EngineUtils.PlacementHelper.move;
 import PsychEngine.AttachedSprite;
 import PsychEngine.PsychAlphabet;
 #if desktop
@@ -34,6 +36,7 @@ class CreditsState extends MusicBeatState
 	private var creditsStuff:Array<Array<String>> = [];
 
 	var bg:FlxSprite;
+	var bg2:FlxSprite;
 	var descText:FlxText;
 	var intendedColor:Int;
 	var colorTween:FlxTween;
@@ -55,9 +58,16 @@ class CreditsState extends MusicBeatState
         StaticData.fromCredits = true;
 
 		persistentUpdate = true;
-		bg = new FlxSprite().loadGraphic(Paths.image('credits'));
+		bg2 = new FlxSprite().makeGraphic(FlxG.width * 16, FlxG.height * 16, FlxColor.PURPLE);
+		move(-650, -550, bg2);
+		bg2.antialiasing = true;
+		bg2.alpha = 0.7;
+		add(bg2);
+
+		bg = new FlxBackdrop(Paths.image('ui/checkeredBG', 'preload'), 1, 1, true, true, 1, 1);
+		bg.antialiasing = true;
+		bg.color = 0xFFFF00D0;
 		add(bg);
-		bg.screenCenter();
 		
 		grpOptions = new FlxTypedGroup<PsychAlphabet>();
 		add(grpOptions);
@@ -177,6 +187,10 @@ class CreditsState extends MusicBeatState
 	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
+
+		var scrollSpeed:Float = 50;
+		bg.x -= scrollSpeed * elapsed;
+		bg.y -= scrollSpeed * elapsed;
 
 		if(!quitting)
 		{

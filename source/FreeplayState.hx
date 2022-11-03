@@ -1,9 +1,12 @@
 package;
 
+import flixel.tweens.FlxEase;
+import flixel.addons.display.FlxBackdrop;
 import aeroshide.StaticData;
 import flixel.tweens.FlxTween;
 import flash.text.TextField;
 import flixel.FlxG;
+import aeroshide.EngineUtils.PlacementHelper.move;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -45,6 +48,7 @@ class FreeplayState extends MusicBeatState
 
 	private var iconArray:Array<HealthIcon> = [];
 	var bg:FlxSprite;
+	var bg2:FlxSprite;
 
 	var songColors:Array<FlxColor> = [
     	0xFFca1f6f, // GF 0
@@ -64,6 +68,7 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
+		FlxG.camera.zoom = 5;
 		var initSonglist = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
 
 		for (i in 0...initSonglist.length)
@@ -113,7 +118,15 @@ class FreeplayState extends MusicBeatState
 
 		// LOAD CHARACTERS
 
-		bg = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
+		bg2 = new FlxSprite().makeGraphic(FlxG.width * 16, FlxG.height * 16, FlxColor.GRAY);
+		move(-650, -550, bg2);
+		bg2.antialiasing = true;
+		bg2.alpha = 0.7;
+		add(bg2);
+
+		bg = new FlxBackdrop(Paths.image('ui/checkeredBG', 'preload'), 1, 1, true, true, 1, 1);
+		bg.antialiasing = true;
+		bg.color = 0xFF464646;
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -183,6 +196,7 @@ class FreeplayState extends MusicBeatState
 			trace(md);
 		 */
 
+		FlxTween.tween(FlxG.camera, {zoom: 1}, 1.6, {ease: FlxEase.expoOut});
 		super.create();
 	}
 
@@ -212,6 +226,10 @@ class FreeplayState extends MusicBeatState
 	{
 
 		super.update(elapsed);
+
+		var scrollSpeed:Float = 50;
+		bg.x -= scrollSpeed * elapsed;
+		bg.y -= scrollSpeed * elapsed;
 
 		/* This code is no longer needed, im not going to delete this masterpiece
 		if (preloadSongs)
@@ -298,7 +316,8 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.switchState(new MainMenuState());
+			FlxTween.tween(FlxG.camera, {zoom: 5}, 0.4, {ease: FlxEase.expoIn});
+			FlxG.switchState(new FreeplaySelect());
 		}
 
 		if (accepted)

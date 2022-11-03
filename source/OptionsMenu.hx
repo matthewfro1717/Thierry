@@ -1,5 +1,6 @@
 package;
 
+import flixel.addons.display.FlxBackdrop;
 import aeroshide.EngineUtils.PlacementHelper.move;
 import flixel.FlxCamera;
 import flixel.FlxSubState;
@@ -121,6 +122,8 @@ class OptionsMenu extends FlxSubState
 	public var appearence:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
 	public var misc:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
 	public var saves:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
+	var bg:FlxSprite;
+	var bg2:FlxSprite;
 
 	override function create()
 	{
@@ -183,14 +186,16 @@ class OptionsMenu extends FlxSubState
 
 
 
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
-		menuBG.color = 0xFFea71fd;
-		menuBG.setGraphicSize(Std.int(menuBG.width * 1.4), Std.int(menuBG.height * 1.4));
-		menuBG.updateHitbox();
-		menuBG.screenCenter();
-		menuBG.y -= 37.5;
-		menuBG.antialiasing = true;
-		add(menuBG);
+		bg2 = new FlxSprite().makeGraphic(FlxG.width * 16, FlxG.height * 16, FlxColor.GRAY);
+		move(-650, -550, bg2);
+		bg2.antialiasing = true;
+		bg2.alpha = 0.7;
+		add(bg2);
+
+		bg = new FlxBackdrop(Paths.image('ui/checkeredBG', 'preload'), 1, 1, true, true, 1, 1);
+		bg.antialiasing = true;
+		bg.color = 0xFF4F4F4F;
+		add(bg);
 
 		background = new FlxSprite(50, 40).makeGraphic(1180, 640, FlxColor.BLACK);
 		background.alpha = 0.5;
@@ -359,7 +364,9 @@ class OptionsMenu extends FlxSubState
 	override function update(elapsed:Float)
 	{
 
-		//this is memory leak lol
+		var scrollSpeed:Float = 50;
+		bg.x -= scrollSpeed * elapsed;
+		bg.y -= scrollSpeed * elapsed;
 
 		super.update(elapsed);
 

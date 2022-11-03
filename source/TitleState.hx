@@ -1,6 +1,8 @@
 package;
 
+import flixel.addons.display.FlxBackdrop;
 import aeroshide.StaticData;
+import aeroshide.EngineUtils.PlacementHelper.move;
 import openfl.system.Capabilities;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -56,6 +58,8 @@ class TitleState extends MusicBeatState
 	var wackyImage:FlxSprite;
 	var characters:FlxSprite;
 	public static var firstBoot:Bool = true;
+
+	var bg:FlxSprite;
 
 	var pressedEnter:Bool;
 
@@ -167,10 +171,10 @@ class TitleState extends MusicBeatState
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
 
-		Conductor.changeBPM(215);
+		Conductor.changeBPM(148);
 		persistentUpdate = true;
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuStuff/beg'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menuStuff/beg'));
 		// bg.antialiasing = true;
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
 		// bg.updateHitbox();
@@ -184,11 +188,16 @@ class TitleState extends MusicBeatState
 
 		}
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuStuff/bg'));
-		bg.updateHitbox();
-		bg.screenCenter();
+		var bg2 = new FlxSprite().makeGraphic(FlxG.width * 16, FlxG.height * 16, FlxColor.YELLOW);
+		move(-650, -550, bg2);
+		bg2.antialiasing = true;
+		bg2.alpha = 0.7;
+		add(bg2);
+
+		bg = new FlxBackdrop(Paths.image('ui/checkeredBG', 'preload'), 1, 1, true, true, 1, 1);
 		bg.antialiasing = true;
-		bg.setGraphicSize(Std.int(bg.width * 1.4));
+		bg.color = 0xFFFFD000;
+		add(bg);
 		if (FlxG.save.data.willSeeCrashEnding)
 		{
 			//FlxG.sound.playMusic(Paths.music('scaryAmbience'), 0);
@@ -330,6 +339,10 @@ class TitleState extends MusicBeatState
 
 		if (logoHasBeenAdded)
 		{
+			var scrollSpeed:Float = 50;
+			bg.x -= scrollSpeed * elapsed;
+			bg.y -= scrollSpeed * elapsed;
+
 			if(logoBl.angle == 0)
 				{
 					FlxTween.angle(logoBl, logoBl.angle, 7, 4, {ease: FlxEase.quartInOut});
@@ -514,128 +527,34 @@ class TitleState extends MusicBeatState
 
 		switch (curBeat)
 		{
-			case 1:
-				if (FlxG.save.data.willSeeCrashEnding)
-				{
-					createCoolText(['fhjcfsehjgfcshgfs', 'jgojdhrfgiuchn']);
-				}
-				else
-				{
-					createCoolText(['Kade Engine', 'by']);
-				}
-				
-			// credTextShit.visible = true;
 			case 3:
-				if (FlxG.save.data.willSeeCrashEnding)
-				{
-					addMoreText('jkdcfjksdfhusuegxfhuisex');
-				}
-				else
-				{
-					addMoreText('Kade Eninge');
-				}
-				
-			// credTextShit.text += '\npresent...';
-			// credTextShit.addText();
+				addMoreText('Me');
+				addMoreText('Myself and I');
 			case 4:
-				deleteCoolText();
-				canPressEnter = true;
-			// credTextShit.visible = false;
-			// credTextShit.text = 'In association \nwith';
-			// credTextShit.screenCenter();
+				addMoreText('Presents');
 			case 5:
-				if (FlxG.save.data.willSeeCrashEnding)
-				{
-					if (Main.watermarks)
-						createCoolText(['wesxefxsefwfrhdfjfjwshdbnjsdfbnj', 'xdchksecgsvgcuhsrcfgcgfsrgc', 'and hsdcfhjkagscuiasgcuh']);
-					else
-						createCoolText(['rcacrgawcrgqergq3rhetjrj4u5jffvdtvjcr6hec', 'inlyfnb,rguvdgriktjwegcfvrjtybjvwectghrftjgbyrk']);
-				}
-				else
-				{
-					if (FlxG.save.data.willSeeCrashEnding)
-					{
-						if (Main.watermarks)// SEREM :):):):):)
-							createCoolText(['youre to blame', 'youre to blame', 'youre to blame']);
-						else
-							createCoolText(['youre to blame', 'youre to blame']);
-					}
-					else
-					{
-						if (Main.watermarks)
-							createCoolText(['me', 'myself', 'and i']);
-						else
-							createCoolText(['In Partnership', 'with']);
-					}
-
-				}
+				deleteCoolText();
+			case 6:
+				createCoolText([twoWacky[0]]);
 			case 7:
-				if (FlxG.save.data.willSeeCrashEnding)
-					{
-						if (Main.watermarks)
-							addMoreText('theiuhcguidjfhgcuiosdhfgioscduiogdscgsgcscghc');
-						else
-						{
-							addMoreText('Ngsgcsgcsgcscgsewgsgsgsgsdcfsdgcgscgsgsgccsdgsroundgcsgscdgscgsgsds');
-							ngSpr.visible = true;
-						}
-					}
-					else
-					{
-						if (Main.watermarks)
-							addMoreText('present');
-						else
-						{
-							addMoreText('Newgrounds');
-							ngSpr.visible = true;
-						}
-					}
+				addMoreText(twoWacky[1]);
 			case 8:
-				ngSpr.visible = false;
 				deleteCoolText();
 			case 9:
 				createCoolText([curWacky[0]]);
-				
-			case 11:
+			case 10:
 				addMoreText(curWacky[1]);
+			case 11:
+				deleteCoolText();
 			case 12:
-				createTheFunne([twoWacky[0]]);
+				addMoreText("Friday Night Funkin'");
 			case 13:
-				addMoreFunne(twoWacky[1]);
+				addMoreText('Vs. Thierry');
 			case 14:
-				deleteCoolText();
+				addMoreText('THE FULL MOD');
 			case 15:
-				createCoolText([treeWacky[0]]);
+				addMoreText('');
 			case 16:
-				addMoreText(treeWacky[1]);
-			case 17:
-				deleteCoolText();
-				
-			case 18:
-				if (FlxG.save.data.willSeeCrashEnding)
-					addMoreText('sfsfcstsgjkdbsfhjsrbgihcbgjdbhjrtnjdbgnjkdbgjksg');
-				else
-				{
-					addMoreText('Friday Night Funkin');
-				}
-				
-			// credTextShit.visible = true;
-			case 19:
-				if (FlxG.save.data.willSeeCrashEnding)
-					addMoreText('scgscgsgcscgsgcsfcrtecribe84bycw84gt7824784272bc husdfbuasegfysagfxyuasgfasuigsaugt');
-				else
-				{
-					addMoreText('DEFINITIVE');
-				}
-			// credTextShit.text += '\nNight';
-			case 20:
-				if (FlxG.save.data.willSeeCrashEnding)
-					addMoreText('andjfhdfuiweghuofgjkfgjksgklhkosfgjksdghjkfgjkslfghjk');
-				else
-				{
-					addMoreText('EDITION'); // credTextShit.text += '\nFunkin';
-				}
-			case 21:
 				skipIntro();
 		}
 	}
