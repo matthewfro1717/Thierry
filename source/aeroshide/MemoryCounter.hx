@@ -51,9 +51,9 @@ class MemoryCounter extends TextField
 
 		if (visible)
 		{	
-			if (mem < 0 || overflow)
+			if (mem < 0 || overflow) // 8000
 			{
-				text = "\nMemory Usage: " + (Maths.truncateFloat(memGB, 2) + 8.4) + " GB";
+				text = "\nMemory Usage: " + (Maths.truncateFloat(memGB + 2, 2)) + " GB";
 			}
 			else if (mem > 1000)
 			{

@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxMath;
 import flixel.addons.display.FlxBackdrop;
 import aeroshide.StaticData;
 import aeroshide.EngineUtils.PlacementHelper.move;
@@ -336,25 +337,17 @@ class TitleState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 
-
 		if (logoHasBeenAdded)
 		{
 			var scrollSpeed:Float = 50;
 			bg.x -= scrollSpeed * elapsed;
 			bg.y -= scrollSpeed * elapsed;
 
-			if(logoBl.angle == 0)
-				{
-					FlxTween.angle(logoBl, logoBl.angle, 7, 4, {ease: FlxEase.quartInOut});
-				}
-				else if(logoBl.angle == -7)
-				{
-					FlxTween.angle(logoBl, logoBl.angle, 7, 4, {ease: FlxEase.quartInOut});
-				}
-				else if (logoBl.angle == 7) 
-				{
-					FlxTween.angle(logoBl, logoBl.angle, -7, 4, {ease: FlxEase.quartInOut});
-				}
+			var mult:Float = FlxMath.lerp(1, logoBl.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+			var mult2:Float = FlxMath.lerp(1, logoBl.scale.y, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+			logoBl.scale.set(mult, mult2);
+			logoBl.updateHitbox();
+
 		}
 
 
@@ -501,6 +494,13 @@ class TitleState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+
+		if (logoHasBeenAdded)
+		{
+			trace('beatHit');
+			logoBl.setGraphicSize(Std.int(logoBl.width + 50), Std.int(logoBl.height + 20));
+			logoBl.updateHitbox();
+		}
 
 		if (FlxG.save.data.willSeeCrashEnding)
 		{

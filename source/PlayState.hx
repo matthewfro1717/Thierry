@@ -356,7 +356,7 @@ class PlayState extends MusicBeatState
 
 
 	private function convert(v : Any, type : String) : Dynamic { // I didn't write this lol
-		if( Std.is(v, String) && type != null ) {
+		if( Std.isOfType(v, String) && type != null ) {
 		var v : String = v;
 		if( type.substr(0, 4) == 'array' ) {
 			if( type.substr(4) == 'float' ) {
@@ -1955,7 +1955,7 @@ class PlayState extends MusicBeatState
 		doof.cameras = [camHUD];
 
 		//shader modchart pog
-		if (SONG.song.toLowerCase() == 'exploitation') //i desperately wanted it so if you use downscroll it switches it to upscroll and flips the entire hud upside down but i never got to it
+		if (SONG.song.toLowerCase() == 'exploitation' && FlxG.save.data.shadersEnabled) //i desperately wanted it so if you use downscroll it switches it to upscroll and flips the entire hud upside down but i never got to it
 		{
 			chartshader.waveAmplitude = 0.03;
 			chartshader.waveFrequency = 14;
@@ -2979,7 +2979,20 @@ class PlayState extends MusicBeatState
 
 	override function closeSubState()
 	{
-		if (paused)
+		if (PauseSubState.goToOptions)
+		{
+			trace("pause thingyt");
+			if (PauseSubState.goBack)
+			{
+				trace("pause thingyt");
+				PauseSubState.goToOptions = false;
+				PauseSubState.goBack = false;
+				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+			}
+			else
+				openSubState(new OptionsMenu(true));
+		}
+		else if (paused)
 		{
 			if (FlxG.sound.music != null && !startingSong)
 			{
@@ -3071,7 +3084,7 @@ class PlayState extends MusicBeatState
 							wife = "Perfect!!";
 							accStatus = 0;
 						case 1:
-							wife = "Sick!";
+							wife = "Perfect!";
 							accStatus = 2;
 						case 2:
 							wife = "Sick!";
@@ -3284,7 +3297,7 @@ class PlayState extends MusicBeatState
 			UpdateCamera(focusOnDadGlobal, 4);
 		}
 
-		if (SONG.song.toLowerCase() == 'torment') // fuck you
+		if (SONG.song.toLowerCase() == 'torment' && FlxG.save.data.shadersEnabled) // fuck you
 		{
 			playerStrums.forEach(function(spr:FlxSprite)
 			{
@@ -3300,7 +3313,11 @@ class PlayState extends MusicBeatState
 		}
 
 		
-		if (SONG.song.toLowerCase() == 'purgatory' || SONG.song.toLowerCase() == 'nether' && thierryChill) // fuck you //640	
+		if (SONG.song.toLowerCase() == 'purgatory'
+			&& FlxG.save.data.shadersEnabled
+			|| SONG.song.toLowerCase() == 'nether'
+			&& thierryChill
+			&& FlxG.save.data.shadersEnabled) // fuck you //640	
 		{
 			playerStrums.forEach(function(spr:FlxSprite)
 				{
@@ -3480,7 +3497,7 @@ class PlayState extends MusicBeatState
 			}
 			}
 
-		if (SONG.song.toLowerCase() == 'applecore') // fuck you
+		if (SONG.song.toLowerCase() == 'applecore' && FlxG.save.data.shadersEnabled) // fuck you
 		{
 			if (shouldMuter)
 			{
@@ -3511,7 +3528,7 @@ class PlayState extends MusicBeatState
 
 		}
 
-		if (SONG.song.toLowerCase() == 'hellbreaker') // fuck you
+		if (SONG.song.toLowerCase() == 'hellbreaker' && FlxG.save.data.shadersEnabled) // fuck you
 			{
 				playerStrums.forEach(function(spr:FlxSprite)
 					{
@@ -4609,7 +4626,7 @@ class PlayState extends MusicBeatState
 	
 					var strumliney = daNote.MyStrum != null ? daNote.MyStrum.y : strumLine.y;
 					
-					if (daNote.y >= strumliney + 106 && (FlxG.save.data.downscroll || SONG.song.toLowerCase() == "hellbreaker") || daNote.y < -daNote.height && (!FlxG.save.data.downscroll && SONG.song.toLowerCase() != "hellbreaker"))
+					if ((daNote.y < -daNote.height && !FlxG.save.data.downscroll || daNote.y >= strumLine.y + 106 && FlxG.save.data.downscroll) && daNote.mustPress)
 					{
 						if (daNote.isSustainNote && daNote.wasGoodHit)
 						{
@@ -5800,26 +5817,6 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	/*function badNoteCheck()
-		{
-			// just double pasting this shit cuz fuk u
-			// REDO THIS SYSTEM!
-			var upP = controls.UP_P;
-			var rightP = controls.RIGHT_P;
-			var downP = controls.DOWN_P;
-			var leftP = controls.LEFT_P;
-	
-			if (leftP)
-				noteMiss(0);
-			if (upP)
-				noteMiss(2);
-			if (rightP)
-				noteMiss(3);
-			if (downP)
-				noteMiss(1);
-			updateAccuracy();
-		}
-	*/
 	function updateAccuracy() 
 		{
 			totalPlayed += 1;

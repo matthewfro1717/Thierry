@@ -102,7 +102,11 @@ class OptionsMenu extends FlxSubState
 
 	public static var isInPause = false;
 
+	public static var spawnObject:Bool = true;
+
 	public var shownStuff:FlxTypedGroup<FlxText>;
+	var initX:Int;
+	var initY:Int;
 
 	public static var visibleRange = [114, 640];
 
@@ -119,9 +123,9 @@ class OptionsMenu extends FlxSubState
 	public var descBack:FlxSprite;
 	public	var gameplay:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
 
-	public var appearence:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
-	public var misc:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
-	public var saves:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLACK);
+	public var appearence:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.RED);
+	public var misc:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.BLUE);
+	public var saves:FlxSprite = new FlxSprite().makeGraphic(295, 70, FlxColor.GREEN);
 	var bg:FlxSprite;
 	var bg2:FlxSprite;
 
@@ -254,15 +258,21 @@ class OptionsMenu extends FlxSubState
 		selectedOption = selectedCat.options[0];
 
 
-		var initX:Int = 50;
-		var initY:Int = 30;
+		//figure out how to make mouse movement shit on the gameplay options
+		// for now we have mouse scroll, this is a backup plan if we didnt make it
 
 		var gap:Int = Math.round(gameplay.width);
 	
+		initX = 50;
+		initY = 30;
+
+
 		move(initX, initY, gameplay);
 		move(initX+(gap*1), initY, appearence);
 		move(initX+(gap*2), initY, misc);
 		move(initX+(gap*3), initY, saves);
+
+
 
 
 		super.create();
@@ -353,9 +363,25 @@ class OptionsMenu extends FlxSubState
 
 		if (!isInCat)
 		{
-			object.text = "> " + option.getValue();
+			if (!option.isModifiable())
+			{
+				object.color = 0xFFe30227;
+				object.text = "X > " + option.getValue();
 
-			descText.text = option.getDescription();
+				descText.color = 0xFFe30227;
+				descText.text = option.getDescription();
+
+
+			}
+			else
+			{
+				object.color = 0xffffffff;
+				object.text = "> " + option.getValue();
+
+				descText.color = 0xffffffff;
+				descText.text = option.getDescription();
+			}
+
 		}
 	}
 
@@ -384,14 +410,13 @@ class OptionsMenu extends FlxSubState
 		var hoveringOnMenus:Bool = FlxG.mouse.overlaps(gameplay) || FlxG.mouse.overlaps(appearence) || FlxG.mouse.overlaps(misc) || FlxG.mouse.overlaps(saves);
 
 		accept = FlxG.keys.justPressed.ENTER || FlxG.mouse.justPressed || (gamepad != null ? gamepad.justPressed.A : false);
-		right = FlxG.keys.justPressed.RIGHT || (FlxG.mouse.justPressedRight && !isInCat) || (gamepad != null ? gamepad.justPressed.DPAD_RIGHT : false);
-		left = FlxG.keys.justPressed.LEFT || (FlxG.mouse.justPressed && !isInCat && !hoveringOnMenus) || (gamepad != null ? gamepad.justPressed.DPAD_LEFT : false);
+		right = FlxG.keys.justPressed.RIGHT || (FlxG.mouse.justPressedRight && !isInCat) || (wheelStatus > 0 && isInCat) || (gamepad != null ? gamepad.justPressed.DPAD_RIGHT : false);
+		left = FlxG.keys.justPressed.LEFT || (FlxG.mouse.justPressed && !isInCat && !hoveringOnMenus) || (wheelStatus < 0 && isInCat) || (gamepad != null ? gamepad.justPressed.DPAD_LEFT : false);
 		up = FlxG.keys.justPressed.UP || (wheelStatus > 0) || (gamepad != null ? gamepad.justPressed.DPAD_UP : false);
 		down = FlxG.keys.justPressed.DOWN || (wheelStatus < 0) || (gamepad != null ? gamepad.justPressed.DPAD_DOWN : false);
 
 		any = FlxG.keys.justPressed.ANY || (gamepad != null ? gamepad.justPressed.ANY : false);
 		escape = FlxG.keys.justPressed.ESCAPE || (gamepad != null ? gamepad.justPressed.B : false);
-
 
 		if (isInCat)
 		{
@@ -497,7 +522,10 @@ class OptionsMenu extends FlxSubState
 				else
 				{
 					if (selectedCat.optionObjects.members[selectedOptionIndex].text != i.text)
+					{
 						i.alpha = 0.4;
+						i.color = FlxColor.WHITE;
+					}	
 					else
 						i.alpha = 1;
 				}
@@ -509,6 +537,7 @@ class OptionsMenu extends FlxSubState
 			if (isInCat)
 			{
 				descText.text = "Please select a category";
+				descText.color = FlxColor.WHITE;
 				if (right)
 				{
 					FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -566,14 +595,16 @@ class OptionsMenu extends FlxSubState
 							FlxG.sound.play(Paths.sound('scrollMenu'));
 							selectedOption.waitingType = false;
 							var object = selectedCat.optionObjects.members[selectedOptionIndex];
-							object.text = "> " + selectedOption.getValue();
+							if (selectedOption.isModifiable())
+								object.text = "> " + selectedOption.getValue();
 							return;
 						}
 						else if (any)
 						{
 							var object = selectedCat.optionObjects.members[selectedOptionIndex];
 							selectedOption.onType(gamepad == null ? FlxG.keys.getIsDown()[0].ID.toString() : gamepad.firstJustPressedID());
-							object.text = "> " + selectedOption.getValue();
+							if (selectedOption.isModifiable())
+								object.text = "> " + selectedOption.getValue();
 						}
 					}
 				if (selectedOption.acceptType || !selectedOption.acceptType)
@@ -588,7 +619,8 @@ class OptionsMenu extends FlxSubState
 						{
 							FlxG.save.flush();
 
-							object.text = "> " + selectedOption.getValue();
+							if (selectedOption.isModifiable())
+								object.text = "> " + selectedOption.getValue();
 						}
 					}
 
@@ -635,7 +667,8 @@ class OptionsMenu extends FlxSubState
 
 						FlxG.save.flush();
 
-						object.text = "> " + selectedOption.getValue();
+						if (selectedOption.isModifiable())
+							object.text = "> " + selectedOption.getValue();
 					}
 					else if (left)
 					{
@@ -645,7 +678,8 @@ class OptionsMenu extends FlxSubState
 
 						FlxG.save.flush();
 
-						object.text = "> " + selectedOption.getValue();
+						if (selectedOption.isModifiable())
+							object.text = "> " + selectedOption.getValue();
 					}
 
 					if (escape)
@@ -676,6 +710,8 @@ class OptionsMenu extends FlxSubState
 							{
 								if (i != null)
 								{
+									i.color = FlxColor.WHITE;
+
 									if (i.y < visibleRange[0] - 24)
 										i.alpha = 0;
 									else if (i.y > visibleRange[1] - 24)

@@ -19,10 +19,12 @@ import flixel.util.FlxColor;
 
 class PauseSubState extends MusicBeatSubstate
 {
+	public static var goToOptions:Bool = false;
+
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Quick Options', 'Exit to menu'];
-	var menuItemsToo:Array<String> = ['Resume', 'Restart Song', 'Quick Options', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Options', 'Exit to menu'];
+	var menuItemsToo:Array<String> = ['Resume', 'Restart Song', 'Options', 'Exit to menu'];
 	var quickSettings:Array<String> = ['Note splash', 'Hitsounds', 'Ghost Tapping', 'Input System', 'Score Text', 'BACK'];
 	var curSelected:Int = 0;
 	public static var goBack:Bool = false;
@@ -214,14 +216,9 @@ class PauseSubState extends MusicBeatSubstate
 					close();
 				case "Restart Song":
 					FlxG.resetState();
-				case "Quick Options":
-					notesplashText.visible = FlxG.save.data.spong;
-					hitsoundsText.visible = FlxG.save.data.hitSounds;
-					ghosttappingText.visible = true;
-					inputsystemText.visible = true;
-					scoreText.visible = true;
-					menuItems = quickSettings;
-					regenMenu();
+				case "Options":
+					goToOptions = true;
+					close();
 				case "Exit to menu":
 					PlayState.loadRep = false;
 					FlxG.switchState(new MainMenuState());
