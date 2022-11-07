@@ -212,6 +212,8 @@ class PlayState extends MusicBeatState
 
 	var notesHitArray:Array<Date> = [];
 	var currentFrames:Int = 0;
+	var darkSky:FlxSprite;
+	var darkSky2:FlxSprite;
 
 	public var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 	public var dialogueEnd:Array<String> = null;
@@ -1073,6 +1075,24 @@ class PlayState extends MusicBeatState
 				bgthree.active = false;
 				add(bgthree);
 			}
+			case 'recursed':
+			{
+				curStage = 'Cloud';
+				defaultCamZoom = 0.4;
+
+				darkSky = new FlxSprite(1280, 0).loadGraphic(Paths.image('void/smokes'));
+				darkSky.scale.set((1 / 0.4) * 2, 1 / 0.4);
+				darkSky.updateHitbox();
+				darkSky.y = (FlxG.height - darkSky.height) / 2;
+				add(darkSky);
+
+				darkSky2 = new FlxSprite(1280, 0).loadGraphic(Paths.image('void/smokes'));
+				darkSky2.scale.set((1 / 0.4) * 2, 1 / 0.4);
+				darkSky2.updateHitbox();
+				darkSky2.x = darkSky.x - darkSky.width;
+				darkSky2.y = (FlxG.height - darkSky2.height) / 2;
+				add(darkSky2);
+			}
 
 			case 'captivity': 
 			{
@@ -1630,6 +1650,8 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.player2)
 		{
+			case 'sayagi':
+				dad.x -= 821;
 			case 'expunged':
 				dad.x -= 821;
 				dad.y += 210;
@@ -1859,12 +1881,13 @@ class PlayState extends MusicBeatState
 		// healthBar
 		insert(members.indexOf(healthBarBG), healthBar);
 			
+		var songFooter:String = (FlxG.save.data.showcaseMode ? " " : SONG.song);
 		// Aeroshide engine watermark for segitiga
-		aeroEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,SONG.song + " " + "" + (Main.watermarks ? " - Aeroshide Engine (3D ENGINE)" + MainMenuState.kadeEngineVer : ""), 16);
+		aeroEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,songFooter + " " + "" + (Main.watermarks ? " - Aeroshide Engine (3D ENGINE)" + MainMenuState.kadeEngineVer : ""), 16);
 		aeroEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		aeroEngineWatermark.scrollFactor.set();		
 		// Add Kade Engine watermark
-		kadeEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,SONG.song + " " + (Main.watermarks ? " - Thierry Engine (KE 1.4.2)" + MainMenuState.kadeEngineVer : ""), 16);
+		kadeEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,songFooter + " " + (Main.watermarks ? " - Thierry Engine (KE 1.4.2)" + MainMenuState.kadeEngineVer : ""), 16);
 		kadeEngineWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		kadeEngineWatermark.scrollFactor.set();
 
@@ -3220,10 +3243,17 @@ class PlayState extends MusicBeatState
 	{
 		chartshader.shader.uTime.value[0] += elapsed;
 
-		
-		#if !debug
-		FlxG.save.data.kebal = false;
-		#end
+		if (SONG.song.toLowerCase() == 'recursed')
+		{
+			var scrollSpeed = 150;
+
+			darkSky.x += 40 * scrollSpeed * elapsed;
+			if (darkSky.x >= (1280 * 4) - 1280)
+			{
+				darkSky.x = -2560;
+			}
+			darkSky2.x = darkSky.x - darkSky.width;
+		}
 
 		if (FlxG.keys.justPressed.R && FlxG.save.data.resetButton)
 		{
@@ -4333,7 +4363,7 @@ class PlayState extends MusicBeatState
 
 		if (health <= 0) //DEAD STATE death state
 		{
-			if (!FlxG.save.data.kebal)
+			if (!FlxG.save.data.showcaseMode)
 			{
 				boyfriend.stunned = true;
 
@@ -4647,6 +4677,18 @@ class PlayState extends MusicBeatState
 									vocals.volume = 0;
 								if (theFunne)
 									noteMiss(daNote.noteData, daNote);
+								if (SONG.song.toLowerCase() == 'recursed')
+								{
+									new FlxTimer().start(0.01, function(tmr:FlxTimer)
+									{
+										health -= 0.002;
+									}, 1000);
+
+									FlxG.camera.flash(FlxColor.RED, 0.5);
+									FlxG.camera.shake(0.060, 0.5);
+
+									dad.playAnim('Attack', true);
+								}
 							}
 						}
 						daNote.active = false;

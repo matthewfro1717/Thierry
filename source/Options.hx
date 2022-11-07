@@ -684,12 +684,6 @@ class GhostTapOption extends Option
 		return true;
 	}
 
-	public override function press():Bool
-	{
-		left();
-		return true;
-	}
-
 	public override function right():Bool
 	{
 		left();
@@ -710,7 +704,7 @@ class DiscordRPC extends Option
 		description = desc;
 	}
 
-	public override function press():Bool
+	public override function left():Bool
 	{
 		FlxG.save.data.discordRPC = !FlxG.save.data.discordRPC;
 		display = updateDisplay();
@@ -725,15 +719,9 @@ class DiscordRPC extends Option
 		return true;
 	}
 
-	public override function left():Bool
-	{
-		press();
-		return true;
-	}
-
 	public override function right():Bool
 	{
-		press();
+		left();
 		return true;
 	}
 
@@ -911,22 +899,17 @@ class ResetButtonOption extends Option
 		description = desc;
 	}
 
-	public override function press():Bool
+
+	public override function left():Bool
 	{
 		FlxG.save.data.resetButton = !FlxG.save.data.resetButton;
 		display = updateDisplay();
 		return true;
 	}
 
-	public override function left():Bool
-	{
-		press();
-		return true;
-	}
-
 	public override function right():Bool
 	{
-		press();
+		left();
 		return true;
 	}
 
@@ -944,22 +927,16 @@ class InstantRespawn extends Option
 		description = desc;
 	}
 
-	public override function press():Bool
+	public override function left():Bool
 	{
 		FlxG.save.data.InstantRespawn = !FlxG.save.data.InstantRespawn;
 		display = updateDisplay();
 		return true;
 	}
 
-	public override function left():Bool
-	{
-		press();
-		return true;
-	}
-
 	public override function right():Bool
 	{
-		press();
+		left();
 		return true;
 	}
 
@@ -1052,11 +1029,6 @@ class MissSoundsOption extends Option
 		return true;
 	}
 
-	public override function press():Bool
-	{
-		left();
-		return true;
-	}
 
 	public override function right():Bool
 	{
@@ -1143,12 +1115,6 @@ class FPSOption extends Option
 		return true;
 	}
 
-	public override function press():Bool
-	{
-		left();
-		return true;
-	}
-
 	public override function right():Bool
 	{
 		left();
@@ -1176,11 +1142,6 @@ class NoteSplashes extends Option
 		return true;
 	}
 
-	public override function press():Bool
-	{
-		left();
-		return true;
-	}
 
 	public override function right():Bool
 	{
@@ -1217,12 +1178,6 @@ class MemOption extends Option
 		return true;
 	}
 
-	public override function press():Bool
-	{
-		left();
-		return true;
-	}
-
 	private override function updateDisplay():String
 	{
 		return "Memory Usage Counter: < " + (!FlxG.save.data.memUsage ? "off" : "on") + " >";
@@ -1244,11 +1199,6 @@ class GPUOption extends Option
 		return true;
 	}
 
-	public override function press():Bool
-	{
-		left();
-		return true;
-	}
 
 	public override function right():Bool
 	{
@@ -1398,11 +1348,6 @@ class RainbowFPSOption extends Option
 		return true;
 	}
 
-	public override function press():Bool
-	{
-		left();
-		return true;
-	}
 
 	public override function right():Bool
 	{
@@ -1613,11 +1558,6 @@ class BotPlay extends Option
 		return true;
 	}
 	
-	public override function press():Bool
-	{
-		left();
-		return true;
-	}
 
 	public override function right():Bool
 	{
@@ -1717,22 +1657,17 @@ class HitSounds extends Option
 		description = desc;
 	}
 
-	public override function press():Bool
+
+	public override function left():Bool
 	{
 		FlxG.save.data.hitSounds = !FlxG.save.data.hitSounds;
 		display = updateDisplay();
 		return true;
 	}
 
-	public override function left():Bool
-	{
-		press();
-		return true;
-	}
-
 	public override function right():Bool
 	{
-		press();
+		left();
 		return true;
 	}
 
@@ -1740,6 +1675,41 @@ class HitSounds extends Option
 	private override function updateDisplay():String
 	{
 		return "Hitsounds: < " + (FlxG.save.data.hitSounds ? "Enabled" : "Disabled") + " >";
+	}
+}
+
+class ShowcaseMode extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		if (OptionsMenu.isInPause)
+		{
+			description = "This option cannot be toggled in the pause menu.";
+			changeable = false;
+		}
+		else
+			description = desc;
+	}
+
+	public override function left():Bool
+	{
+		if (OptionsMenu.isInPause)
+			return false;
+		FlxG.save.data.showcaseMode = !FlxG.save.data.showcaseMode;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Showcase Mode: < " + (FlxG.save.data.showcaseMode ? "Enabled" : "Disabled") + " >";
 	}
 }
 

@@ -469,6 +469,26 @@ class Character extends FlxSprite
 	
 				playAnim('idle');
 
+			case 'sayagi':
+				// DAVE SHITE ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('sayagmoves');
+				frames = tex;
+				animation.addByPrefix('idle', 'Idle', 24, false);
+				animation.addByPrefix('singUP', 'Up', 24, false);
+				animation.addByPrefix('singRIGHT', 'Right', 24, false);
+				animation.addByPrefix('singDOWN', 'Down', 24, false);
+				animation.addByPrefix('singLEFT', 'Left', 24, false);
+				animation.addByPrefix('Attack', 'Attack', 24, true);
+
+				addOffset('idle', 0, 0);
+				addOffset("singUP", 20, -60);
+				addOffset("singRIGHT", 60, -90);
+				addOffset("singLEFT", 171, 26);
+				addOffset("singDOWN", 0, -111);
+				addOffset("Attack", 680, 118);
+
+				playAnim('idle');
+
 			case 'david':
 				// DAVE SHITE ANIMATION LOADING CODE
 				tex = Paths.getSparrowAtlas('david');

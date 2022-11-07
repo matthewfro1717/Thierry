@@ -155,6 +155,7 @@ class OptionsMenu extends FlxSubState
 				new HitSounds("You would hear a TICK, if you hit a note to better time your presses."),
 				new IconBounceMode("Choose between icon bounce animations."),
 				new MissSoundsOption("Toggle miss sounds playing when you don't hit a note."),
+				new ShowcaseMode("Hide unecesarry texts for better viewing and also makes you invulnerable")
 			]),
 			new OptionCata(640, 40, "Engine", [
 				new FPSOption("Toggle the FPS Counter"),

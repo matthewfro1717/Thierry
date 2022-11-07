@@ -97,6 +97,11 @@ class AnimationDebugDad extends FlxState
 	{
 		textAnim.text = char.animation.curAnim.name;
 
+		FlxG.watch.addQuick("currentAnim", char.animation.curAnim.name);
+		FlxG.watch.addQuick("currentOffset", char.animOffsets.get(animList[curAnim]));
+		FlxG.watch.addQuick("currentCamZoom", FlxG.camera.zoom);
+
+
 		if (FlxG.keys.justPressed.E)
 			FlxG.camera.zoom += 0.25;
 		if (FlxG.keys.justPressed.Q)
