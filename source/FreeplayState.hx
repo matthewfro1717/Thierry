@@ -1,5 +1,6 @@
 package;
 
+import flixel.system.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.addons.display.FlxBackdrop;
 import aeroshide.StaticData;
@@ -29,7 +30,7 @@ class FreeplayState extends MusicBeatState
 	var selector:FlxText;
 	var curSelected:Int = 0;
 	var curDifficulty:Int = 2;
-	var kontol:Int = 0;
+	var kontol:Float = 0;
 
 	var sicks:Int;
 	var goods:Int;
@@ -42,13 +43,14 @@ class FreeplayState extends MusicBeatState
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 	public var preloadSongs:Bool = true;
-
+	public static var vocals:FlxSound = null;
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 
 	private var iconArray:Array<HealthIcon> = [];
 	var bg:FlxSprite;
 	var bg2:FlxSprite;
+	var instPlaying:Int = -1;
 
 	var songColors:Array<FlxColor> = [
     	0xFFca1f6f, // GF 0
@@ -69,7 +71,9 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
 		FlxG.camera.zoom = 5;
-		var initSonglist = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
+
+		//OKAY FROM NOW ON WE DONT NEED OTHER STATES TO ADD A FREEPLAY CATEGORY!!!!!
+		var initSonglist = loadFreeplaySong(StaticData.selectionBuffer);
 
 		for (i in 0...initSonglist.length)
 		{
@@ -156,7 +160,7 @@ class FreeplayState extends MusicBeatState
 		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 		// scoreText.alignment = RIGHT;
 
-		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
+		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 132, 0xFF000000);
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
@@ -196,7 +200,19 @@ class FreeplayState extends MusicBeatState
 			trace(md);
 		 */
 
-		FlxTween.tween(FlxG.camera, {zoom: 1}, 1.6, {ease: FlxEase.expoOut});
+		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
+		textBG.alpha = 0.6;
+		add(textBG);
+
+		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu";
+		var size:Int = 16;
+
+		var text:FlxText = new FlxText(-547, textBG.y + 4, FlxG.width, leText, size);
+		text.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, RIGHT);
+		text.scrollFactor.set();
+		add(text);
+
+		FlxTween.tween(FlxG.camera, {zoom: 1}, 1.4, {ease: FlxEase.expoOut});
 		super.create();
 	}
 
@@ -261,15 +277,15 @@ class FreeplayState extends MusicBeatState
 
 		curDifficulty = 2; //Force it to hard difficulty.
 		#if !switch
-		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-		kontol = Highscore.getAcc(songs[curSelected].songName, curDifficulty);
-		rating = Highscore.getMisses(songs[curSelected].songName, curDifficulty);
+		intendedScore = Highscore.getScore(songs[curSelected].songName.toLowerCase(), curDifficulty);
+		kontol = Highscore.getAcc(songs[curSelected].songName.toLowerCase(), curDifficulty);
+		rating = Highscore.getMisses(songs[curSelected].songName.toLowerCase(), curDifficulty);
 
-		rating = Highscore.getMisses(songs[curSelected].songName, curDifficulty);
-		sicks = Highscore.getSicks(songs[curSelected].songName, curDifficulty);
-		goods = Highscore.getGoods(songs[curSelected].songName, curDifficulty);
-		bads = Highscore.getBads(songs[curSelected].songName, curDifficulty);
-		shits = Highscore.getShits(songs[curSelected].songName, curDifficulty);
+		rating = Highscore.getMisses(songs[curSelected].songName.toLowerCase(), curDifficulty);
+		sicks = Highscore.getSicks(songs[curSelected].songName.toLowerCase(), curDifficulty);
+		goods = Highscore.getGoods(songs[curSelected].songName.toLowerCase(), curDifficulty);
+		bads = Highscore.getBads(songs[curSelected].songName.toLowerCase(), curDifficulty);
+		shits = Highscore.getShits(songs[curSelected].songName.toLowerCase(), curDifficulty);
 		#end
 
 		
@@ -286,19 +302,23 @@ class FreeplayState extends MusicBeatState
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
 
 		if (rating == 0 && bads == 0 && shits == 0 && goods == 0 && kontol == 0) // Marvelous (SICK) Full Combo
-			diffText.text = "UNRATED"; 
+			diffText.text = "Accuracy:" + "N/A" + "%\n" + "Misses:" + "N/A"; 
 		else if (rating == 0 && bads == 0 && shits == 0 && goods == 0 && kontol == 100) // Marvelous (SICK) Full Combo
-			diffText.text = "Rating : " + kontol + "% " + "| " + "(MFC)"; 
+			diffText.text = "Accuracy:" + kontol + "%\n" + "Misses:" + rating + " - MFC"; 
 		else if (rating == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
-			diffText.text = "Rating : " + kontol + "% " + "| " + "(GFC)"; 
+			diffText.text = "Accuracy:" + kontol + "%\n" + "Misses:" + rating + " - GFC"; 
 		else if (rating == 0) // Regular FC
-			diffText.text = "Rating : " + kontol + "% " + "| " + "(FC)"; 
-		else if (rating > 0) // Single Digit Combo Breaks
-			diffText.text = "Rating : " + kontol + "% " + "| " + rating + " Misses"; 
+			diffText.text = "Accuracy:" + kontol + "%\n" + "Misses:" + rating + " - FC"; 
+		else if (rating < 10 && rating > 0) // Single Digit Combo Breaks
+			diffText.text = "Accuracy:" + kontol + "%\n" + "Misses:" + rating + " - SDCB"; 
+		else if (rating >= 10) // Double Digit Combo Breaks
+			diffText.text = "Accuracy:" + kontol + "%\n" + "Misses:" + rating + " - Clear";
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
+		var accepted = FlxG.keys.justPressed.ENTER || FlxG.mouse.justPressed;
+		var space = FlxG.keys.justPressed.SPACE;
+		var ctrl = FlxG.keys.justPressed.CONTROL;
 
 		if (upP)
 		{
@@ -319,6 +339,22 @@ class FreeplayState extends MusicBeatState
 			FlxTween.tween(FlxG.camera, {zoom: 5}, 0.4, {ease: FlxEase.expoIn});
 			FlxG.switchState(new FreeplaySelect());
 		}
+		else if (space)
+		{
+			if (instPlaying != curSelected)
+			{
+				destroyFreeplayVocals();
+				vocals = new FlxSound().loadEmbedded(Paths.voices(songs[curSelected].songName));
+				FlxG.sound.list.add(vocals);
+				FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+				vocals.play();
+				vocals.persist = true;
+				vocals.looped = true;
+				vocals.volume = 0.7;
+				instPlaying = curSelected;
+
+			}
+		}
 
 		if (accepted)
 		{
@@ -331,6 +367,7 @@ class FreeplayState extends MusicBeatState
 			}
 			else
 			{
+				destroyFreeplayVocals();
 				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 
 				trace(poop);
@@ -344,10 +381,35 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 	}
-	
+
+	public static function loadFreeplaySong(id:Int):Array<String>
+	{
+		var wanjing = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
+		switch (id)
+		{
+			case 0:
+				wanjing = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
+			case 1:
+				wanjing = CoolUtil.coolTextFile(Paths.txt('listLaguTolol'));
+			case 2:
+				wanjing = CoolUtil.coolTextFile(Paths.txt('apaanYaIni'));
+		}
+		return wanjing;
+		
+	}
 	function changeDiff(change:Int = 0)
 	{	
 		trace("dude look this guy is trying to chnage diff LOL");
+	}
+
+	public static function destroyFreeplayVocals()
+	{
+		if (vocals != null)
+		{
+			vocals.stop();
+			vocals.destroy();
+		}
+		vocals = null;
 	}
 
 	function changeSelection(change:Int = 0)

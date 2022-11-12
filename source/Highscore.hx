@@ -6,7 +6,7 @@ class Highscore
 {
 	#if (haxe >= "4.0.0")
 	public static var songScores:Map<String, Int> = new Map();
-	public static var songAccs:Map<String, Int> = new Map();
+	public static var songAccs:Map<String, Float> = new Map();
 
 	public static var songRating:Map<String, String> = new Map();
 
@@ -68,7 +68,7 @@ class Highscore
 			setScore(daSong, score);
 	}
 
-	public static function saveAcc(song:String, acc:Int = 0, ?diff:Int = 0):Void
+	public static function saveAcc(song:String, acc:Float = 0, ?diff:Int = 0):Void
 		{
 			var daSong:String = formatSong(song, diff);
 			trace("tried to flush acc");
@@ -192,7 +192,7 @@ class Highscore
 	}
 
 
-	static function setAcc(song:String, acc:Int):Void
+	static function setAcc(song:String, acc:Float):Void
 	{
 		// what
 		songAccs.set(song, acc);
@@ -264,7 +264,7 @@ class Highscore
 		return daSong;
 	}
 
-	public static function getAcc(song:String, diff:Int):Int
+	public static function getAcc(song:String, diff:Int):Float
 	{
 		if (!songAccs.exists(formatSong(song, diff)))
 			setAcc(formatSong(song, diff), 0);

@@ -29,7 +29,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 	var selector:FlxText;
 	var curSelected:Int = 0;
 	var curDifficulty:Int = 2;
-	var kontol:Int = 0;
+	var kontol:Float = 0;
 
 	var sicks:Int;
 	var goods:Int;
@@ -159,7 +159,7 @@ class FreeplayPurgatoryState extends MusicBeatState
 		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 		// scoreText.alignment = RIGHT;
 
-		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
+		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 132, 0xFF000000);
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
@@ -199,7 +199,19 @@ class FreeplayPurgatoryState extends MusicBeatState
 			trace(md);
 		 */
 
-		FlxTween.tween(FlxG.camera, {zoom: 1}, 1.6, {ease: FlxEase.expoOut});
+		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
+		textBG.alpha = 0.6;
+		add(textBG);
+
+		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu";
+		var size:Int = 16;
+
+		var text:FlxText = new FlxText(-551, textBG.y + 4, FlxG.width, leText, size);
+		text.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, RIGHT);
+		text.scrollFactor.set();
+		add(text);
+
+		FlxTween.tween(FlxG.camera, {zoom: 1}, 1.4, {ease: FlxEase.expoOut});
 		super.create();
 	}
 

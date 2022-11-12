@@ -5,7 +5,7 @@ import openfl.system.System;
 import haxe.SysTools;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import aeroshide.Maths;
+import aeroshide.EngineUtils.Maths;
 
 /**
  * FPS class extension to display memory usage.

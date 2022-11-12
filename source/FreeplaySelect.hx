@@ -258,15 +258,7 @@ class FreeplaySelect extends MusicBeatState
 
 	public function GoToActualFreeplay(where:Int)
 	{
-        switch (where)
-        {
-            case 0:
-				FlxG.switchState(new FreeplayState());
-            case 1:
-				FlxG.switchState(new FreeplayExtrasState());
-            case 2:
-				FlxG.switchState(new FreeplayPurgatoryState());
-        }
+		FlxG.switchState(new FreeplayState());
 	}
 
 

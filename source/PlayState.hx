@@ -3074,7 +3074,7 @@ class PlayState extends MusicBeatState
 			else if (misses < 10) // Single Digit Combo Breaks
 				ranking = "- SDCB";
 			else if (misses < 100) // Double Digit Combo Breaks
-				ranking = "- DDCB";
+				ranking = "- Clear";
 			else
 				ranking = "- Skill Issue";
 
@@ -3159,7 +3159,7 @@ class PlayState extends MusicBeatState
 		else if (misses < 10) // Single Digit Combo Breaks
 			rankingandwife = "(SDCB)";
 		else if (misses < 100) // Double Digit Combo Breaks
-			rankingandwife = "(DDCB)";
+			rankingandwife = "(Clear)";
 		else
 			rankingandwife = "(Goblok)";
 
@@ -4963,14 +4963,14 @@ class PlayState extends MusicBeatState
 		if (SONG.validScore && !botPlay && !cheated)
 		{
 			trace("Datas flushed!");
-			Highscore.saveMisses(SONG.song, Math.round(misses),storyDifficulty);
-			Highscore.saveScore(SONG.song, Math.round(songScore), storyDifficulty);
-			Highscore.saveAcc(SONG.song, Math.round(accuracy),storyDifficulty);
+			Highscore.saveMisses(SONG.song.toLowerCase(), Math.round(misses),storyDifficulty);
+			Highscore.saveScore(SONG.song.toLowerCase(), Math.round(songScore), storyDifficulty);
+			Highscore.saveAcc(SONG.song.toLowerCase(), truncateFloat(accuracy, 2),storyDifficulty);
 
-			Highscore.saveSicks(SONG.song, Math.round(sicks),storyDifficulty);
-			Highscore.saveGoods(SONG.song, Math.round(goods),storyDifficulty);
-			Highscore.saveBads(SONG.song, Math.round(bads),storyDifficulty);
-			Highscore.saveShits(SONG.song, Math.round(shits),storyDifficulty);
+			Highscore.saveSicks(SONG.song.toLowerCase(), Math.round(sicks),storyDifficulty);
+			Highscore.saveGoods(SONG.song.toLowerCase(), Math.round(goods),storyDifficulty);
+			Highscore.saveBads(SONG.song.toLowerCase(), Math.round(bads),storyDifficulty);
+			Highscore.saveShits(SONG.song.toLowerCase(), Math.round(shits),storyDifficulty);
 		}
 
 		switch (SONG.song)

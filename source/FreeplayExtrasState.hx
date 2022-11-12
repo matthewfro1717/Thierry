@@ -29,7 +29,7 @@ class FreeplayExtrasState extends MusicBeatState
 	var selector:FlxText;
 	var curSelected:Int = 0;
 	var curDifficulty:Int = 2;
-	var kontol:Int = 0;
+	var kontol:Float = 0;
 
 	var sicks:Int;
 	var goods:Int;

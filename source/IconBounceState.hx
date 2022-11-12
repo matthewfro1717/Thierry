@@ -58,7 +58,7 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
-import aeroshide.Maths.*;
+import aeroshide.EngineUtils.Maths.*;
 import Achievements;
 
 #if windows

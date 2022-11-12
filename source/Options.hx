@@ -1,7 +1,7 @@
 package;
 
 import Discord.DiscordClient;
-import aeroshide.Maths;
+import aeroshide.EngineUtils.Maths;
 import lime.app.Application;
 import lime.system.DisplayMode;
 import flixel.util.FlxColor;
