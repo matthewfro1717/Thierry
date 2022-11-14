@@ -102,6 +102,8 @@ class PlayState extends MusicBeatState
 
 	public static var rep:Replay;
 	public static var loadRep:Bool = false;
+
+	public static var characteroverride:String = "none";
 	public var shouldMuter:Bool = false;
 	public var shouldMuterKeras:Bool = false;
 
@@ -1580,7 +1582,7 @@ class PlayState extends MusicBeatState
 		gf.scrollFactor.set(0.95, 0.95);
 
 		dad = new Character(100, 100, SONG.player2);
-		boyfriend = new Boyfriend(770, 450, SONG.player1);
+		boyfriend = new Boyfriend(770, 450, characteroverride);
 		if (boyfriend.curCharacter == '3d-bf' || boyfriend.curCharacter == 'tunnel-bf' || boyfriend.curCharacter == 'bf-fps')
 		{
 			StaticData.using3DEngine = true;
@@ -1956,7 +1958,7 @@ class PlayState extends MusicBeatState
 				add(replayTxt);
 			}
 
-		iconP1 = new HealthIcon(SONG.player1, true);
+		iconP1 = new HealthIcon(characteroverride, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		add(iconP1);
 

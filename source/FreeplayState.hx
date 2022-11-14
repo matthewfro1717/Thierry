@@ -204,7 +204,7 @@ class FreeplayState extends MusicBeatState
 		textBG.alpha = 0.6;
 		add(textBG);
 
-		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu";
+		var leText:String = "Press SPACE to listen to the Song / Press CTRL to skip Character selection";
 		var size:Int = 16;
 
 		var text:FlxText = new FlxText(-547, textBG.y + 4, FlxG.width, leText, size);
@@ -377,7 +377,8 @@ class FreeplayState extends MusicBeatState
 				PlayState.storyDifficulty = curDifficulty;
 				PlayState.storyWeek = songs[curSelected].week;
 				trace('CUR WEEK' + PlayState.storyWeek);
-				LoadingState.loadAndSwitchState(new PlayState());
+
+				LoadingState.loadAndSwitchState(new CharSelectState());
 			}
 		}
 	}

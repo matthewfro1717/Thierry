@@ -14,6 +14,7 @@ class Character extends FlxSprite
 
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
+	public var charModelOffset:Array<Float> = new Array<Float>();
 
 	public var furiosityScale:Float = 1.02;
 	public var canDance:Bool = true;
@@ -212,7 +213,8 @@ class Character extends FlxSprite
 				animation.addByPrefix('singLEFT', 'bob_LEFT', 24, false);
 				animation.addByPrefix('singRIGHT', 'bob_RIGHT', 24, false);
 
-				addOffset('idle', 0, -250);
+				charModelOffset = [259, -176]; //x+ is right, y
+				addOffset('idle', 0, -250); // -50 + 323
 				addOffset("singUP", 0, -250);
 				addOffset("singRIGHT", 0, -250);
 				addOffset("singLEFT", 0, -250);
@@ -975,6 +977,10 @@ class Character extends FlxSprite
 				animation.addByPrefix('deathConfirm', "BF Dead confirm", 24, false);
 
 				animation.addByPrefix('scared', 'BF idle shaking', 24);
+
+				charModelOffset = [414, 143];
+
+				nativelyPlayable = true;
 
 				addOffset('idle', -5);
 				addOffset("singUP", -51, 57);
