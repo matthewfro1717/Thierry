@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.StaticData;
 import Discord.DiscordClient;
 import aeroshide.EngineUtils.Maths;
 import lime.app.Application;
@@ -692,7 +693,34 @@ class GhostTapOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Ghost Tapping: < " + (FlxG.save.data.epico ? "Enabled" : "Disabled") + " >";
+		return "Ghost Tapping: < " + (FlxG.save.data.epico ? "Disabled" : "Enabled") + " >";
+	}
+}
+
+class UseAlternateVocals extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function left():Bool
+	{
+		StaticData.useAlternateVocals = !StaticData.useAlternateVocals;
+		display = updateDisplay();
+		return true;
+	}
+
+	public override function right():Bool
+	{
+		left();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Use Selected Character's Vocals: < " + (StaticData.useAlternateVocals ? "True" : "False") + " >";
 	}
 }
 

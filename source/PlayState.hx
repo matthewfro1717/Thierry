@@ -1582,7 +1582,15 @@ class PlayState extends MusicBeatState
 		gf.scrollFactor.set(0.95, 0.95);
 
 		dad = new Character(100, 100, SONG.player2);
-		boyfriend = new Boyfriend(770, 450, characteroverride);
+		if (characteroverride == "bf")
+		{
+			boyfriend = new Boyfriend(770, 450, SONG.player1);
+		}
+		else
+		{
+			boyfriend = new Boyfriend(770, 450, characteroverride);
+		}
+		
 		if (boyfriend.curCharacter == '3d-bf' || boyfriend.curCharacter == 'tunnel-bf' || boyfriend.curCharacter == 'bf-fps')
 		{
 			StaticData.using3DEngine = true;

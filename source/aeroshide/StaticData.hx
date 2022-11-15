@@ -28,6 +28,8 @@ class StaticData extends MusicBeatState
     public static var fromCredits:Bool = false;
     public static var bfExists:Bool = true;
     public static var selectionBuffer:Int = 0;
+    public static var isInCharacterSelect:Bool = false;
+    public static var useAlternateVocals:Bool = false;
     
     public static var Optimize:Bool;
 
@@ -51,5 +53,7 @@ class StaticData extends MusicBeatState
         fromCredits = false;
         bfExists = true;
 		selectionBuffer = 0;
+		isInCharacterSelect = false;
+		useAlternateVocals = false;
     }
 }

@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.StaticData;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.transition.Transition;
 import flixel.addons.transition.FlxTransitionableState;
@@ -73,6 +74,12 @@ class CharSelectState extends MusicBeatState
 
 	public var funnyIconMan:HealthIcon;
 
+	public var tipArray:Array<String> = [
+		"Tip: Press your keybinds to test out the Character's animations and press SPACE to reset it to idle.",
+		"Tip: Press CONTROL to open Pre-Song Configuration!",
+		"Tip: Unlock Characters by purchasing them from the Shop!",
+	];
+
 	var strummies:FlxTypedGroup<FlxSprite>;
 
 	var notestuffs:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
@@ -125,15 +132,8 @@ class CharSelectState extends MusicBeatState
 
 	override public function create():Void
 	{
-		if (PlayState.SONG.song.toLowerCase() == 'exploitation')
-		{
-			if (FlxG.fullscreen)
-			{
-				FlxG.fullscreen = false;
-				wasInFullscreen = true;
-			}
-		}
 
+		StaticData.isInCharacterSelect = true;
 		Conductor.changeBPM(110);
 
 		camGame = new FlxCamera();
@@ -156,10 +156,7 @@ class CharSelectState extends MusicBeatState
 		}
 		currentSelectedCharacter = characters[current];
 
-		if (PlayState.SONG.song.toLowerCase() == "exploitation")
-			FlxG.sound.playMusic(Paths.music("badEnding"), 1, true);
-		else
-			FlxG.sound.playMusic(Paths.music("goodEnding"), 1, true);
+		FlxG.sound.playMusic(Paths.music("goodEnding"), 1, true);
 
 		// create BG
 
@@ -174,23 +171,6 @@ class CharSelectState extends MusicBeatState
 		bg.color = 0xFF464646;
 		add(bg);
 
-		
-
-
-		if (PlayState.SONG.song.toLowerCase() == "exploitation")
-		{
-			bg.loadGraphic(Paths.image('backgrounds/void/redsky', 'shared'));
-
-			#if SHADERS_ENABLED
-			bgShader = new Shaders.GlitchEffect();
-			bgShader.waveAmplitude = 0.1;
-			bgShader.waveFrequency = 5;
-			bgShader.waveSpeed = 2;
-
-			bg.shader = bgShader.shader;
-			#end
-		}
-		add(bg);
 		var varientColor = 0xFF878787;
 
 		char = new Boyfriend(FlxG.width / 2, FlxG.height / 2, 'bf');
@@ -219,11 +199,11 @@ class CharSelectState extends MusicBeatState
 		characterText.y = (FlxG.height / 8) - 200;
 		add(characterText);
 
-		var resetText = new FlxText(FlxG.width, FlxG.height, "test");
+		var resetText = new FlxText(FlxG.width, FlxG.height, tipArray[FlxG.random.int(0, tipArray.length)]);
 		resetText.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		resetText.autoSize = false;
 		resetText.fieldWidth = FlxG.height;
-		resetText.x -= resetText.textField.textWidth;
+		resetText.x -= resetText.textField.textWidth - 200;
 		resetText.y -= resetText.textField.textHeight - 100;
 		resetText.borderSize = 3;
 		resetText.cameras = [camHUD];
@@ -360,6 +340,7 @@ class CharSelectState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.ESCAPE)
 		{
+			StaticData.isInCharacterSelect = false;
 			if (wasInFullscreen)
 			{
 				FlxG.fullscreen = true;
@@ -367,9 +348,14 @@ class CharSelectState extends MusicBeatState
 			LoadingState.loadAndSwitchState(new FreeplayState());
 		}
 
-		if (FlxG.keys.justPressed.CONTROL)
+		if (FlxG.keys.justPressed.SPACE)
 		{
 			char.playAnim('idle', true);
+		}
+
+		if (FlxG.keys.justPressed.CONTROL)
+		{
+			openSubState(new OptionsMenuMini(true));
 		}
 
 		#if debug
@@ -426,7 +412,7 @@ class CharSelectState extends MusicBeatState
 				}
 			}
 		}
-		if (controls.ACCEPT)
+		if (FlxG.keys.justPressed.ENTER)
 		{
 			if (isLocked(characters[current].forms[curForm].name))
 			{
@@ -617,14 +603,10 @@ class CharSelectState extends MusicBeatState
 
 	public function endIt(e:FlxTimer = null)
 	{
+		StaticData.isInCharacterSelect = false;
 		PlayState.characteroverride = currentSelectedCharacter.name;
 
 
-		if (PlayState.SONG.song.toLowerCase() == "exploitation")
-		{
-			FlxG.fullscreen = false;
-
-		}
 		if (FlxTransitionableState.skipNextTransIn)
 		{
 			Transition.nextCamera = null;
