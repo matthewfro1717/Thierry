@@ -102,7 +102,11 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
+
 		bg2 = new FlxSprite().makeGraphic(FlxG.width * 16, FlxG.height * 16, FlxColor.YELLOW);
+		#if !debug
+		bg2 = new FlxSprite().makeGraphic(1280 * 16, 720 * 16, FlxColor.YELLOW);
+		#end
 		#if debug
 		move(-650, -550, bg2);
 		#end

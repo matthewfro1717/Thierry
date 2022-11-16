@@ -1,5 +1,6 @@
 package;
 
+import aeroshide.EngineUtils.Maths;
 import aeroshide.StaticData;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.transition.Transition;
@@ -72,7 +73,13 @@ class CharSelectState extends MusicBeatState
 	public var characterText:FlxText;
 	public var wasInFullscreen:Bool;
 
+	var scrollSpd:FlxText;
+	var gostTapping:FlxText;
+	var botPlay:FlxText;
+	var showcaseMode:FlxText;
+	var alternateVocals:FlxText;
 	public var funnyIconMan:HealthIcon;
+	public static var scoreBG:FlxSprite;
 
 	public var tipArray:Array<String> = [
 		"Tip: Press your keybinds to test out the Character's animations and press SPACE to reset it to idle.",
@@ -199,6 +206,13 @@ class CharSelectState extends MusicBeatState
 		characterText.y = (FlxG.height / 8) - 200;
 		add(characterText);
 
+		scoreBG = new FlxSprite(0, characterText.y).makeGraphic(500, 220, 0xFF000000);
+		scoreBG.screenCenter();
+		scoreBG.x -= 342;
+		scoreBG.y = characterText.y + 630;
+		scoreBG.alpha = 0.6;
+		add(scoreBG);
+
 		var resetText = new FlxText(FlxG.width, FlxG.height, tipArray[FlxG.random.int(0, tipArray.length)]);
 		resetText.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		resetText.autoSize = false;
@@ -233,6 +247,58 @@ class CharSelectState extends MusicBeatState
 		arrowRight.cameras = [camHUD];
 		arrows[1] = arrowRight;
 		add(arrowRight);
+
+		//option texts
+
+		scrollSpd = new FlxText(FlxG.width, FlxG.height, "Scroll Speed: < " + Maths.truncateFloat(FlxG.save.data.scrollSpeed, 1) + " >");
+		scrollSpd.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scrollSpd.fieldWidth = FlxG.height;
+		scrollSpd.x = scoreBG.x - 245;
+		scrollSpd.y = (scoreBG.y + 120);
+		scrollSpd.borderSize = 3;
+		scrollSpd.cameras = [camHUD];
+		scrollSpd.antialiasing = true;
+		add(scrollSpd);
+
+		gostTapping = new FlxText(FlxG.width, FlxG.height, "Ghost Tapping: < " + (FlxG.save.data.epico ? "Disabled" : "Enabled") + " >");
+		gostTapping.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		gostTapping.fieldWidth = FlxG.height;
+		gostTapping.x = scoreBG.x - 245;
+		gostTapping.y = (scoreBG.y+ 120) + 40;
+		gostTapping.borderSize = 3;
+		gostTapping.cameras = [camHUD];
+		gostTapping.antialiasing = true;
+		add(gostTapping);
+
+		botPlay = new FlxText(FlxG.width, FlxG.height, "BotPlay: < " + (FlxG.save.data.botplay ? "on" : "off") + " >");
+		botPlay.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		botPlay.fieldWidth = FlxG.height;
+		botPlay.x = scoreBG.x - 245;
+		botPlay.y = (scoreBG.y+ 120) + 80;
+		botPlay.borderSize = 3;
+		botPlay.cameras = [camHUD];
+		botPlay.antialiasing = true;
+		add(botPlay);
+
+		showcaseMode = new FlxText(FlxG.width, FlxG.height, "Showcase Mode: < " + (FlxG.save.data.showcaseMode ? "Enabled" : "Disabled") + " >");
+		showcaseMode.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		showcaseMode.fieldWidth = FlxG.height;
+		showcaseMode.x = scoreBG.x - 245;
+		showcaseMode.y = (scoreBG.y+ 120) + 120;
+		showcaseMode.borderSize = 3;
+		showcaseMode.cameras = [camHUD];
+		showcaseMode.antialiasing = true;
+		add(showcaseMode);
+
+		alternateVocals = new FlxText(FlxG.width, FlxG.height, "Use Alternate Vocals: < " + (StaticData.useAlternateVocals ? "True" : "False") + " >");
+		alternateVocals.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		alternateVocals.fieldWidth = FlxG.height;
+		alternateVocals.x = scoreBG.x - 245;
+		alternateVocals.y = (scoreBG.y+ 120) + 160;
+		alternateVocals.borderSize = 3;
+		alternateVocals.cameras = [camHUD];
+		alternateVocals.antialiasing = true;
+		add(alternateVocals);
 
 		super.create();
 
@@ -355,6 +421,7 @@ class CharSelectState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.CONTROL)
 		{
+			scoreBG.visible = false;
 			openSubState(new OptionsMenuMini(true));
 		}
 
@@ -586,6 +653,17 @@ class CharSelectState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+
+		scrollSpd.text = "Scroll Speed: < " + Maths.truncateFloat(FlxG.save.data.scrollSpeed, 1) + " >";
+
+		gostTapping.text = "Ghost Tapping: < " + (FlxG.save.data.epico ? "Disabled" : "Enabled") + " >";
+
+		botPlay.text = "BotPlay: < " + (FlxG.save.data.botplay ? "on" : "off") + " >";
+
+		showcaseMode.text = "Showcase Mode: < " + (FlxG.save.data.showcaseMode ? "Enabled" : "Disabled") + " >";
+
+		alternateVocals.text = "Use Alternate Vocals: < " + (StaticData.useAlternateVocals ? "True" : "False") + " >";
+
 		if (char != null && !selectedCharacter && curBeat % 2 == 0 && char.animation.curAnim.name == 'idle')
 		{
 			char.playAnim('idle', true);

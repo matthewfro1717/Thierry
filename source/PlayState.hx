@@ -103,7 +103,7 @@ class PlayState extends MusicBeatState
 	public static var rep:Replay;
 	public static var loadRep:Bool = false;
 
-	public static var characteroverride:String = "none";
+	public static var characteroverride:String = "bf";
 	public var shouldMuter:Bool = false;
 	public var shouldMuterKeras:Bool = false;
 

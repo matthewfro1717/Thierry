@@ -337,7 +337,7 @@ class OptionsMenuMini extends FlxSubState
 		{
 			if (isInCat)
 			{
-				descText.text = "Please select a category";
+				descText.text = "Change your scroll speed. (1 = Chart dependent)";
 				descText.color = FlxColor.WHITE;
 
 				isInCat = false;
@@ -453,6 +453,7 @@ class OptionsMenuMini extends FlxSubState
 
 						PauseSubState.goBack = true;
 						// PlayStateChangeables.scrollSpeed = FlxG.save.data.scrollSpeed * PlayState.songMultiplier;
+						CharSelectState.scoreBG.visible = true;
 						close();
 
 						for (i in 0...selectedCat.options.length)

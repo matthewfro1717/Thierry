@@ -314,11 +314,13 @@ class FreeplayState extends MusicBeatState
 		else if (rating >= 10) // Double Digit Combo Breaks
 			diffText.text = "Accuracy:" + kontol + "%\n" + "Misses:" + rating + " - Clear";
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
+		var wheelStatus:Int = Math.round(FlxG.mouse.wheel);
+
+		var upP = controls.UP_P || (wheelStatus > 0);
+		var downP = controls.DOWN_P || (wheelStatus < 0);
 		var accepted = FlxG.keys.justPressed.ENTER || FlxG.mouse.justPressed;
 		var space = FlxG.keys.justPressed.SPACE;
-		var ctrl = FlxG.keys.justPressed.CONTROL;
+		var ctrl = FlxG.keys.pressed.CONTROL;
 
 		if (upP)
 		{
@@ -356,7 +358,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		if (accepted)
+		if (accepted && ctrl)
 		{
 
 			if((songs[curSelected].songName.toLowerCase()=='Bonus-song') && !(FlxG.save.data.aeroSongUnlocked)){
@@ -378,8 +380,22 @@ class FreeplayState extends MusicBeatState
 				PlayState.storyWeek = songs[curSelected].week;
 				trace('CUR WEEK' + PlayState.storyWeek);
 
-				LoadingState.loadAndSwitchState(new CharSelectState());
+				
+				LoadingState.loadAndSwitchState(new PlayState());
 			}
+		}else if (accepted){
+			destroyFreeplayVocals();
+			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+
+			trace(poop);
+
+			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+			PlayState.isStoryMode = false;
+			PlayState.storyDifficulty = curDifficulty;
+			PlayState.storyWeek = songs[curSelected].week;
+			trace('CUR WEEK' + PlayState.storyWeek);
+
+			LoadingState.loadAndSwitchState(new CharSelectState());
 		}
 	}
 
