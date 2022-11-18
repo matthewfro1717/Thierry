@@ -256,7 +256,6 @@ class PlayState extends MusicBeatState
 	var meksi:FlxSprite;
 	var curbg:FlxSprite;
 	public var forceDownscroll:Bool;
-
 	public static var campaignScore:Int = 0;
 
 	var defaultCamZoom:Float = 1.05;
@@ -1151,7 +1150,7 @@ class PlayState extends MusicBeatState
 				bg.active = false;
 				add(bg);
 			}
-			case 'get-out' | 'revenge' | 'latihan' | 'bonus-song' | 'gerlad' | 'los-angeles' | 'copy-cat': 
+			case 'get-out' | 'revenge' | 'latihan' | 'bonus-song' | 'gerlad' | 'los-angeles' | 'georgia' | 'copy-cat': 
 			{
 				curStage = 'sekolahTapiDepan';
 			
@@ -1934,18 +1933,6 @@ class PlayState extends MusicBeatState
 		scoreTxt.screenCenter(X);
 		if (offsetTesting)
 			scoreTxt.screenCenter(X);
-		
-		judgementCounter = new FlxText(20, 0, 0, "", 20);
-		judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		judgementCounter.borderSize = 2;
-		judgementCounter.borderQuality = 2;
-		judgementCounter.scrollFactor.set();
-		judgementCounter.cameras = [camHUD];
-		judgementCounter.screenCenter(Y);
-		judgementCounter.y -= 200;
-		judgementCounter.text = 'Rendered notes : ${notes.length}\n\n\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';
-		judgementCounter.visible = false;
-		add(judgementCounter);
 
 		botPlayState = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 75, healthBarBG.y + (FlxG.save.data.downscroll ? 100 : -100), 0,
 		"BOTPLAY", 20);
@@ -1978,7 +1965,7 @@ class PlayState extends MusicBeatState
 
 		strumLineNotes.cameras = [camStrum];
 		grpNoteSplashes.cameras = [camStrum];
-		judgementCounter.cameras = [camHUD];
+		//judgementCounter.cameras = [camHUD];
 		notes.cameras = [camNotes];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
@@ -2623,7 +2610,10 @@ class PlayState extends MusicBeatState
 		vocals.play();
 
 		// Song duration in a float, useful for the time left feature
-		songLength = (FlxG.sound.music.length / 1000);
+		if (FlxG.sound.music.length > 0)
+			songLength = (FlxG.sound.music.length / 1000);
+		else
+			songLength = 69420;
 
 		if (FlxG.save.data.songPosition)
 		{
@@ -3296,8 +3286,7 @@ class PlayState extends MusicBeatState
 
 		judgementCounter.text = 'Alpha 1.1 - Aeroshide Engine (KadeEngine 1.4.2/Modded)\nRendered notes : ${notes.length}\n\n\n\nTotal Notes Hit: ${totalNotesHit}\nHit Combo: ${combo}\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits} 
 		\n\nInput nodes : ${left} ${down} ${up} ${right}\n\n\nBeat : ${curBeat}\nStep : ${curStep}\nBPM : ${Conductor.bpm}\n\nIcon bounce intensity : ${funny1}, ${unfunny1}\nIcon bounce porperty : BF:${propFunny1}, ${propFunny2} OP: ${propUnFunny1}, ${propUnFunny2}\n
-		Health : ${healthBar.percent}\n\n';
-
+		Health : ${healthBar.percent}\n\n';		
 		if (StaticData.tunnelOpen && width <= 2048 && height <= 2048)
 		{
 			width += 3;
@@ -3672,6 +3661,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		/*
 		if (currentFrames == FlxG.save.data.fpsCap)
 		{
 			for(i in 0...notesHitArray.length)
@@ -3683,10 +3673,14 @@ class PlayState extends MusicBeatState
 			}
 			nps = Math.floor(notesHitArray.length / 2);
 			currentFrames = 0;
+			
 		}
+		
 		else
 			currentFrames++;
+		/****/
 
+		currentFrames++;
 
 		if (FlxG.keys.justPressed.F3)
 		{
@@ -5312,7 +5306,7 @@ class PlayState extends MusicBeatState
 					score = -300;
 					combo = 0;
 					ss = false;
-					if (!botPlay) {shits++; misses++;}
+					if (!botPlay && !FlxG.save.data.showcaseMode) {shits++; misses++;}
 					if (FlxG.save.data.accuracyMod == 0)
 						totalNotesHit += 0.25;
 				case 'bad':
@@ -5336,6 +5330,9 @@ class PlayState extends MusicBeatState
 						totalNotesHit += 1;
 					sicks++;
 			}
+
+		if (FlxG.save.data.showcaseMode)
+			daRating = 'sick';
 
 			// trace('Wife accuracy loss: ' + wife + ' | Rating: ' + daRating + ' | Score: ' + score + ' | Weight: ' + (1 - wife));
 
@@ -5712,7 +5709,7 @@ class PlayState extends MusicBeatState
 	
 			if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !up && !down && !right && !left)
 			{
-				trace(up + " " + down + " " + right + " " + left);
+				//trace(up + " " + down + " " + right + " " + left);
 				if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 				{
 					boyfriend.playAnim('idle');
@@ -5833,7 +5830,7 @@ class PlayState extends MusicBeatState
 				gf.playAnim('sad');
 			}
 
-			if (!botPlay) 
+			if (!botPlay && !FlxG.save.data.showcaseMode) 
 			{
 				combo = 0;
 				misses++;
@@ -5913,19 +5910,7 @@ class PlayState extends MusicBeatState
 			else if (noteDiff < Conductor.safeZoneOffset * 0.44 && noteDiff > Conductor.safeZoneOffset * -0.44)
 				note.rating = "sick";
 
-			if (loadRep)
-			{
-				if (controlArray[note.noteData])
-					goodNoteHit(note);
-				else if (rep.replay.keyPresses.length > repPresses && !controlArray[note.noteData])
-				{
-					if (NearlyEquals(note.strumTime,rep.replay.keyPresses[repPresses].time, 4))
-					{
-						goodNoteHit(note);
-					}
-				}
-			}
-			else if (controlArray[note.noteData])
+			if (controlArray[note.noteData])
 				{
 					for (b in controlArray) {
 						if (b)
@@ -5993,8 +5978,10 @@ class PlayState extends MusicBeatState
 				}
 
 
+				/* why does it have to push every note that contains a date for nps??
 				if (!note.isSustainNote)
 					notesHitArray.push(Date.now());
+				/****/
 
 				if (resetMashViolation)
 					mashViolations--;
@@ -6250,7 +6237,10 @@ class PlayState extends MusicBeatState
 		// but i'm doing it to update misses and accuracy
 		#if windows
 		// Song duration in a float, useful for the time left feature
-		songLength = FlxG.sound.music.length;
+		if (FlxG.sound.music.length > 0)
+			songLength = FlxG.sound.music.length;
+		else
+			songLength = 69420;
 
 		// Updating Discord Rich Presence (with Time Left)
 		DiscordClient.changePresence(detailsText + " " + SONG.song + " (" + storyDifficultyText + ") " + generateRanking(), "Acc: " + truncateFloat(accuracy, 2) + "% | Score: " + songScore + " | Misses: " + misses  , iconRPC,true,  songLength - Conductor.songPosition);
