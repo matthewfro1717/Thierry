@@ -1,5 +1,6 @@
 package aeroshide;
 
+import flixel.FlxG;
 import haxe.Timer;
 import openfl.events.Event;
 import openfl.text.TextField;
@@ -74,7 +75,18 @@ class FPS extends TextField
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
-			text = "FPS: " + currentFPS;
+			// i hope this isnt too heavy??
+			if (currentFPS < FlxG.save.data.fpsCap)
+			{
+				text = "(!) FPS: " + currentFPS;
+				textColor = 0xFF0000;
+			}
+			else
+			{
+				textColor = 0xFFFDFD;
+				text = "FPS: " + currentFPS;
+			}
+				
 
 			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
 			text += "\ntotalDC: " + Context3DStats.totalDrawCalls();

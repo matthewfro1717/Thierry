@@ -71,6 +71,7 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
 		FlxG.camera.zoom = 5;
+		Main.dumpCache();
 
 		//OKAY FROM NOW ON WE DONT NEED OTHER STATES TO ADD A FREEPLAY CATEGORY!!!!!
 		var initSonglist = loadFreeplaySong(StaticData.selectionBuffer);

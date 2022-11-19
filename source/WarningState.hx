@@ -1,5 +1,6 @@
 package;
 
+import openfl.Lib;
 import aeroshide.StaticData;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -60,6 +61,11 @@ class WarningState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
+		#if !debug
+		// for some reason release builds is weird (its forced on for now)
+		(cast(Lib.current.getChildAt(0), Main)).toggleFPS(true);
+		(cast(Lib.current.getChildAt(0), Main)).toggleRamUsage(true);
+		#end
 
 		// load options ho lee sheet
         
@@ -68,11 +74,6 @@ class WarningState extends MusicBeatState
 		polymod.Polymod.init({modRoot: "mods", dirs: ['introMod']});
 		#end
 		/****/
-		
-		#if sys
-		if (!sys.FileSystem.exists(Sys.getCwd() + "/assets/replays"))
-			sys.FileSystem.createDirectory(Sys.getCwd() + "/assets/replays");
-		#end
 
 		@:privateAccess
 		{

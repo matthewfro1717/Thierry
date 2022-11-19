@@ -507,6 +507,7 @@ class PlayState extends MusicBeatState
 	{
 		StaticData.resetStaticData();
 		botPlay = FlxG.save.data.botplay;
+		Main.dumpCache();
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -1934,6 +1935,19 @@ class PlayState extends MusicBeatState
 		if (offsetTesting)
 			scoreTxt.screenCenter(X);
 
+		judgementCounter = new FlxText(20, 0, 0, "", 20);
+		judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		judgementCounter.borderSize = 2;
+		judgementCounter.borderQuality = 2;
+		judgementCounter.scrollFactor.set();
+		judgementCounter.cameras = [camHUD];
+		judgementCounter.screenCenter(Y);
+		judgementCounter.y -= 200;
+		judgementCounter.text = 'Rendered notes : ${notes.length}\n\n\n\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';
+		judgementCounter.visible = false;
+		add(judgementCounter);
+
+
 		botPlayState = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 75, healthBarBG.y + (FlxG.save.data.downscroll ? 100 : -100), 0,
 		"BOTPLAY", 20);
 		botPlayState.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1965,7 +1979,7 @@ class PlayState extends MusicBeatState
 
 		strumLineNotes.cameras = [camStrum];
 		grpNoteSplashes.cameras = [camStrum];
-		//judgementCounter.cameras = [camHUD];
+		judgementCounter.cameras = [camHUD];
 		notes.cameras = [camNotes];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
@@ -2752,7 +2766,7 @@ class PlayState extends MusicBeatState
 
 		var playerCounter:Int = 0;
 
-		// Per song offset check
+		/*
 		#if desktop
 			var songPath = 'assets/data/' + PlayState.SONG.song.toLowerCase() + '/';
 			for(file in sys.FileSystem.readDirectory(songPath))
@@ -2773,6 +2787,7 @@ class PlayState extends MusicBeatState
 				}
 			
 		#end
+		/****/
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 		for (section in noteData)
 		{
@@ -4326,8 +4341,8 @@ class PlayState extends MusicBeatState
 			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, 0.95);
 		}
 
-		FlxG.watch.addQuick("beatShit", curBeat);
-		FlxG.watch.addQuick("stepShit", curStep);
+		//FlxG.watch.addQuick("beatShit", curBeat);
+		//FlxG.watch.addQuick("stepShit", curStep);
 		if (loadRep) // rep debug
 			{
 				FlxG.watch.addQuick('rep rpesses',repPresses);
@@ -4737,7 +4752,7 @@ class PlayState extends MusicBeatState
 
 									sprite.animation.finishCallback = function(name:String)
 									{
-										sprite.animation.play('static',true);
+										sprite.animation.play('static');
 										sprite.centerOffsets();
 									}
 			
@@ -5505,31 +5520,13 @@ class PlayState extends MusicBeatState
 			return Math.abs(FlxMath.roundDecimal(value1, 1) - FlxMath.roundDecimal(value2, 1)) < unimportantDifference;
 		}
 
-		var upHold:Bool = false;
-		var downHold:Bool = false;
-		var rightHold:Bool = false;
-		var leftHold:Bool = false;	
-		
-
 	public function keyShit():Void
 	{
 		// HOLDING
-		up = controls.UP;
-		right = controls.RIGHT;
-		down = controls.DOWN;
-		left = controls.LEFT;
 
-		var upP = controls.UP_P;
-		var rightP = controls.RIGHT_P;
-		var downP = controls.DOWN_P;
-		var leftP = controls.LEFT_P;
-
-		var upR = controls.UP_R;
-		var rightR = controls.RIGHT_R;
-		var downR = controls.DOWN_R;
-		var leftR = controls.LEFT_R;
-
-		var controlArray:Array<Bool> = [leftP, downP, upP, rightP];
+		var holdArray:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT];
+		var controlArray:Array<Bool> = [controls.LEFT_P, controls.DOWN_P, controls.UP_P, controls.RIGHT_P];
+		var releaseArray:Array<Bool> = [controls.LEFT_R, controls.DOWN_R, controls.UP_R, controls.RIGHT_R];
 
 		/*
 		if (botPlay)
@@ -5556,7 +5553,7 @@ class PlayState extends MusicBeatState
 		
 
 		// FlxG.watch.addQuick('asdfa', upP);
-		if ((upP || rightP || downP || leftP) && !boyfriend.stunned && generatedMusic)
+		if (controlArray.contains(true) && !boyfriend.stunned && generatedMusic)
 			{
 				repPresses++;
 				//the 3d magic thing real
@@ -5607,70 +5604,19 @@ class PlayState extends MusicBeatState
 						}
 						else if (possibleNotes[0].noteData == possibleNotes[1].noteData)
 						{
-							if (loadRep)
-							{
-								noteDiff = Math.abs(daNote.strumTime - Conductor.songPosition);
-
-								daNote.rating = Ratings.CalculateRating(noteDiff);
-
-								if (NearlyEquals(daNote.strumTime,rep.replay.keyPresses[repPresses].time, 30))
-								{
-									goodNoteHit(daNote);
-									trace('force note hit');
-								}
-								else
-									noteCheck(controlArray, daNote);
-							}
-							else
-								noteCheck(controlArray, daNote);
+							noteCheck(controlArray, daNote);
 						}
 						else
 						{
 							for (coolNote in possibleNotes)
 							{
-								if (loadRep)
-									{
-										if (NearlyEquals(coolNote.strumTime,rep.replay.keyPresses[repPresses].time, 30))
-										{
-											noteDiff = Math.abs(coolNote.strumTime - Conductor.songPosition);
-
-											if (noteDiff > Conductor.safeZoneOffset * 0.70 || noteDiff < Conductor.safeZoneOffset * -0.70)
-												coolNote.rating = "shit";
-											else if (noteDiff > Conductor.safeZoneOffset * 0.50 || noteDiff < Conductor.safeZoneOffset * -0.50)
-												coolNote.rating = "bad";
-											else if (noteDiff > Conductor.safeZoneOffset * 0.45 || noteDiff < Conductor.safeZoneOffset * -0.45)
-												coolNote.rating = "good";
-											else if (noteDiff < Conductor.safeZoneOffset * 0.44 && noteDiff > Conductor.safeZoneOffset * -0.44)
-												coolNote.rating = "sick";
-											goodNoteHit(coolNote);
-											trace('force note hit');
-										}
-										else
-											noteCheck(controlArray, daNote);
-									}
-								else
-									noteCheck(controlArray, coolNote);
+								noteCheck(controlArray, coolNote);
 							}
 						}
 					}
 					else // regular notes?
 					{	
-						if (loadRep)
-						{
-							if (NearlyEquals(daNote.strumTime,rep.replay.keyPresses[repPresses].time, 30))
-							{
-								noteDiff = Math.abs(daNote.strumTime - Conductor.songPosition);
-
-								daNote.rating = Ratings.CalculateRating(noteDiff);
-
-								goodNoteHit(daNote);
-								trace('force note hit');
-							}
-							else
-								noteCheck(controlArray, daNote);
-						}
-						else
-							noteCheck(controlArray, daNote);
+						noteCheck(controlArray, daNote);
 					}
 					if (daNote.wasGoodHit)
 					{
@@ -5681,33 +5627,19 @@ class PlayState extends MusicBeatState
 				}
 			}
 	
-			if ((up || right || down || left) && generatedMusic || (upHold || downHold || leftHold || rightHold) && loadRep && generatedMusic)
+		if (holdArray.contains(true) && generatedMusic)
 			{
 				notes.forEachAlive(function(daNote:Note)
 				{
 					if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote)
 					{
-						switch (daNote.noteData)
-						{
-							// NOTES YOU ARE HOLDING
-							case 2:
-								if (up || upHold)
-									goodNoteHit(daNote);
-							case 3:
-								if (right || rightHold)
-									goodNoteHit(daNote);
-							case 1:
-								if (down || downHold)
-									goodNoteHit(daNote);
-							case 0:
-								if (left || leftHold)
-									goodNoteHit(daNote);
-						}
+						if (holdArray[daNote.noteData])
+							goodNoteHit(daNote);
 					}
 				});
 			}
 	
-			if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !up && !down && !right && !left)
+			if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !holdArray[0] && !holdArray[1] && !holdArray[2] && !holdArray[3])
 			{
 				//trace(up + " " + down + " " + right + " " + left);
 				if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
@@ -5719,71 +5651,19 @@ class PlayState extends MusicBeatState
 				playerStrums.forEach(function(spr:FlxSprite)
 				{
 					
-					switch (spr.ID)
+					if (controlArray[spr.ID] && spr.animation.curAnim.name != 'confirm' && !botPlay)
 					{
-						case 2:
-							if (upP && spr.animation.curAnim.name != 'confirm' && !botPlay)
-							{
-								spr.animation.play('pressed');
-								trace('play');
-								
-								if (FlxG.save.data.epico && songStarted)
-									{
-										noteMiss(spr.ID, null);
-									}
-							}
-							if (upR)
-							{
-								spr.animation.play('static'); //input handler stuff veru coal
-								repReleases++;
-									
-									
-							}
-						case 3:
-							if (rightP && spr.animation.curAnim.name != 'confirm' && !botPlay)
-							{
-								if (FlxG.save.data.epico && songStarted)
-									{
-										noteMiss(spr.ID, null);
-									}
-								spr.animation.play('pressed');
-							}
-								
-							if (rightR)
-							{
-								spr.animation.play('static');
-								repReleases++;
-							}
-								
-						case 1:
-							if (downP && spr.animation.curAnim.name != 'confirm' && !botPlay)
-							{
-								if (FlxG.save.data.epico && songStarted)
-									{
-										noteMiss(spr.ID, null);
-									}
-								spr.animation.play('pressed');
-							}
-								
-							if (downR)
-							{
-								spr.animation.play('static');
-								repReleases++;
-							}
-						case 0:
-							if (leftP && spr.animation.curAnim.name != 'confirm' && !botPlay)
-							{
-								if (FlxG.save.data.epico && songStarted)
-									{
-										noteMiss(spr.ID, null);
-									}
-								spr.animation.play('pressed');
-							}
-							if (leftR)
-							{
-								spr.animation.play('static');
-								repReleases++;
-							}
+						spr.animation.play('pressed');
+						trace('play');
+
+						if (FlxG.save.data.epico && songStarted)
+						{
+							noteMiss(spr.ID, null);
+						}
+					}
+					if (releaseArray[spr.ID])
+					{
+						spr.animation.play('static'); // input handler stuff veru coal
 					}
 					
 					if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
@@ -5912,39 +5792,7 @@ class PlayState extends MusicBeatState
 
 			if (controlArray[note.noteData])
 				{
-					for (b in controlArray) {
-						if (b)
-							mashing++;
-					}
-
-					// ANTI MASH CODE FOR THE BOYS
-
-					if (mashing <= getKeyPresses(note) && mashViolations < 1000)
-					{
-						mashViolations++;
-						
-						goodNoteHit(note, (mashing <= getKeyPresses(note)));
-					}
-					else
-					{
-						if (FlxG.save.data.tolol)
-						{
-							goodNoteHit(note, (mashing <= getKeyPresses(note)));
-						}
-						else
-						{
-							playerStrums.members[0].animation.play('static');
-							playerStrums.members[1].animation.play('static');
-							playerStrums.members[2].animation.play('static');
-							playerStrums.members[3].animation.play('static');
-						}
-						// this is bad but fuck you
-						
-						trace('mash ' + mashing);
-					}
-
-					if (mashing != 0)
-						mashing = 0;
+					goodNoteHit(note, true);
 				}
 				
 			susussamongus = false;
