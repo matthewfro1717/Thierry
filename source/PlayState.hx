@@ -4691,7 +4691,6 @@ class PlayState extends MusicBeatState
 							}
 							else
 							{ // 
-								health -= 0.032 * diffMult;
 								if (FlxG.save.data.missSounds)
 									vocals.volume = 0;
 								if (theFunne)
@@ -4700,7 +4699,7 @@ class PlayState extends MusicBeatState
 								{
 									new FlxTimer().start(0.01, function(tmr:FlxTimer)
 									{
-										health -= 0.002;
+										health -= 0.001;
 									}, 1000);
 
 									FlxG.camera.flash(FlxColor.RED, 0.5);
@@ -5701,7 +5700,7 @@ class PlayState extends MusicBeatState
 		{
 			if (!botPlay) 
 			{
-			//	health -= 0.00000001;
+				health -= 0.032 * diffMult;
 			}
 
 			

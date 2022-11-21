@@ -12,10 +12,13 @@ import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 import lime.utils.Assets;
 import flixel.FlxSprite;
-#if MODS_ALLOWED
-import sys.io.File;
+import flixel.FlxG;
+import flixel.graphics.FlxGraphic;
+import flixel.graphics.frames.FlxAtlasFrames;
+import openfl.display.BitmapData;
+import openfl.media.Sound;
 import sys.FileSystem;
-#end
+import sys.io.File;
 import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;
 
@@ -26,6 +29,9 @@ using StringTools;
 class Paths
 {
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
+
+	public static var mappedAssets:Map<String, Dynamic> = [];
+
 
 	static var currentLevel:String;
 
@@ -127,7 +133,55 @@ class Paths
 
 	inline static public function image(key:String, ?library:String)
 	{
-		return getPath('images/$key.png', IMAGE, library);
+		trace('a graphic with key $key appending to GPU Memory');
+		return returnGraphic(getPath('images/$key.png', IMAGE), true);
+	}
+
+	public static function getAsset(directory:String, ?type:AssetType, ?group:String):Dynamic
+	{
+		var gottenPath = getPath(directory, type);
+		if (type == IMAGE)
+			return returnGraphic(gottenPath, true);
+		else if (type == BINARY) { var graphicPath = getPath(directory, IMAGE); var graphic:FlxGraphic = returnGraphic(graphicPath, true); return FlxAtlasFrames.fromSparrow(graphic, file('images/$directory.txt', null)); }
+		else
+			return gottenPath;
+
+		trace('returning null for $gottenPath');
+		return null;
+	}
+
+	public static function returnGraphic(key:String, ?gpuRender:Bool = false)
+	{
+		if (FileSystem.exists(key))
+		{
+			if (!mappedAssets.exists(key))
+			{
+				var bitmap = BitmapData.fromFile(key);
+				var newGraphic:FlxGraphic;
+				if (gpuRender)
+				{
+					var texture = FlxG.stage.context3D.createTexture(bitmap.width, bitmap.height, BGRA, true);
+					texture.uploadFromBitmapData(bitmap);
+					mappedAssets.set(key, texture);
+					bitmap.dispose();
+					bitmap.disposeImage();
+					bitmap = null;
+					// trace('new texture $key, bitmap is $bitmap');
+					newGraphic = FlxGraphic.fromBitmapData(BitmapData.fromTexture(texture), false, key, false);
+				}
+				else
+				{
+					newGraphic = FlxGraphic.fromBitmapData(bitmap, false, key, false);
+					// trace('new bitmap $key, not textured');
+				}
+				newGraphic.persist = true;
+				mappedAssets.set(key, newGraphic);
+			}
+			trace('graphic sucessfully returning $key with gpu rendering $gpuRender');
+			return mappedAssets.get(key);
+		}
+		trace('graphic returning null at $key with gpu rendering $gpuRender');
+		return null;
 	}
 
 	inline static public function font(key:String)
